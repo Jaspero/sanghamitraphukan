@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "jaspero-site"
+    "default": "jaspero-fireshop"
   },
   "targets": {
-    "jaspero-site": {
+    "jaspero-fireshop": {
       "hosting": {
         "shop": [
-          "jp-fireshop"
+          "jaspero-fireshop"
         ],
         "admin": [
-          "jp-fireshop-admin"
+          "jaspero-fireshop-admin"
         ]
       }
     }
