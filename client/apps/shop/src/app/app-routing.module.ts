@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: './pages/landing/landing.module#LandingModule'
   },
   {
+    path: 'about',
+    loadChildren: './pages/about/about.module#AboutModule'
+  },
+  {
     path: 'shop',
     loadChildren: './pages/shop/shop.module#ShopModule'
   },

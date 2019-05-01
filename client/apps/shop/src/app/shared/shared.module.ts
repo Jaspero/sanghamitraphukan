@@ -39,6 +39,7 @@ import {
   StopPropagationModule
 } from '@jaspero/ng-helpers';
 import {JpImagePreloadModule} from '@jaspero/ng-image-preload';
+import { JpSliderModule } from '@jaspero/ng-slider';
 import {ColorPickerComponent} from '@jf/components/color-picker/color-picker.component';
 import {ConfirmationComponent} from '@jf/components/confirmation/confirmation.component';
 import {LoginSignupDialogComponent} from './components/login-signup-dialog/login-signup-dialog.component';
@@ -97,7 +98,8 @@ const MODULES = [
   EnumKeyFormatModule,
   SanitizeModule,
 
-  JpImagePreloadModule
+  JpImagePreloadModule,
+  JpSliderModule
 ];
 const ENTRY_COMPONENTS = [
   ColorPickerComponent,
