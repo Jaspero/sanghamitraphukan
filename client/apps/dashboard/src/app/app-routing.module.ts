@@ -23,6 +23,11 @@ const routes: Routes = [
         loadChildren: './pages/categories/categories.module#CategoriesModule'
       },
       {
+        path: 'landing-page',
+        loadChildren:
+          './pages/landing-page/landing-page.module#LandingPageModule'
+      },
+      {
         path: 'orders',
         loadChildren: './pages/orders/orders.module#OrdersModule'
       },

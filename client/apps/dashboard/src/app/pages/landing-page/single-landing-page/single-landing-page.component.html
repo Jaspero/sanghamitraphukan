@@ -1,0 +1,83 @@
+<form *ngIf="form" [formGroup]="form">
+
+  <section>
+    <mat-toolbar color="primary">
+      <a mat-icon-button routerLink="/categories" aria-label="Back" matTooltip="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <span>Categories</span>
+    </mat-toolbar>
+  </section>
+
+  <section class="p-y-m">
+    <div class="grid">
+      <div class="col-8">
+        <h5>New landing page</h5>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid grid-no-gutter">
+    <div class="col-8 col-s-10 col-xs-12">
+      <div>
+        <div class="gird">
+          <div class="col-12">
+            <mat-card>
+              <h6 class="p-y-xs">Page info</h6>
+              <div class="p-y-xs">
+                <mat-divider></mat-divider>
+              </div>
+              <div class="p-y-xs">
+                <mat-form-field class="w-full" appearance="outline">
+                  <mat-label>title</mat-label>
+                  <input matInput formControlName="title">
+                </mat-form-field>
+              </div>
+              <div class="p-y-xs">
+                <mat-form-field class="w-full" appearance="outline">
+                  <mat-label>Categorisation</mat-label>
+                  <input matInput formControlName="categorisation">
+                </mat-form-field>
+              </div>
+              <div class="p-y-xs">
+                <mat-form-field class="w-full" appearance="outline">
+                  <mat-label>featuredImage</mat-label>
+                  <input matInput formControlName="featuredImage">
+                </mat-form-field>
+              </div>
+              <div class="p-y-xs">
+                <mat-card>
+                  <h6 class="p-y-xs">Images</h6>
+                  <div class="p-y-xs">
+                    <mat-divider></mat-divider>
+                  </div>
+                  <div class="p-y-xs">
+                    <jfsc-file-upload formControlName="gallery"></jfsc-file-upload>
+                  </div>
+                </mat-card>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jfsc-actions-header">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="back()">
+      {{isEdit ? 'Discard changes' : 'Cancel'}}
+    </button> &nbsp;
+
+    <button
+      mat-flat-button
+      type="submit"
+      [disabled]="form.invalid"
+      [jpLoadClick]="save()">
+      {{isEdit ? 'Save changes' : 'Save'}}
+    </button>
+  </div>
+
+</form>
