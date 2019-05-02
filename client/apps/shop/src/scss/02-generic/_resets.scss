@@ -146,6 +146,13 @@ img {
   font-size: 13px;
 }
 
+/* mat-list-item default font override
+ *============================================================================*/
+
+.mat-list-item {
+  font-family: $font-secondary;
+}
+
 /* mat-input-element text clipping correction
  *============================================================================*/
 
