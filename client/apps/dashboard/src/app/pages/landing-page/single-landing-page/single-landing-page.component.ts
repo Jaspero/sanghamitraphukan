@@ -11,12 +11,10 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 export class SingleLandingPageComponent extends LangSinglePageComponent {
   collection = FirestoreCollections.landingPage;
   buildForm(data: any) {
-    console.log('data', data);
     this.form = this.fb.group({
       title: data.title || '',
-      categorisation: data.categorisation || '',
       featuredImage: data.featuredImage || '',
-      gallery: data.featuredImage || []
+      gallery: data.gallery || []
     });
   }
 }
