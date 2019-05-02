@@ -105,13 +105,18 @@ img {
   vertical-align: middle; /* [2] */
 }
 
-/* mat-button default font override
+/* Default font overrides
  *============================================================================*/
 
 .mat-button,
 .mat-flat-button,
 .mat-raised-button,
-.mat-icon-button {
+.mat-icon-button,
+.mat-list-item,
+.mat-expansion-panel-header,
+.mat-form-field,
+.mat-menu-item,
+.mat-simple-snackbar {
   font-family: $font-primary;
 }
 
@@ -119,15 +124,23 @@ img {
  *============================================================================*/
 
 .mat-form-field {
-  font-family: $font-secondary;
   font-size: 13px;
 }
 
-/* mat-list-item default font override
+/* Button color on snackbar button
  *============================================================================*/
 
-.mat-list-item {
-  font-family: $font-secondary;
+.mat-simple-snackbar-action button {
+  color: white;
+}
+
+/* removing border-radius from several mat elements
+ *============================================================================*/
+
+.mat-card,
+.mat-expansion-panel {
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 /* mat-input-element text clipping correction
@@ -163,13 +176,6 @@ img {
     height: calc(100% - 20px);
     object-fit: cover;
   }
-}
-
-/* mat-menu font override
- *============================================================================*/
-
-.mat-menu-item {
-  font-family: $font-primary;
 }
 
 /* cdk-overlay fix (% doesn't work, vh does)
