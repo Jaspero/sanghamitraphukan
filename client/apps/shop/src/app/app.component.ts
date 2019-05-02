@@ -10,7 +10,7 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {notify} from '@jf/utils/notify.operator';
-import {from, interval, Observable} from 'rxjs';
+import {BehaviorSubject, from, interval, Observable} from 'rxjs';
 import {filter, map, finalize} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {CART_TOGGLE_ANIMATIONS} from './shared/animations/cart-toggle.animation';
@@ -20,6 +20,8 @@ import {SearchComponent} from './shared/components/search/search.component';
 import {UpdateAvailableComponent} from './shared/components/update-available/update-available.component';
 import {CartService} from './shared/services/cart/cart.service';
 import {StateService} from './shared/services/state/state.service';
+import {FormControl} from "@angular/forms";
+import {AngularFirestore} from "@angular/fire/firestore";
 
 @Component({
   selector: 'jfs-root',
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit {
     public state: StateService,
     public cart: CartService,
     private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private swUpdate: SwUpdate

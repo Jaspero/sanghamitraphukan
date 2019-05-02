@@ -1,3 +1,5 @@
+@import '../variables';
+
 /**
  * Resets
  *
@@ -103,46 +105,90 @@ img {
   vertical-align: middle; /* [2] */
 }
 
-/* mat-button vertical align correction
+/* mat-form-field bottom padding
+ *============================================================================*/
+/**
+ * Removes the default padding on mat-form-field-wrapper that exists to create
+ * space for hints. Since hints are rarely used, the bottom padding was removed
+ * for easier layout building.
+ */
+
+.mat-form-field > .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+.mat-form-field > .mat-form-field-wrapper > .mat-form-field-underline {
+  bottom: 0;
+}
+
+// 'mat-hint' class for mat-form-field in case a hint/error has to be used
+.mat-hint.mat-form-field > .mat-form-field-wrapper {
+  padding-bottom: 1.25em;
+}
+.mat-hint.mat-form-field > .mat-form-field-wrapper > .mat-form-field-underline {
+  bottom: 1.25em;
+}
+
+/* mat-button default font override
  *============================================================================*/
 
 .mat-button,
 .mat-flat-button,
 .mat-icon-button {
-  vertical-align: middle !important;
+  font-family: $font-primary;
 }
 
-/* Lets mat-card-image be full width of its container
- *============================================================================*/
-
-.mat-card-image {
-  max-width: unset;
-}
-
-/* Increases default min-height of mat-dialog-actions
- *============================================================================*/
-
-.mat-dialog-actions.mat-dialog-actions {
-  min-height: 64px;
-}
-
-/* Allows mat-checkbox text to wrap
- *============================================================================*/
-
-.mat-checkbox-layout.mat-checkbox-layout {
-  white-space: normal;
-}
-
-/* Default font size for mat-form-field
+/* mat-form-field default font override
  *============================================================================*/
 
 .mat-form-field {
-  font-size: 14px;
+  font-family: $font-secondary;
 }
 
-/* Fixes opacity for mat-tabs when used with <nav>
+/* mat-input-element text clipping correction
  *============================================================================*/
 
-.mat-tab-link.active {
-  opacity: 1;
+.mat-form-field-infix .mat-input-element {
+  line-height: 1.5;
+}
+
+/* jaspero slider image aspect ratio
+ *============================================================================*/
+
+.jp-s-w-i > div {
+  margin: 0;
+  position: relative;
+  padding-bottom: 30vw;
+
+  @media (max-width: $screen-l) {
+    padding-bottom: 37.5vw;
+  }
+  @media (max-width: $screen-m) {
+    padding-bottom: 45vw;
+  }
+  @media (max-width: $screen-s) {
+    padding-bottom: 75vw;
+  }
+
+  & > .slider-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    object-fit: cover;
+  }
+}
+
+/* mat-menu font override
+ *============================================================================*/
+
+.mat-menu-item {
+  font-family: $font-primary;
+}
+
+/* cdk-overlay fix (% doesn't work, vh does)
+ *============================================================================*/
+
+.cdk-overlay-pane {
+  max-height: 100vh;
 }

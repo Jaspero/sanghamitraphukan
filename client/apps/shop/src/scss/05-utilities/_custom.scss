@@ -1,0 +1,81 @@
+@import '../variables';
+
+/* Title
+ *============================================================================*/
+
+.title {
+  display: inline-block;
+  padding: 20px 40px;
+  background: $bg-primary;
+  border: none;
+  outline: none;
+
+  @media (max-width: $screen-xs) {
+    padding: 15px 30px;
+  }
+}
+
+/* Vertical lines
+ *============================================================================*/
+
+.starting-line {
+  position: relative;
+  @include fluid(80px, 40px, margin-bottom);
+}
+
+.starting-line::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 100%;
+  left: calc(50% - 1px);
+  width: 2px;
+  @include fluid(80px, 40px, height);
+  background: #fff;
+}
+
+.ending-line {
+  position: relative;
+}
+
+.ending-line::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: calc(100% - 5px);
+  left: calc(50% - 5px);
+  width: 10px;
+  height: 10px;
+  background: #fff;
+}
+
+.connecting-line {
+  position: relative;
+}
+
+.connecting-line::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 100%;
+  background: #fff;
+}
+
+.line-top-margin {
+  position: relative;
+  @include fluid(160px, 80px, margin-top);
+}
+
+.line-top-margin::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  bottom: 100%;
+  left: calc(50% - 1px);
+  width: 2px;
+  @include fluid(160px, 80px, height);
+  background: #fff;
+}
