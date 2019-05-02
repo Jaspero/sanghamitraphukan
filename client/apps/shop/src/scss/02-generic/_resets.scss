@@ -133,6 +133,7 @@ img {
 
 .mat-button,
 .mat-flat-button,
+.mat-raised-button,
 .mat-icon-button {
   font-family: $font-primary;
 }
@@ -142,6 +143,7 @@ img {
 
 .mat-form-field {
   font-family: $font-secondary;
+  font-size: 13px;
 }
 
 /* mat-input-element text clipping correction
