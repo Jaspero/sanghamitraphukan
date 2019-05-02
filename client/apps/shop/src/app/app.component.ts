@@ -9,9 +9,11 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
-import {interval, Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {notify} from '@jf/utils/notify.operator';
+import {from, interval, Observable} from 'rxjs';
+import {filter, map, finalize} from 'rxjs/operators';
 import {environment} from '../environments/environment';
+import {CART_TOGGLE_ANIMATIONS} from './shared/animations/cart-toggle.animation';
 import {CartComponent} from './shared/components/cart/cart.component';
 import {LoginSignupDialogComponent} from './shared/components/login-signup-dialog/login-signup-dialog.component';
 import {SearchComponent} from './shared/components/search/search.component';
@@ -23,7 +25,8 @@ import {StateService} from './shared/services/state/state.service';
   selector: 'jfs-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: CART_TOGGLE_ANIMATIONS
 })
 export class AppComponent implements OnInit {
   constructor(
@@ -44,6 +47,9 @@ export class AppComponent implements OnInit {
   webpClass: string;
 
   showLayout$: Observable<boolean>;
+  loading$ = new BehaviorSubject(false);
+  email: FormControl;
+  toggleMobileHeader: boolean;
 
   ngOnInit() {
     this.webpClass = BROWSER_CONFIG.webpSupported ? 'webp' : 'no-webp';
@@ -92,10 +98,33 @@ export class AppComponent implements OnInit {
     }
   }
 
+  submitEmail() {
+    this.loading$.next(true);
+
+    from(
+      this.afs
+        .doc(`newsletter/${this.email.value}`)
+        .set({})
+    )
+      .pipe(
+        notify({
+          success: `Thank you for signing up for our newsletter!`,
+          error: `Unfortunately there was an error with your signup.`
+
+        }),
+        finalize(() => this.loading$.next(false))
+      )
+      .subscribe();
+  }
+
   openCheckout() {
     this.dialog.open(CartComponent, {
       width: '400px'
     });
+  }
+
+  openMobileHeader() {
+    this.toggleMobileHeader = !this.toggleMobileHeader;
   }
 
   openSearch() {
