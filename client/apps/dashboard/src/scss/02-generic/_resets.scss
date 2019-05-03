@@ -107,6 +107,13 @@ img {
  *============================================================================*/
 
 .mat-card,
+.mat-toolbar,
+.mat-toolbar h1,
+.mat-toolbar h2,
+.mat-toolbar h3,
+.mat-toolbar h4,
+.mat-toolbar h5,
+.mat-toolbar h6,
 .mat-button,
 .mat-flat-button,
 .mat-raised-button,
@@ -117,6 +124,10 @@ img {
 .mat-menu-item,
 .mat-simple-snackbar {
   font-family: $font-primary;
+}
+
+.mat-table {
+  font-family: $font-secondary;
 }
 
 /* mat-form-field default font override

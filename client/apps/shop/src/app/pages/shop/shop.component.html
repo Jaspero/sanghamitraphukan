@@ -1,17 +1,17 @@
 <form [formGroup]="filters">
 
   <!--Filters section-->
-  <section class="jfs-shop-filters bg-primary">
+  <!--<section class="jfs-shop-filters bg-primary">
     <div class="grid">
       <div class="col-12 flex">
-        <!--Filters trigger-->
+        &lt;!&ndash;Filters trigger&ndash;&gt;
         <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">
           <mat-icon>filter_list</mat-icon>
           <span>&nbsp;Filters&nbsp;</span>
         </button>
-        <!--Divider-->
+        &lt;!&ndash;Divider&ndash;&gt;
         <div class="f1"></div>
-        <!--Sort by-->
+        &lt;!&ndash;Sort by&ndash;&gt;
         <button id="btn-sort" mat-flat-button color="primary" [matMenuTriggerFor]="sortByMenu">
           <span>Sort by:</span> <span>&nbsp;{{orderName}}&nbsp;</span>
           <mat-icon>arrow_drop_down</mat-icon>
@@ -21,7 +21,7 @@
             {{order.name}}
           </button>
         </mat-menu>
-        <!--Filters chips-->
+        &lt;!&ndash;Filters chips&ndash;&gt;
         <mat-chip-list class="col-12" *ngIf="chipArray.length">
           <mat-chip *ngFor="let chip of chipArray">
             <span>{{chip.filter}}: {{chip.value}}</span>
@@ -30,7 +30,7 @@
         </mat-chip-list>
       </div>
     </div>
-  </section>
+  </section>-->
 
   <div class="grid jc-start">
     <!--Products-->
