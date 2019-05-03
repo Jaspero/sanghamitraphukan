@@ -115,10 +115,13 @@ img {
 .mat-icon-button,
 .mat-list-item,
 .mat-expansion-panel-header,
-.mat-form-field,
 .mat-menu-item,
 .mat-simple-snackbar {
   font-family: $font-primary;
+}
+
+.mat-form-field {
+  font-family: $font-secondary;
 }
 
 /* mat-form-field default font override

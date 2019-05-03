@@ -5,6 +5,8 @@
   </a>
 </h5>
 
+<br>
+
 <div class="grid grid-no-gutter" *ngIf="data$ | async as data">
   <div class="col-12">
     <mat-horizontal-stepper linear class="bg-l-primary">
@@ -18,7 +20,7 @@
 
                 <div class="grid grid-no-gutter jc-start">
                   <div class="col-12" *ngIf="!data.user">
-                    <p class="bg-l-secondary p-y-s ta-center">
+                    <p class="bg-secondary p-y-s ta-center">
                       You're doing checkout as a guest. You can <a class="link c-primary" (click)="logInSignUp()">login</a> or <a class="link c-primary" (click)="logInSignUp(true)">sign-up</a> now.<br>Your data or cart won't be lost.
                     </p>
                   </div>
@@ -153,7 +155,7 @@
                     </div>
                   </div>
                   <div class="col-12 m-y-xs">
-                    <p class="bg-l-secondary p-y-s ta-center">You will have a chance to review your order before it's placed</p>
+                    <p class="bg-secondary p-y-s ta-center">You will have a chance to review your order before it's placed</p>
                   </div>
                   <div class="col-12 ta-right">
                     <button id="btn-nxt-step-0" mat-flat-button color="primary" matStepperNext [disabled]="!data.form.valid">Continue</button>
@@ -167,7 +169,15 @@
             <mat-card>
               <h6 class="m-b-xs">Payment methods</h6>
               <p>We accept the following secure payment methods:</p>
-              <p class="m-y-xs">...</p>
+              <div class="jfs-credit-cards p-y-xs">
+                <img src="assets/credit-cards/cc-visa.svg" alt="Visa">
+                <img src="assets/credit-cards/cc-mastercard.svg" alt="Mastercard">
+                <img src="assets/credit-cards/cc-discover.svg" alt="Discover">
+                <img src="assets/credit-cards/cc-dinersclub.svg" alt="Diners Club">
+                <img src="assets/credit-cards/cc-amex.svg" alt="American Express">
+                <img src="assets/credit-cards/cc-jcb.svg" alt="JCB">
+                <img src="assets/credit-cards/cc-unionpay.svg" alt="UnionPay">
+              </div>
               <p>When you submit your payment information your data is protected by Secure Socket Layer (SSL) technology certified by a digital certificate.</p>
             </mat-card>
           </div>
