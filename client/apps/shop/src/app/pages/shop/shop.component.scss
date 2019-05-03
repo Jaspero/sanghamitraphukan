@@ -1,13 +1,15 @@
-.jfs-shop-viewport {
+@import '../../../scss/variables';
+
+/*.jfs-shop-viewport {
   height: calc(100vh - 64px); // 100vh - header
   width: 100%;
-}
+}*/
 
-.jfs-shop-filters {
+/*.jfs-shop-filters {
   padding-top: 20px;
   padding-bottom: 160px;
   margin-bottom: -140px;
-}
+}*/
 
 .jfs-shop-loading {
   position: fixed;
@@ -20,4 +22,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+.grid-shop {
+  max-width: 960px;
+
+  & > [class*='col']:nth-child(2n) {
+    transform: translateY(50%);
+
+    @media (max-width: $screen-xs) {
+      transform: translateY(0);
+    }
+  }
+
+  & > [class*='col']:nth-last-child(1):nth-child(2n) {
+    margin-bottom: 40%;
+
+    @media (max-width: $screen-xs) {
+      margin-bottom: 0;
+    }
+  }
 }
