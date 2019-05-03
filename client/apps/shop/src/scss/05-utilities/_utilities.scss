@@ -89,6 +89,9 @@
 .bg-secondary {
   background-color: $bg-secondary;
 }
+.bg-dark {
+  background-color: $bg-dark;
+}
 
 /* Colors
  *============================================================================*/
@@ -104,6 +107,9 @@
 }
 .c-quaternary {
   color: $fg-quaternary;
+}
+.c-light {
+  color: $bg-primary;
 }
 
 /* Text controls

@@ -150,6 +150,13 @@ img {
   line-height: 1.5;
 }
 
+/* Removing background from mat-stepper
+ *============================================================================*/
+
+.mat-stepper-horizontal, .mat-stepper-vertical {
+  background: none;
+}
+
 /* jaspero slider image aspect ratio
  *============================================================================*/
 
