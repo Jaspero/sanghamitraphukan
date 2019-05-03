@@ -24,12 +24,20 @@
                 <mat-panel-title>Order number {{ i + 1 }}</mat-panel-title>
                 <mat-panel-description>Status: {{ order.status }}</mat-panel-description>
               </mat-expansion-panel-header>
-              <div class="flex ai-center p-y-xs" *ngFor="let item of order.orderItems">
-                <p class="m-l-xs">{{ item.name }}, {{ item.quantity }}x (${{ item.price }})</p>
-                <button [id]="'btn-sub-rev-' + uniqueId" mat-button (click)="submitReview(item)">
-                  Submit review
-                </button>
-              </div>
+              <mat-list>
+                <mat-list-item *ngFor="let item of order.orderItems">
+                  <button
+                    mat-icon-button
+                    aria-label="Review this product"
+                    matTooltip="Review this product"
+                    [id]="'btn-sub-rev-' + uniqueId"
+                    (click)="submitReview(item)">
+                    <mat-icon>rate_review</mat-icon>
+                  </button>
+                  <h4 matLine>{{item.name}}</h4>
+                  <p matLine>x{{item.quantity}} @ {{item.price}}</p>
+                </mat-list-item>
+              </mat-list>
             </mat-expansion-panel>
           </mat-accordion>
         </div>
