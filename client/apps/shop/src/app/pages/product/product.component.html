@@ -18,8 +18,22 @@
 
       <div class="col-6 col-xs-12">
         <section class="sticky-cart p-y-xs">
-          <h2 class="m-b-xs">{{data.product.name}}</h2>
-          <h2 class="m-b-xs">{{data.product.price | currency}}</h2>
+          <div class="flex jc-between ai-center">
+            <div>
+              <h2 class="m-b-xs">{{data.product.name}}</h2>
+              <h2>{{data.product.price | currency}}</h2>
+            </div>
+
+            <button
+              id="btn-wish-list-1"
+              class="jfs-wishlist-button"
+              mat-icon-button
+              [matTooltip]="data.wishList.tooltip"
+              [attr.aria-label]="data.wishList.tooltip"
+              (click)="wishList.toggle(data.product.id)">
+              <mat-icon>{{data.wishList.icon}}</mat-icon>
+            </button>
+          </div>
 
           <ng-container *ngIf="rews$ | async as rec">
             <div class="ws-nowrap flex ai-center" *ngIf="rec[0].length">

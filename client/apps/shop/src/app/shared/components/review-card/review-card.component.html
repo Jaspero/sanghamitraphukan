@@ -1,4 +1,4 @@
-<section class="p-y-s">
+<section class="p-a-xs bg-primary">
   <div class="flex ai-center jc-between fw-wrap">
     <h6>{{review.productId}}</h6>
     <div>
@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <blockquote>
+  <blockquote class="ta-left">
     <p class="fs-small c-d-secondary">{{review.createdOn | date: 'dd/MM/y - HH:mm'}}</p>
     <p class="ff-secondary" [class.c-d-secondary]="!review.comment">
       {{review.comment ? review.comment : 'No comment'}}

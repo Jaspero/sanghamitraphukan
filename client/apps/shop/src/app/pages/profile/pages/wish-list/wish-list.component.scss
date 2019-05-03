@@ -1,0 +1,21 @@
+@import "../../../../../scss/variables";
+
+.grid-wishlist {
+  max-width: 960px;
+
+  & > [class*='col']:nth-child(2n) {
+    transform: translateY(50%);
+
+    @media (max-width: $screen-xs) {
+      transform: translateY(0);
+    }
+  }
+
+  & > [class*='col']:nth-last-child(1):nth-child(2n) {
+    margin-bottom: 40%;
+
+    @media (max-width: $screen-xs) {
+      margin-bottom: 0;
+    }
+  }
+}

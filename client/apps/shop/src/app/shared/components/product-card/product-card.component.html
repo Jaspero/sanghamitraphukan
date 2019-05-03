@@ -1,5 +1,5 @@
 <a [routerLink]="['/product', product.id]">
-  <div class="product-card bg-primary">
+  <div class="bg-primary relative">
     <div class="aspect-ratio" data-ratio="2:3">
       <img class="aspect-item" src="{{product.gallery[0]}}" alt="{{product.name}}">
     </div>
@@ -7,5 +7,17 @@
       <p>{{product.name}}</p>
       <p>{{product.price | currency}}</p>
     </div>
+    <ng-container *ngIf="wishList$ | async as ws">
+      <button
+        [id]="'btn-wish-list-' + uniqueId"
+        class="jfs-product-card-wishlist-button"
+        mat-mini-fab
+        color="primary"
+        [matTooltip]="ws.label"
+        [attr.aria-label]="ws.label"
+        (jpStopPropagation)="wishList.toggle(product.id)">
+        <mat-icon>{{ws.icon}}</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </a>
