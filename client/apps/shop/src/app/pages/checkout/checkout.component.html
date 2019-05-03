@@ -190,29 +190,27 @@
           <div class="col-8 col-s-12">
             <mat-card>
               <h6 class="m-y-xs">Your purchase</h6>
-              <div class="bg-l-secondary p-a-s">
-                <table class="w-full">
-                  <tr *ngFor="let product of data.orderItems">
-                    <td class="w-half p-a-xs">{{product.name}}:</td>
-                    <td class="w-half p-a-xs">{{product.price | sp }} x{{product.quantity}}</td>
-                  </tr>
-                  <tr>
-                    <td class="w-half p-a-xs">Subtotal:</td>
-                    <td class="w-half p-a-xs">{{data.price.subTotal | sp}}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><hr></td>
-                  </tr>
-                  <tr class="fw-bold">
-                    <td class="w-half p-a-xs">Total:</td>
-                    <td class="w-half p-a-xs">{{data.price.total | sp}}</td>
-                  </tr>
-                </table>
-              </div>
+              <table class="w-full bg-secondary">
+                <tr *ngFor="let product of data.orderItems">
+                  <td class="w-half p-a-xs">{{product.name}}:</td>
+                  <td class="w-half p-a-xs">{{product.price | sp }} x{{product.quantity}}</td>
+                </tr>
+                <tr>
+                  <td class="w-half p-a-xs">Subtotal:</td>
+                  <td class="w-half p-a-xs">{{data.price.subTotal | sp}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"><hr></td>
+                </tr>
+                <tr class="fw-bold">
+                  <td class="w-half p-a-xs">Total:</td>
+                  <td class="w-half p-a-xs">{{data.price.total | sp}}</td>
+                </tr>
+              </table>
               <div class="p-y-s">
                 <mat-divider></mat-divider>
               </div>
-              <table class="w-full">
+              <table class="w-full bg-secondary">
                 <tr>
                   <td class="w-half p-a-xs">Checkout:</td>
                   <td class="w-half p-a-xs">{{val.billing.firstName}} {{val.billing.lastName}}</td>
