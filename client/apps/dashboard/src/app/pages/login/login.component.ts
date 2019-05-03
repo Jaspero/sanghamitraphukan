@@ -39,8 +39,7 @@ export class LoginComponent implements OnInit {
         switchMap(user => user.getIdTokenResult())
       )
       .subscribe(res => {
-        this.router.navigate(['/dashboard']);
-        /*if (res.claims.admin) {
+        if (res.claims.admin) {
           this.router.navigate(['/dashboard']);
         } else {
           this.afAuth.auth.signOut();
@@ -49,7 +48,7 @@ export class LoginComponent implements OnInit {
             'Dismiss',
             {duration: 2000}
           );
-        }*/
+        }
       });
 
     this.buildForm();
