@@ -1,59 +1,55 @@
 <form [formGroup]="filters">
-  <!--Virtual scroll container-->
-  <cdk-virtual-scroll-viewport [itemSize]="50" class="jfs-shop-viewport">
 
-    <!--Filters section-->
-    <section class="jfs-shop-filters bg-primary">
-      <div class="grid">
-        <div class="col-12 flex">
-          <!--Filters trigger-->
-          <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">
-            <mat-icon>filter_list</mat-icon>
-            <span>&nbsp;Filters&nbsp;</span>
+  <!--Filters section-->
+  <section class="jfs-shop-filters bg-primary">
+    <div class="grid">
+      <div class="col-12 flex">
+        <!--Filters trigger-->
+        <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">
+          <mat-icon>filter_list</mat-icon>
+          <span>&nbsp;Filters&nbsp;</span>
+        </button>
+        <!--Divider-->
+        <div class="f1"></div>
+        <!--Sort by-->
+        <button id="btn-sort" mat-flat-button color="primary" [matMenuTriggerFor]="sortByMenu">
+          <span>Sort by:</span> <span>&nbsp;{{orderName}}&nbsp;</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #sortByMenu="matMenu">
+          <button id="btn-update-order" *ngFor="let order of orderList" (click)="updateOrder(order)" mat-menu-item>
+            {{order.name}}
           </button>
-          <!--Divider-->
-          <div class="f1"></div>
-          <!--Sort by-->
-          <button id="btn-sort" mat-flat-button color="primary" [matMenuTriggerFor]="sortByMenu">
-            <span>Sort by:</span> <span>&nbsp;{{orderName}}&nbsp;</span>
-            <mat-icon>arrow_drop_down</mat-icon>
-          </button>
-          <mat-menu #sortByMenu="matMenu">
-            <button id="btn-update-order" *ngFor="let order of orderList" (click)="updateOrder(order)" mat-menu-item>
-              {{order.name}}
-            </button>
-          </mat-menu>
-          <!--Filters chips-->
-          <mat-chip-list class="col-12" *ngIf="chipArray.length">
-            <mat-chip *ngFor="let chip of chipArray">
-              <span>{{chip.filter}}: {{chip.value}}</span>
-              <mat-icon matChipRemove (click)="removeChip(chip)">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-        </div>
+        </mat-menu>
+        <!--Filters chips-->
+        <mat-chip-list class="col-12" *ngIf="chipArray.length">
+          <mat-chip *ngFor="let chip of chipArray">
+            <span>{{chip.filter}}: {{chip.value}}</span>
+            <mat-icon matChipRemove (click)="removeChip(chip)">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
       </div>
-    </section>
-
-    <div class="grid jc-start">
-      <!--Products-->
-      <ng-container *ngIf="(products$ | async) as prod">
-        <ng-container *ngIf="prod.length; else emptyList">
-          <div
-            class="col-4 col-s-6 col-xs-12"
-            *cdkVirtualFor="let product of prod">
-            <jfs-product-card [product]="product"></jfs-product-card>
-          </div>
-        </ng-container>
-      </ng-container>
-      <!--Products empty-->
-      <ng-template #emptyList>
-        <div class="col-12">
-          <p class="p-y-s ta-center c-l-primary">No products match your search criteria. Try turning off some filters.</p>
-        </div>
-      </ng-template>
     </div>
+  </section>
 
-  </cdk-virtual-scroll-viewport>
+  <div class="grid jc-start">
+    <!--Products-->
+    <ng-container *ngIf="(products$ | async) as prod">
+      <ng-container *ngIf="prod.length; else emptyList">
+        <div
+          class="col-4 col-s-6 col-xs-12"
+          *ngFor="let product of prod">
+          <jfs-product-card [product]="product"></jfs-product-card>
+        </div>
+      </ng-container>
+    </ng-container>
+    <!--Products empty-->
+    <ng-template #emptyList>
+      <div class="col-12">
+        <p class="p-y-s ta-center c-l-primary">No products match your search criteria. Try turning off some filters.</p>
+      </div>
+    </ng-template>
+  </div>
 
   <!--Loading-->
   <div class="jfs-shop-loading" *ngIf="(loading$ | async)">
