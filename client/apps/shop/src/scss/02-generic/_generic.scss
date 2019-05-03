@@ -67,3 +67,11 @@ h5 {
 h6 {
   font-size: 16px;
 }
+
+/* Blockquote
+ *============================================================================*/
+
+blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 10px;
+}
