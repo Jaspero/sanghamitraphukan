@@ -16,7 +16,7 @@
   z-index: 3; // Header z-index +1
   top: 0;
   left: 0;
-  width: calc(100% - 200px); // 100% - language select
+  width: calc(100% - 80px); // 100% - settings button
   height: 64px; // Header height
   padding: 0 16px;
   background: var(--primary);
@@ -24,5 +24,7 @@
   @media (max-width: $screen-xs) {
     position: static;
     width: 100%;
+    background: var(--primary);
+    box-shadow: 0 1000px 0 1000px;
   }
 }

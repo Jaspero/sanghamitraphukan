@@ -11,7 +11,7 @@
 
   <section class="p-y-m">
     <div class="grid">
-      <div class="col-8">
+      <div class="col-8 col-s-10 col-xs-12">
         <h5>New landing page</h5>
       </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="grid fw-rev">
           <div class="col-8 col-s-12">
             <mat-card>
-              <h6 class="p-y-xs">Images</h6>
+              <h6 class="p-y-xs">Featured image</h6>
               <div class="p-y-xs">
                 <mat-divider></mat-divider>
               </div>
@@ -31,8 +31,14 @@
                 <mat-label>Featured image</mat-label>
                 <input matInput formControlName="featuredImage">
               </mat-form-field>
+            </mat-card>
+            <br>
+            <mat-card>
+              <h6 class="p-y-xs">Gallery</h6>
               <div class="p-y-xs">
-                <p>Gallery</p>
+                <mat-divider></mat-divider>
+              </div>
+              <div class="p-y-xs">
                 <jfsc-file-upload formControlName="gallery"></jfsc-file-upload>
               </div>
             </mat-card>

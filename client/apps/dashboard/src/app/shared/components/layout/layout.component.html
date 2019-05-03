@@ -2,7 +2,7 @@
 <header class="jfsc-layout-header bg-primary flex ai-center">
 
   <!--Desktop navigation-->
-  <div class="hide-s">
+  <div class="hide-m">
     <a *ngFor="let link of links"
        mat-flat-button
        color="primary"
@@ -13,7 +13,7 @@
   </div>
 
   <!--Mobile navigation-->
-  <div class="show-s">
+  <div class="show-m">
     <button mat-flat-button color="primary" [matMenuTriggerFor]="mainMenu" aria-label="Menu" matTooltip="Menu">
       <mat-icon>menu</mat-icon>
     </button>

@@ -35,7 +35,7 @@ export class LayoutComponent implements OnInit {
     {label: 'Dashboard', icon: 'dashboard', value: '/dashboard'},
     {label: 'Products', icon: 'shopping_cart', value: '/products'},
     {label: 'Categories', icon: 'category', value: '/categories'},
-    {label: 'Landing Page', icon: 'category', value: '/landing-page'},
+    {label: 'Landing Page', icon: 'view_carousel', value: '/landing-page'},
     {label: 'Discounts', icon: 'local_offer', value: '/discounts'},
     {label: 'Orders', icon: 'receipt', value: '/orders'},
     {label: 'Customers', icon: 'supervisor_account', value: '/customers'},
