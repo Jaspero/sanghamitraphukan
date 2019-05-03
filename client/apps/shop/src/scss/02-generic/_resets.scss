@@ -105,35 +105,18 @@ img {
   vertical-align: middle; /* [2] */
 }
 
-/* mat-form-field bottom padding
- *============================================================================*/
-/**
- * Removes the default padding on mat-form-field-wrapper that exists to create
- * space for hints. Since hints are rarely used, the bottom padding was removed
- * for easier layout building.
- */
-
-.mat-form-field > .mat-form-field-wrapper {
-  padding-bottom: 0;
-}
-.mat-form-field > .mat-form-field-wrapper > .mat-form-field-underline {
-  bottom: 0;
-}
-
-// 'mat-hint' class for mat-form-field in case a hint/error has to be used
-.mat-hint.mat-form-field > .mat-form-field-wrapper {
-  padding-bottom: 1.25em;
-}
-.mat-hint.mat-form-field > .mat-form-field-wrapper > .mat-form-field-underline {
-  bottom: 1.25em;
-}
-
-/* mat-button default font override
+/* Default font overrides
  *============================================================================*/
 
 .mat-button,
 .mat-flat-button,
-.mat-icon-button {
+.mat-raised-button,
+.mat-icon-button,
+.mat-list-item,
+.mat-expansion-panel-header,
+.mat-form-field,
+.mat-menu-item,
+.mat-simple-snackbar {
   font-family: $font-primary;
 }
 
@@ -141,7 +124,23 @@ img {
  *============================================================================*/
 
 .mat-form-field {
-  font-family: $font-secondary;
+  font-size: 13px;
+}
+
+/* Button color on snackbar button
+ *============================================================================*/
+
+.mat-simple-snackbar-action button {
+  color: white;
+}
+
+/* removing border-radius from several mat elements
+ *============================================================================*/
+
+.mat-card,
+.mat-expansion-panel {
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 /* mat-input-element text clipping correction
@@ -177,13 +176,6 @@ img {
     height: calc(100% - 20px);
     object-fit: cover;
   }
-}
-
-/* mat-menu font override
- *============================================================================*/
-
-.mat-menu-item {
-  font-family: $font-primary;
 }
 
 /* cdk-overlay fix (% doesn't work, vh does)

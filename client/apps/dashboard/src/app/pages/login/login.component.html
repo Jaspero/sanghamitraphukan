@@ -3,7 +3,9 @@
     <div class="col-4 col-m-6 col-s-9 col-xs-12">
       <mat-card>
         <!--Title-->
-        <h6 class="ta-center p-y-s">Jaspero Fireshop</h6>
+        <div class="ta-center">
+          <img src="assets/images/logo-full.svg" alt="Sanghamitra" width="200">
+        </div>
 
         <!--Social login-->
         <div class="m-y-xs">
@@ -29,19 +31,19 @@
 
         <!--Regular login-->
         <form [formGroup]="loginForm">
-          <mat-form-field class="w-full mat-hint">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Email</mat-label>
             <input
               matInput
-              placeholder="Email"
               type="email"
               formControlName="emailLogin"
             />
             <mat-error>Error message</mat-error>
           </mat-form-field>
-          <mat-form-field class="w-full mat-hint">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Password</mat-label>
             <input
               matInput
-              placeholder="Password"
               #password
               type="password"
               formControlName="passwordLogin"

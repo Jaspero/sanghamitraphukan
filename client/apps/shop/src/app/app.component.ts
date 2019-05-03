@@ -20,8 +20,8 @@ import {SearchComponent} from './shared/components/search/search.component';
 import {UpdateAvailableComponent} from './shared/components/update-available/update-available.component';
 import {CartService} from './shared/services/cart/cart.service';
 import {StateService} from './shared/services/state/state.service';
-import {FormControl} from "@angular/forms";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {FormControl, Validators} from '@angular/forms';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'jfs-root',
@@ -55,6 +55,8 @@ export class AppComponent implements OnInit {
   toggleMobileHeader: boolean;
 
   ngOnInit() {
+    this.email = new FormControl('', [Validators.required, Validators.email]);
+
     this.webpClass = BROWSER_CONFIG.webpSupported ? 'webp' : 'no-webp';
 
     this.showLayout$ = this.state.currentRoute$.pipe(
@@ -104,16 +106,11 @@ export class AppComponent implements OnInit {
   submitEmail() {
     this.loading$.next(true);
 
-    from(
-      this.afs
-        .doc(`newsletter/${this.email.value}`)
-        .set({})
-    )
+    from(this.afs.doc(`newsletter/${this.email.value}`).set({}))
       .pipe(
         notify({
           success: `Thank you for signing up for our newsletter!`,
           error: `Unfortunately there was an error with your signup.`
-
         }),
         finalize(() => this.loading$.next(false))
       )

@@ -49,8 +49,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   filters: FormGroup;
 
-  @ViewChild(CdkVirtualScrollViewport) viewPort: CdkVirtualScrollViewport;
-
   @ViewChild('filterDialog') filterDialog: TemplateRef<any>;
 
   products$: Observable<Product[]>;
@@ -104,15 +102,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
       order: '',
       price: null
     });
-
-    this.viewPort.scrolledIndexChange
-      .pipe(
-        filter(() => this.hasMore$.value),
-        takeUntil(this.destroyed$)
-      )
-      .subscribe(() => {
-        this.loadMore$.next(true);
-      });
 
     this.afs
       .collection<Category>(
@@ -210,10 +199,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
       tap(() => {
         this.loading$.next(false);
         setTimeout(() => {
-          if (
-            !this.viewPort.measureScrollOffset('bottom') &&
-            this.hasMore$.value
-          ) {
+          if (this.hasMore$.value) {
             this.loadMore$.next(true);
           }
         }, 10);
