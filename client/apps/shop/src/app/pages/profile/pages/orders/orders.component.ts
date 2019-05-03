@@ -45,8 +45,6 @@ export class OrdersComponent extends RxDestroy implements OnInit {
     data: []
   });
 
-  orders: any;
-
   ngOnInit() {
     this.afs
       .collection(FirestoreCollections.Orders, ref => {
@@ -59,43 +57,23 @@ export class OrdersComponent extends RxDestroy implements OnInit {
       .valueChanges()
       .pipe(takeUntil(this.destroyed$))
       .subscribe(value => {
-        this.orders = value.map(x => {
-          x['orderList'] = [];
-          return x;
-        });
         this.state$.next({
           state: value.length ? LoadState.Loaded : LoadState.Empty,
-          data: value.map(x => {
-            x['orderList'] = [];
-            return x;
-          })
+          data: value
         });
+
         this.cdr.detectChanges();
       });
   }
 
-  getOrder(id, ind) {
-    if (!this.orders[ind].orderList.length) {
-      this.afs
-        .collection(`${FirestoreCollections.OrderedItems}`, ref => {
-          return ref.where('orderId', FirebaseOperator.Equal, id);
-        })
-        .valueChanges()
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe(value => {
-          this.orders[ind].orderList.push(...value);
-        });
-    }
-  }
-
-  submitReview(productId, order) {
+  submitReview(item) {
     this.dialog.open(ReviewsDialogComponent, {
       width: '500px',
       data: {
-        customerName: order.name,
-        customerId: order.customerId,
-        orderId: order.orderId,
-        productId: productId,
+        customerName: item.name,
+        customerId: item.customerId,
+        orderId: item.orderId,
+        productId: item.identifier,
         createdOn: Date.now()
       }
     });
