@@ -53,6 +53,7 @@ export class AppComponent implements OnInit {
   loading$ = new BehaviorSubject(false);
   email: FormControl;
   toggleMobileHeader: boolean;
+  year = new Date().getFullYear();
 
   ngOnInit() {
     this.email = new FormControl('', [Validators.required, Validators.email]);

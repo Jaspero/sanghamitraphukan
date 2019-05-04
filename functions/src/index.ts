@@ -9,6 +9,7 @@ export {userCreated} from './triggers/user-created';
 export {userDeleted} from './triggers/user-deleted';
 export {fileCreated} from './triggers/file-created';
 export {fileDeleted} from './triggers/file-deleted';
+export {newsletterCreated} from './triggers/newsletter-created';
 
 // Rest
 export {exportData} from './rest/export-data';

@@ -9,7 +9,7 @@
     <jp-slider [options]="sliderOption">
       <jp-slides>
         <jp-slide *ngFor="let img of product.gallery">
-          <img draggable="false" src="{{img.image}}" class="slider-img">
+          <img draggable="false" [src]="img.image" class="slider-img">
         </jp-slide>
       </jp-slides>
     </jp-slider>
