@@ -35,7 +35,7 @@
             </button>
           </div>
 
-          <ng-container *ngIf="rews$ | async as rec">
+          <ng-container *ngIf="rews$ | async as rec;">
             <div class="ws-nowrap flex ai-center" *ngIf="rec[0].length">
               <jfs-rating-scale [value]="rec[1]" color="default"></jfs-rating-scale>
               <p class="m-l-xs"><a class="link" (click)="openReviews()">{{rec[0].length}} reviews</a></p>
