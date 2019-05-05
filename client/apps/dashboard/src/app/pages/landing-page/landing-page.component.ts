@@ -4,7 +4,7 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {LandingPage} from '@jf/interfaces/landing-page.interface';
 
 @Component({
-  selector: 'jfs-landing-page',
+  selector: 'jfsc-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

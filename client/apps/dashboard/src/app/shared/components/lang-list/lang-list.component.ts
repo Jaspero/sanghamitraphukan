@@ -60,7 +60,6 @@ export class LangListComponent<
         return this.loadItems(language, true).pipe(
           switchMap(its => {
             items = its;
-            console.log('items', items);
             this.dataLoading$.next(true);
             return this.loadMore$.pipe(startWith(false));
           }),

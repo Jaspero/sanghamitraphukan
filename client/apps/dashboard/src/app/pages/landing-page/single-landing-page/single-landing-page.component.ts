@@ -3,7 +3,7 @@ import {LangSinglePageComponent} from '../../../shared/components/lang-single-pa
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 
 @Component({
-  selector: 'jfs-single-landing-page',
+  selector: 'jfsc-single-landing-page',
   templateUrl: './single-landing-page.component.html',
   styleUrls: ['./single-landing-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
