@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "target-setup": "firebase target:apply hosting shop jp-fi && firebase target:apply hosting admin jp-fi-admin",
+    "target-setup": "firebase target:apply hosting shop sanghamitra-shop && firebase target:apply hosting admin sanghamitra-cms",
     "build": "npm --prefix client run build:all && npm --prefix functions run build",
     "lint": "npm --prefix client run lint && npm --prefix functions run lint",
     "deploy": "firebase deploy"

@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "jaspero-fireshop"
+    "default": "jaspero-sanghamitra"
   },
   "targets": {
-    "jaspero-fireshop": {
+    "jaspero-sanghamitra": {
       "hosting": {
         "shop": [
-          "jaspero-fireshop"
+          "sanghamitra-shop"
         ],
         "admin": [
-          "jaspero-fireshop-admin"
+          "sanghamitra-cms"
         ]
       }
     }
