@@ -133,7 +133,10 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       shortDescription: data.shortDescription || '',
       gallery: [data.gallery || []],
       quantity: [data.quantity || 0, Validators.min(0)],
-      category: data.category
+      category: data.category,
+      latest: data.latest || false,
+      fabric: data.fabric || '',
+      made: data.made || 'Hand Made in India'
     });
   }
 }

@@ -28,8 +28,8 @@
               id="btn-wish-list-1"
               class="jfs-wishlist-button"
               mat-icon-button
-              [matTooltip]="data.wishList.tooltip"
-              [attr.aria-label]="data.wishList.tooltip"
+              [matTooltip]="data.wishList.label"
+              [attr.aria-label]="data.wishList.label"
               (click)="wishList.toggle(data.product.id)">
               <mat-icon>{{data.wishList.icon}}</mat-icon>
             </button>
@@ -43,7 +43,7 @@
 
             <ng-template #reviewsDialog>
               <h6 mat-dialog-title="">Reviews</h6>
-              <ng-container *ngIf="rec[0].length; else empty">
+              <ng-container *ngIf="rec[0].length;">
                 <div *ngFor="let review of rec[0]">
                   <mat-divider></mat-divider>
                   <jfs-review-card [review]="review"></jfs-review-card>
@@ -74,13 +74,11 @@
           </div>
           <h2 class="m-b-xs">Product Details</h2>
           <div class="product-description ff-secondary">
-            <p>This delicate lingerie inspired, 90s style, slip dress is an
-              ideal choice when you are feeling flirty and feminine.
-              Look stylish all throughout, in this hassle free dress.</p>
+            <div [innerHTML]="data.product.description | jpSanitize"></div>
             <ul>
-              <li><b>Size</b>: s</li>
-              <li><b>Fabric</b>: Crepe, Silk Lace and Sheer Net</li>
-              <li>Hand Made In India</li>
+            <!--<li><b>Size</b>: s</li>-->
+              <li><b>Fabric</b>: {{data.product.fabric}}</li>
+              <li>{{data.product.made}}</li>
             </ul>
           </div>
           <div class="m-y-m flex fd-col ai-start">

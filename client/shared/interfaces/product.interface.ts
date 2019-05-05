@@ -9,4 +9,7 @@ export interface Product {
   description: string;
   gallery: string[];
   search: string[];
+  fabric?: string;
+  made?: string;
+  latest?: boolean;
 }

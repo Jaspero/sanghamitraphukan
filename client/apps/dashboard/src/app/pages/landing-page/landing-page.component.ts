@@ -11,5 +11,12 @@ import {LandingPage} from '@jf/interfaces/landing-page.interface';
 })
 export class LandingPageComponent extends LangListComponent<LandingPage> {
   collection = FirestoreCollections.landingPage;
-  displayedColumns = ['checkBox', 'id', 'title', 'createdOn', 'actions'];
+  displayedColumns = [
+    'checkBox',
+    'id',
+    'createdOn',
+    'title',
+    'category',
+    'actions'
+  ];
 }

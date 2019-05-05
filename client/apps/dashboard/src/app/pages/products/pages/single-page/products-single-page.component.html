@@ -47,18 +47,35 @@
               <div class="p-y-xs">
                 <mat-divider></mat-divider>
               </div>
+
               <div class="p-y-xs">
                 <mat-form-field appearance="outline" class="w-full">
                   <mat-label>Name</mat-label>
                   <input matInput formControlName="name" />
                 </mat-form-field>
               </div>
+
               <div class="p-y-xs">
                 <mat-form-field appearance="outline" class="w-full">
                   <mat-label>Short description</mat-label>
                   <input matInput formControlName="shortDescription">
                 </mat-form-field>
               </div>
+
+              <div class="p-y-xs">
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Fabric</mat-label>
+                  <input matInput formControlName="fabric">
+                </mat-form-field>
+              </div>
+
+              <div class="p-y-xs">
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Made</mat-label>
+                  <input matInput formControlName="made">
+                </mat-form-field>
+              </div>
+
               <div class="p-y-xs">
                 <p class="jfsc-wysiwyg-label">Detailed description</p>
                 <jfsc-wysiwyg formControlName="description"></jfsc-wysiwyg>
@@ -119,11 +136,16 @@
                 <mat-divider></mat-divider>
               </div>
               <div class="p-y-xs">
+                <mat-checkbox color="primary" formControlName="latest">Latest</mat-checkbox>
+              </div>
+              <div class="p-y-xs">
                 <mat-form-field appearance="outline" class="w-full mat-hint">
                   <mat-label>URL</mat-label>
                   <input matInput formControlName="id" />
                   <mat-error *ngIf="form.get('id').invalid">Only lowercase letters dashes and underscores are allowed</mat-error>
                 </mat-form-field>
+              </div>
+              <div class="p-y-xs">
                 <mat-form-field appearance="outline" class="w-full">
                   <mat-label>Category</mat-label>
                   <mat-select formControlName="category">
@@ -146,6 +168,8 @@
     <button
       mat-flat-button
       color="primary"
+      tabindex="-1"
+      type="button"
       (click)="back()">
       {{isEdit ? 'Discard changes' : 'Cancel'}}
     </button> &nbsp;

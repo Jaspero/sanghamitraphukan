@@ -1,12 +1,18 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { SliderOptions } from '@jaspero/ng-slider';
-import { BROWSER_CONFIG } from '@jf/consts/browser-config.const';
-import { FirestoreCollections } from '@jf/enums/firestore-collections.enum';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Landing } from '../../shared/interfaces/landing.interface';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnInit
+} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
+import {SliderOptions} from '@jaspero/ng-slider';
+import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
+import {STATIC_CONFIG} from '@jf/consts/static-config.const';
+import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Landing} from '../../shared/interfaces/landing.interface';
 
 @Component({
   selector: 'jfs-landing',
@@ -31,7 +37,9 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
     this.resize(BROWSER_CONFIG.screenWidth);
     this.product$ = this.afs
-      .collection<Landing>(`${FirestoreCollections.landingPage}`)
+      .collection<Landing>(
+        `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`
+      )
       .valueChanges()
       .pipe(map(actions => actions));
   }
