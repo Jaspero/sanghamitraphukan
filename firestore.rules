@@ -12,7 +12,7 @@ service cloud.firestore {
 
     match /products-en/{product} {
   	  allow read: if resource.data.active == true || admin()
-      allow write, delete: if admin()
+  	  allow write, delete: if admin()
     }
 
     match /categories-en/{category} {
