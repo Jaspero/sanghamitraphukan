@@ -43,7 +43,7 @@ service cloud.firestore {
       allow write: if true
     }
 
-    match /landing-page/{landing-page} {
+    match /landing-page/{page} {
       allow write, delete: if admin()
       allow read: if true
     }
