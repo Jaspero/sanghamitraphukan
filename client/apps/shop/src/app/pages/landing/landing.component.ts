@@ -44,9 +44,11 @@ export class LandingComponent implements OnInit {
       .pipe(map(actions => actions));
   }
 
-  goToSingle(url) {
+  goToSingle(category: string) {
     this.router.navigate(['/shop'], {
-      queryParams: url
+      queryParams: {
+        category
+      }
     });
   }
 

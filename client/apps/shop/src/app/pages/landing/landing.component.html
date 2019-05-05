@@ -2,21 +2,21 @@
 
   <div class="featured-hero">
     <h1 class="featured-hero-title">{{product.title}}</h1>
-    <img class="featured-hero-img" src="{{product.featuredImage}}" alt="{{product.title}}">
+    <img class="featured-hero-img" [src]="product.featuredImage" [alt]="product.title">
   </div>
 
   <div class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
         <jp-slide *ngFor="let img of product.gallery">
-          <img draggable="false" [src]="img.image" class="slider-img">
+          <img draggable="false" [src]="img" class="slider-img">
         </jp-slide>
       </jp-slides>
     </jp-slider>
   </div>
 
   <div class="ta-center m-b-l">
-    <button class="title ff-primary fs-20 link" (click)="goToSingle(product.categorisation)">Shop</button>
+    <button class="title ff-primary fs-20 link" (click)="goToSingle(product.category)">Shop</button>
   </div>
 
 </div>
