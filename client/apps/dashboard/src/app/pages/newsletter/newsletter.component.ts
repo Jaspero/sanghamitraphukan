@@ -13,7 +13,7 @@ import {filter, switchMap} from 'rxjs/operators';
 import {ListComponent} from '../../shared/components/list/list.component';
 
 @Component({
-  selector: 'jfs-newsletter',
+  selector: 'jfsc-newsletter',
   templateUrl: './newsletter.component.html',
   styleUrls: ['./newsletter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,7 +45,7 @@ export class NewsletterComponent extends ListComponent<Newsletter> {
         notify()
       )
       .subscribe(res => {
-        console.log('res', res);
+        // console.log('res', res);
       });
   }
 }
