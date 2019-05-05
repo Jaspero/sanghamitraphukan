@@ -11,16 +11,10 @@ service cloud.firestore {
     }
 
     match /products-en/{product} {
-  	  allow read: if resource.data.active == true
-      allow read: if admin()
-    }
-
-    // Add for other languages
-    match /products-en/{product} {
+  	  allow read: if resource.data.active == true || admin()
       allow write, delete: if admin()
     }
 
-    // Add for other languages
     match /categories-en/{category} {
       allow read: if true
       allow write, delete: if admin()
@@ -42,6 +36,16 @@ service cloud.firestore {
     match /reviews/{review} {
       allow read: if true
       allow write, delete: if resource.data.customerId == auth.uid;
+    }
+
+    match /newsletter/{newsletter} {
+      allow read, delete: if admin()
+      allow write: if true
+    }
+
+    match /landing-page/{landing-page} {
+      allow write, delete: if admin()
+      allow read: if true
     }
   }
 }

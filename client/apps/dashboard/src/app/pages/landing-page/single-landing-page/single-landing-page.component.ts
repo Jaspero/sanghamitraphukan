@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
+import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
 
 @Component({
   selector: 'jfsc-single-landing-page',

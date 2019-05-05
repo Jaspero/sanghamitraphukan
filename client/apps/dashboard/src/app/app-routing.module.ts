@@ -28,6 +28,10 @@ const routes: Routes = [
           './pages/landing-page/landing-page.module#LandingPageModule'
       },
       {
+        path: 'newsletter',
+        loadChildren: './pages/newsletter/newsletter.module#NewsletterModule'
+      },
+      {
         path: 'orders',
         loadChildren: './pages/orders/orders.module#OrdersModule'
       },
