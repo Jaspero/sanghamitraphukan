@@ -1,1 +1,1 @@
-export const BASE_TITLE = 'Jaspero Fireshop';
+export const BASE_TITLE = 'Sanghamitra';

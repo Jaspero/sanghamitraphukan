@@ -21,6 +21,12 @@ import {ListComponent} from '../../shared/components/list/list.component';
 export class NewsletterComponent extends ListComponent<Newsletter> {
   collection = FirestoreCollections.Newsletter;
   displayedColumns = ['checkBox', 'id', 'actions'];
+  additionalRouteData = {
+    filters: {
+      search: ''
+    },
+    sort: null
+  };
 
   @ViewChild('addDialog')
   addDialog: TemplateRef<any>;
