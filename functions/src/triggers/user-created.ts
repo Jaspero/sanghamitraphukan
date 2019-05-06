@@ -19,26 +19,33 @@ export const userCreated = functions.auth.user().onCreate(async user => {
     await auth().setCustomUserClaims(user.uid, customClaims);
   } else {
     await parseEmail(user.email, 'Welcome to Fireshop', 'user-created', user);
-  }
 
-  try {
-    await rp({
-      method: 'POST',
-      uri: `https://us20.api.mailchimp.com/3.0/lists/${
+    console.log(
+      'url',
+      `https://us20.api.mailchimp.com/3.0/lists/${
         ENV_CONFIG.mailchimp.list
-      }/members/`,
-      auth: {
-        user: 'username',
-        pass: ENV_CONFIG.mailchimp.token
-      },
-      body: {
-        email_address: user.email,
-        status: 'subscribed'
-      },
-      json: true
-    });
-  } catch (e) {
-    console.error(e);
+      }/members/`
+    );
+
+    try {
+      await rp({
+        method: 'POST',
+        uri: `https://us20.api.mailchimp.com/3.0/lists/${
+          ENV_CONFIG.mailchimp.list
+        }/members/`,
+        auth: {
+          user: 'username',
+          pass: ENV_CONFIG.mailchimp.token
+        },
+        body: {
+          email_address: user.email,
+          status: 'subscribed'
+        },
+        json: true
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return true;
