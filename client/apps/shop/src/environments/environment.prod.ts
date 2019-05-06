@@ -1,6 +1,6 @@
 export const environment = {
   serviceWorker: true,
-  websiteUrl: 'https://fireshop.jaspero.co',
-  restApi: 'https://us-central1-jaspero-site.cloudfunctions.net',
+  websiteUrl: 'https://shop.sanghamitrapukan.com',
+  restApi: 'https://us-central1-jaspero-sanghamitra.cloudfunctions.net',
   production: true
 };
