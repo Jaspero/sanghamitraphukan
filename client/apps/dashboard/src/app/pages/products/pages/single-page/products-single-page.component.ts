@@ -31,6 +31,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   categories$: Observable<Category[]>;
   collection = FirestoreCollections.Products;
   currency: string;
+  sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
   ngOnInit() {
     super.ngOnInit();
@@ -136,7 +137,10 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       category: data.category,
       latest: data.latest || false,
       fabric: data.fabric || '',
-      made: data.made || 'Hand Made in India'
+      made: data.made || 'Hand Made in India',
+      size: [data.size || []],
+      instgramLink: data.instgramLink || '',
+      preOrder: data.preOrder || false
     });
   }
 }

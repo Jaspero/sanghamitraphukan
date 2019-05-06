@@ -9,6 +9,7 @@
 
     <div class="grid grid-small connecting-line">
       <div class="col-6 col-xs-12">
+        <p class="ff-secondary ta-center p-a-xs bg-primary m-b-xs" *ngIf="data.product.preOrder"><b>Pre-orders available!</b></p>
         <div class="product-mobile-gallery">
           <div class="aspect-ratio product-img" data-ratio="2:3" *ngFor="let img of data.product.gallery">
             <img class="aspect-item" [src]="img">
@@ -18,21 +19,33 @@
 
       <div class="col-6 col-xs-12">
         <section class="sticky-cart p-y-xs">
-          <div class="flex jc-between ai-center">
+          <div class="flex jc-between ai-center m-b-xs">
             <div>
               <h2 class="m-b-xs">{{data.product.name}}</h2>
               <h2>{{data.product.price | sp}}</h2>
             </div>
 
-            <button
-              id="btn-wish-list-1"
-              class="jfs-wishlist-button"
-              mat-icon-button
-              [matTooltip]="data.wishList.label"
-              [attr.aria-label]="data.wishList.label"
-              (click)="wishList.toggle(data.product.id)">
-              <mat-icon>{{data.wishList.icon}}</mat-icon>
-            </button>
+            <div>
+              <a
+                mat-icon-button
+                [href]="data.product.instgramLink"
+                target="_blank"
+                rel="noopener"
+                matTooltip="View on Instagram"
+                aria-label="View on Instagram"
+              >
+                <img src="assets/images/ig.svg" alt="View on Instagram" width="20">
+              </a>&nbsp;
+              <button
+                id="btn-wish-list-1"
+                class="jfs-wishlist-button"
+                mat-icon-button
+                [matTooltip]="data.wishList.label"
+                [attr.aria-label]="data.wishList.label"
+                (click)="wishList.toggle(data.product.id)">
+                <mat-icon>{{data.wishList.icon}}</mat-icon>
+              </button>
+            </div>
           </div>
 
           <ng-container *ngIf="rews$ | async as rec;">
@@ -52,10 +65,24 @@
             </ng-template>
           </ng-container>
 
-          <div class="p-y-s">
+          <div>
+            <ng-container>
+              <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Size</mat-label>
+                <mat-select>
+                  <mat-option value="datSize" *ngFor="let datSize of data.product.size ">
+                    {{datSize}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+          </div>
+
+          <div class="p-b-s">
             <ng-container *ngIf="data.quantity; else notInCart">
               <button
                 id="btn-add-more-prod-0"
+                class="w-full"
                 mat-flat-button
                 color="accent"
                 (click)="cart.add(data.product)">
@@ -65,6 +92,7 @@
             <ng-template #notInCart>
               <button
                 id="btn-add-cart-prod-1"
+                class="w-full"
                 mat-flat-button
                 color="accent"
                 (click)="cart.add(data.product)">

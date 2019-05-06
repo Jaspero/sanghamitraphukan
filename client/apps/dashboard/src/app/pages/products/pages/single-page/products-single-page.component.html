@@ -127,6 +127,19 @@
                   <input matInput type="number"  formControlName="quantity">
                 </mat-form-field>
               </div>
+              <div class="p-y-xs">
+                <mat-form-field appearance="outline" class="w-full mat-hint">
+                  <mat-label>Size</mat-label>
+                  <mat-select formControlName="size" multiple>
+                    <mat-option [value]="size" *ngFor="let size of sizes">
+                      {{size}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="p-y-xs">
+                <mat-checkbox color="primary" formControlName="preOrder">Pre order</mat-checkbox>
+              </div>
             </mat-card>
           </div>
           <div class="col-12">
@@ -143,6 +156,12 @@
                   <mat-label>URL</mat-label>
                   <input matInput formControlName="id" />
                   <mat-error *ngIf="form.get('id').invalid">Only lowercase letters dashes and underscores are allowed</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-y-xs">
+                <mat-form-field appearance="outline" class="w-full mat-hint">
+                <mat-label>Instagram link</mat-label>
+                  <input matInput formControlName="instgramLink" multiple>
                 </mat-form-field>
               </div>
               <div class="p-y-xs">

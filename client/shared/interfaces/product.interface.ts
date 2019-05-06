@@ -12,4 +12,7 @@ export interface Product {
   fabric?: string;
   made?: string;
   latest?: boolean;
+  size?: string[];
+  instgramLink?: string;
+  preOrder?: boolean;
 }
