@@ -32,7 +32,7 @@ export class NewsletterComponent extends ListComponent<Newsletter> {
   addDialog: TemplateRef<any>;
   emailControl: FormControl;
 
-  addEmail() {
+  addEmail(items: Newsletter[]) {
     this.emailControl = new FormControl('', Validators.required);
 
     this.dialog
@@ -50,8 +50,6 @@ export class NewsletterComponent extends ListComponent<Newsletter> {
         ),
         notify()
       )
-      .subscribe(res => {
-        // console.log('res', res);
-      });
+      .subscribe();
   }
 }
