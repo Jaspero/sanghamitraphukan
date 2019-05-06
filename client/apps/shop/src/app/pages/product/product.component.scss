@@ -67,6 +67,14 @@
   }
 }
 
+.product-description::ng-deep span {
+  font-family: $font-secondary !important;
+}
+
+.product-description::ng-deep p {
+  margin-bottom: 0.75em;
+}
+
 .product-description > * {
   margin-bottom: 0.75em;
 }

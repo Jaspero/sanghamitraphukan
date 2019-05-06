@@ -5,7 +5,7 @@
     </div>
     <div class="flex jc-between p-a-xs">
       <p>{{product.name}}</p>
-      <p>{{product.price | currency}}</p>
+      <p>{{product.price | sp}}</p>
     </div>
     <ng-container *ngIf="wishList$ | async as ws">
       <button
