@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 
 @Component({
   selector: 'jfs-cookie',
@@ -8,26 +9,32 @@ import {Component, OnInit} from '@angular/core';
 export class CookieComponent implements OnInit {
   constructor() {}
 
-  cookiesActive: boolean;
+  active: boolean;
 
   ngOnInit() {
-    if (Date.now() - +localStorage.getItem('cookies') >= 31556952000) {
-      localStorage.removeItem('privacy');
-    }
+    if (BROWSER_CONFIG.isBrowser) {
+      /**
+       * delete cookies policy after one year
+       */
 
-    this.showCookies();
+      if (Date.now() - +localStorage.getItem('cookies') >= 31556952000) {
+        localStorage.removeItem('privacy');
+      }
+
+      this.showCookies();
+    }
   }
 
   showCookies() {
     if (!localStorage.getItem('cookies')) {
-      this.cookiesActive = true;
+      this.active = true;
     }
   }
 
   setCookies() {
     const timeCookies = Date.now();
 
-    this.cookiesActive = false;
+    this.active = false;
     localStorage.setItem('cookies', JSON.stringify(timeCookies));
   }
 }
