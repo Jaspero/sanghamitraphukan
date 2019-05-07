@@ -247,30 +247,3 @@
     height: 60px;
   }
 }
-
-/* Cookies popup
- *============================================================================*/
-
-.jfs-cookies {
-  position: fixed;
-  z-index: 999;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%) translateY(40px);
-  display: flex;
-  align-items: center;
-  min-width: 300px;
-  max-width: 540px;
-  padding: 20px;
-  background: white;
-  box-shadow: 0 4px 10px 0 rgba(0,0,0,.4);
-  visibility: hidden;
-  opacity: 0;
-  transition: .4s;
-
-  &.active {
-    transform: translateX(-50%) translateY(0);
-    visibility: visible;
-    opacity: 1;
-  }
-}
