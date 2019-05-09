@@ -2,14 +2,14 @@
 
   <div class="featured-hero">
     <h1 class="featured-hero-title">{{product.title}}</h1>
-    <img class="featured-hero-img" [src]="product.featuredImage" [alt]="product.title">
+    <img class="featured-hero-img" [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
   </div>
 
   <div class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
         <jp-slide *ngFor="let img of product.gallery">
-          <img draggable="false" [src]="img" class="slider-img">
+          <img draggable="false" [jfsLibraryImage]="img" aria-hidden="true" class="slider-img">
         </jp-slide>
       </jp-slides>
     </jp-slider>

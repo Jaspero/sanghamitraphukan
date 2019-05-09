@@ -1,7 +1,7 @@
 <a [routerLink]="['/product', product.id]">
   <div class="bg-primary relative">
     <div class="aspect-ratio" data-ratio="2:3">
-      <img class="aspect-item" [src]="product.gallery[0]" [alt]="product.name">
+      <img class="aspect-item" [jfsLibraryImage]="product.gallery[0]" [alt]="product.name">
     </div>
     <div class="flex jc-between p-a-xs">
       <p>{{product.name}}</p>

@@ -38,7 +38,7 @@
         <ng-template #empty></ng-template>
       </button>
 
-      <button class="app-header-menu" (click)="openMobileHeader()" [class.active]="toggleMobileHeader">
+      <button aria-label="Menu" class="app-header-menu" (click)="openMobileHeader()" [class.active]="toggleMobileHeader">
         <span></span>
       </button>
 
@@ -87,7 +87,7 @@
             <ng-container matSuffix>
               <mat-spinner *ngIf="loading$ | async; else loaded;" [diameter]="24"></mat-spinner>
               <ng-template #loaded>
-                <button [disabled]="email.invalid" mat-icon-button (click)="submitEmail()">
+                <button [disabled]="email.invalid" mat-icon-button (click)="submitEmail()" aria-label="Submit">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#999999"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
               </ng-template>
@@ -105,7 +105,7 @@
         <p class="p-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
       </div>
       <div class="col-12 ta-right p-t-m">
-        <p>© {{year}} Sanghamitra Phukan — By <a class="link" target="_blank" href="https://jaspero.co">Jaspero</a></p>
+        <p>© {{year}} Sanghamitra Phukan — By <a class="link" target="_blank" rel="noopener" href="https://jaspero.co">Jaspero</a></p>
       </div>
     </div>
 

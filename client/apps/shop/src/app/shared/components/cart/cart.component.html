@@ -3,7 +3,7 @@
   <ng-container *ngIf="prod.length; else emptyCart">
     <mat-list>
       <mat-list-item *ngFor="let product of prod">
-        <img matListAvatar [src]="product.image" [alt]="product.name" />
+        <img matListAvatar [jfsLibraryImage]="product.image" [alt]="product.name" />
         <h4
           class="link"
           mat-line
