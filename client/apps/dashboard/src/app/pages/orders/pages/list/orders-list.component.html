@@ -12,19 +12,12 @@
       <mat-card>
 
         <form [formGroup]="filters" class="toolbar toolbar-inset p-t-0">
-          <mat-form-field appearance="outline">
-            <mat-label>&nbsp;Search</mat-label>
-            <input matInput formControlName="search">
-            <mat-icon matPrefix>search</mat-icon>
-          </mat-form-field>
+          <jfsc-search-input formControlName="search"></jfsc-search-input>
           <div class="f1"></div>
           <button mat-button (click)="openFilter()">
             <span>&nbsp;Filters&nbsp;</span>
             <mat-icon>filter_list</mat-icon>
           </button>
-        </form>
-
-        <jfsc-chips [chips$]="filters.valueChanges" (filterValue)="changeFilters($event)"></jfsc-chips>
 
         <ng-template #filterDialog>
           <div mat-dialog-title>
@@ -41,12 +34,18 @@
           </div>
 
           <div mat-dialog-content>
-            <mat-form-field class="w-full m-b-xs">
-              <mat-select placeholder="Orders" [formControl]="orders">
-                <mat-option [value]="null"> All </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+
+            <jfsc-customer-lookup formControlName="customers">
+            </jfsc-customer-lookup>
+
+              <mat-form-field class="w-full m-b-xs">
+                <mat-select  placeholder="Status" formControlName="status">
+                  <mat-option *ngFor="let status of deliveryStatus | keyvalue" [value]="status.value">
+                    {{status.key}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
           <div mat-dialog-actions>
             <div class="ta-right w-full">
@@ -57,7 +56,9 @@
             </div>
           </div>
         </ng-template>
+        </form>
 
+        <jfsc-chips [chips$]="filters.valueChanges" (filterValue)="changeFilters($event)"></jfsc-chips>
 
         <div class="toolbar toolbar-inset">
 
@@ -99,7 +100,14 @@
         </div>
 
         <div class="of-x-auto">
-          <table class="w-full" mat-table [dataSource]="items$ | async" matSort>
+          <table
+          class="w-full"
+          mat-table
+          matSort
+          matSortDisableClear
+          [dataSource]="items$ | async"
+          [matSortActive]="options.sort.active"
+          [matSortDirection]="options.sort.direction">
 
 
           <ng-container matColumnDef="checkBox">
@@ -115,11 +123,11 @@
           </ng-container>
 
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <th mat-header-cell *matHeaderCellDef>ID</th>
             <td mat-cell *matCellDef="let element">{{element.id}}</td>
           </ng-container>
 
-            <ng-container matColumnDef="customer">
+            <ng-container matColumnDef="customerName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer</th>
               <td mat-cell *matCellDef="let element">{{element.customerName}}</td>
             </ng-container>
@@ -130,19 +138,33 @@
             </ng-container>
 
             <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
-              <td mat-cell *matCellDef="let element">{{element.price}}</td>
+              <th mat-header-cell *matHeaderCellDef>Price</th>
+              <td mat-cell *matCellDef="let element">
+              <div class="iflex fd-col ai-start m-r-s">
+                <span class="fs-small c-d-secondary">Shipping</span>
+                <span>{{element.price.shipping | sp}}</span>
+              </div>
+              <div class="iflex fd-col ai-start m-r-s">
+                <span class="fs-small c-d-secondary">Subtotal</span>
+                <span>{{element.price.subTotal | sp}}</span>
+              </div>
+              <div class="iflex fd-col ai-start m-r-s">
+                <span class="fs-small c-d-secondary">Total</span>
+                <span>{{element.price.total | sp}}</span>
+              </div>
+            </td>
             </ng-container>
 
 
 
-            <ng-container matColumnDef="statusChange">
+            <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
               <td mat-cell *matCellDef="let element">
                 <mat-form-field>
                   <mat-select
                   [value]="element.status"
-                  (selectionChange)="changeClient($event.value, element.id)">
+                  [disabled]="readMode"
+                  (selectionChange)="statusChanged($event.value, element.id)">
                     <mat-option
                     *ngFor="let stat of deliveryStatus | keyvalue"
                     [value]="stat.value">
@@ -164,7 +186,7 @@
                     <mat-icon>info</mat-icon>
                     <span>View order</span>
                   </button>
-                  <button mat-menu-item (click)="deleteOne(element)">
+                  <button mat-menu-item fDisable (click)="deleteOne(element)">
                     <mat-icon>delete_forever</mat-icon>
                     <span>Delete product</span>
                   </button>

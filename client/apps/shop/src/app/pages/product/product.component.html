@@ -81,6 +81,7 @@
           <div class="p-b-s">
             <ng-container *ngIf="data.quantity; else notInCart">
               <button
+                [disabled]="data.quantity === data.product.quantity"
                 id="btn-add-more-prod-0"
                 class="w-full"
                 mat-flat-button

@@ -1,13 +1,15 @@
-<section class="p-y-l">
-  <div class="ta-center">
-    <h1 class="title starting-line">Error</h1>
-  </div>
-
-  <div class="grid connecting-line ending-line">
-    <div class="col-6 col-m-8 col-s-10 col-xs-12 ta-center">
-      <h5>An error occurred during checkout</h5>
-      <p class="m-y-s">We're not sure how and why, but your cart is saved.</p>
-      <a routerLink="" mat-flat-button color="primary">Try again</a>
+<section>
+  <div class="checkout-error"></div>
+  <div class="grid">
+    <div class="col-6 col-m-8 col-s-10 col-xs-12">
+      <mat-card>
+        <h5 class="fw-reg">An error has occurred</h5>
+        <div *ngFor="let single of error; let ind = index">
+          <p class="m-t-s m-b-m">{{single.message}}</p>
+        </div>
+        <button mat-flat-button color="primary" (click)="resolveIssue()">Resolve issues</button>
+        <button mat-flat-button color="primary" (click)="clearCart()">Clear cart</button>
+      </mat-card>
     </div>
   </div>
 </section>

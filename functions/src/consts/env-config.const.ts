@@ -12,4 +12,8 @@ export const ENV_CONFIG = functions.config() as {
     token: string;
     list: string;
   };
+  instagram: {
+    clientid: string;
+    clientsecret: string;
+  };
 };

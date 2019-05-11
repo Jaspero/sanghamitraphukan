@@ -22,7 +22,6 @@ import {
   Subject
 } from 'rxjs';
 import {
-  debounceTime,
   map,
   shareReplay,
   skip,
@@ -34,9 +33,11 @@ import {
 import {FirebaseOperator} from 'shared/enums/firebase-operator.enum';
 import {FirestoreCollections} from 'shared/enums/firestore-collections.enum';
 import {PAGE_SIZES} from '../../consts/page-sizes.const';
+import {Role} from '../../enums/role.enum';
 import {RouteData} from '../../interfaces/route-data.interface';
 import {StateService} from '../../services/state/state.service';
 import {ExportComponent} from '../export/export.component';
+import {OverviewComponent} from '../overview/overview.component';
 
 @Component({
   selector: 'jfsc-list',
@@ -87,13 +88,17 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
     return of(this.collection as string);
   }
 
+  get readMode() {
+    return this.state.role === Role.Read;
+  }
+
   ngOnInit() {
     this.options = this.state.getRouterData({
       sort: {
         direction: 'desc',
         active: 'createdOn'
       },
-      pageSize: 5,
+      pageSize: 10,
       ...this.additionalRouteData
     });
     this.pageSize = new FormControl(this.options.pageSize);
@@ -155,7 +160,6 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
     if (this.options.filters) {
       listeners.push(
         this.filters.valueChanges.pipe(
-          debounceTime(400),
           tap(filters => {
             this.options.filters = filters;
             this.state.setRouteData(this.options);
@@ -182,6 +186,7 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
 
         if (snapshots.length) {
           cursor = snapshots[snapshots.length - 1].payload.doc;
+          this.emptyState$.next(false);
         } else {
           this.emptyState$.next(true);
         }
@@ -373,5 +378,12 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
 
   resetAll() {
     this.filters.reset();
+  }
+
+  addData(event) {
+    this.dialog.open(OverviewComponent, {
+      width: '500px',
+      data: {event}
+    });
   }
 }

@@ -15,4 +15,6 @@ export interface Product {
   size?: string[];
   instgramLink?: string;
   preOrder?: boolean;
+  showingQuantity: boolean;
+  quantity: number;
 }
