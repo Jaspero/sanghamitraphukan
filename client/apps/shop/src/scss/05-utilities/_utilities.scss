@@ -565,3 +565,7 @@
 .m-l-xl {
   @include fluid(320px, 160px, margin-left);
 }
+
+.cs-pointer {
+  cursor: pointer;
+}

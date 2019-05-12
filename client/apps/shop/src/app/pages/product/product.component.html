@@ -32,8 +32,7 @@
                 target="_blank"
                 rel="noopener"
                 matTooltip="View on Instagram"
-                aria-label="View on Instagram"
-              >
+                aria-label="View on Instagram">
                 <img src="assets/images/ig.svg" alt="View on Instagram" width="20">
               </a>&nbsp;
               <button
@@ -46,6 +45,13 @@
                 <mat-icon>{{data.wishList.icon}}</mat-icon>
               </button>
             </div>
+          </div>
+
+          <div *ngIf="data.product.showingQuantity" class="m-t-xs">
+            <p>Stock: {{data.product.quantity}}</p>
+          </div>
+          <div *ngIf="data.quantity === data.product.quantity" class="m-t-xs">
+            <p>There are no more items in stock</p>
           </div>
 
           <ng-container *ngIf="rews$ | async as rec;">
@@ -76,13 +82,6 @@
                 </mat-select>
               </mat-form-field>
             </ng-container>
-          </div>
-
-          <div *ngIf="data.product.showingQuantity">
-            <p>Stock: {{data.product.quantity}}</p>
-          </div>
-          <div *ngIf="data.quantity === data.product.quantity">
-            <p>There are no more items in stock</p>
           </div>
 
           <div class="p-b-s">

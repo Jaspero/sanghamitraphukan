@@ -30,11 +30,11 @@ deploy-prod:
     - master
   except:
     variables:
-    - $CI_COMMIT_MESSAGE =~ /skip-build/
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
   script:
-    - firebase use jaspero-fireshop --token $FIREBASE_TOKEN
-    - npm run target-setup
+    - firebase use jaspero-sanghamitra --token $FIREBASE_TOKEN
+    - npm run target-setup -- --token $FIREBASE_TOKEN
     - echo export const ENV_CONFIG=$PUBLIC_CONFIG > client/shared/consts/env-config.const.ts
-    - firebase functions:config:set instagram.clientsecret=$INSTAGRAM_SECRET instagram.clientid=$INSTAGRAM_ID sendgrid.token=$SENDGRID_TOKEN stripe.token=$STRIPE_TOKEN stripe.webhook=$STRIPE_WEBHOOK --token $FIREBASE_TOKEN
+    - firebase functions:config:set instagram.clientsecret=$INSTAGRAM_SECRET instagram.clientid=$INSTAGRAM_ID mailchimp.token=$MAILCHIMP_TOKEN mailchimp.list=MAILCHIMP_LIST sendgrid.token=$SENDGRID_TOKEN stripe.token=$STRIPE_TOKEN stripe.webhook=$STRIPE_WEBHOOK --token $FIREBASE_TOKEN
     - npm run build
     - npm run deploy -- -m "Pipe $CI_PIPELINE_ID Build $CI_BUILD_ID" --token $FIREBASE_TOKEN
