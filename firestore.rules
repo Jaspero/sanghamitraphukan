@@ -49,12 +49,12 @@ service cloud.firestore {
     }
 
     match /newsletter/{newsletter} {
-      allow read, delete: if admin()
+      allow read, delete: if readWrite()
       allow write: if true
     }
 
     match /landing-page-en/{page} {
-      allow write, delete: if admin()
+      allow write, delete: if readWrite()
       allow read: if true
     }
   }
