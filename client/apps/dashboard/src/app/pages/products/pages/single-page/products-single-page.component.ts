@@ -8,8 +8,6 @@ import {Validators} from '@angular/forms';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
-import {GeneralSettings} from '@jf/interfaces/general-settings.interface';
-import {Product} from '@jf/interfaces/product.interface';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format.ts';
 import {Observable} from 'rxjs';
 import {map, shareReplay, switchMap, take} from 'rxjs/operators';
@@ -136,8 +134,14 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       gallery: [data.gallery || []],
       quantity: [data.quantity || 0, Validators.min(0)],
       category: data.category,
-      showingQuantity:
-        data.showingQuantity || DYNAMIC_CONFIG.generalSettings.showingQuantity,
+      showingQuantity: data.hasOwnProperty('showingQuantity')
+        ? data.showingQuantity
+        : DYNAMIC_CONFIG.generalSettings.showingQuantity,
+      allowOutOfQuantityPurchase: data.hasOwnProperty(
+        'allowOutOfQuantityPurchase '
+      )
+        ? data.allowOutOfQuantityPurchase
+        : DYNAMIC_CONFIG.generalSettings.allowOutOfQuantityPurchase,
       latest: data.latest || false,
       fabric: data.fabric || '',
       made: data.made || 'Hand Made in India',

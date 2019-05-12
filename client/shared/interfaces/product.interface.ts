@@ -17,4 +17,5 @@ export interface Product {
   preOrder?: boolean;
   showingQuantity: boolean;
   quantity: number;
+  allowOutOfQuantityPurchase: boolean;
 }
