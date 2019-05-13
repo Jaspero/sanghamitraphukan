@@ -47,13 +47,6 @@
             </div>
           </div>
 
-          <div *ngIf="data.product.showingQuantity" class="m-t-xs">
-            <p>Stock: {{data.product.quantity}}</p>
-          </div>
-          <div *ngIf="data.quantity === data.product.quantity" class="m-t-xs">
-            <p>There are no more items in stock</p>
-          </div>
-
           <ng-container *ngIf="rews$ | async as rec;">
             <div class="ws-nowrap flex ai-center" *ngIf="rec[0].length">
               <jfs-rating-scale [value]="rec[1]" color="default"></jfs-rating-scale>
@@ -83,6 +76,9 @@
               </mat-form-field>
             </ng-container>
           </div>
+
+          <p class="ta-center" *ngIf="data.product.showingQuantity">{{data.product.quantity}} in stock</p>
+          <p class="ta-center" *ngIf="data.quantity === data.product.quantity">--There are no more items in stock--</p>
 
           <div class="p-b-s">
             <ng-container *ngIf="data.quantity; else notInCart">
