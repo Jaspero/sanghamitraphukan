@@ -1,6 +1,4 @@
 <ng-container *ngIf="(cart.items$ | async) as prod">
-
-
   <!--Cart (non-empty state)-->
   <ng-container *ngIf="prod.length; else emptyCart">
     <mat-list>
@@ -15,33 +13,37 @@
         <p mat-line>{{product.price | sp}}</p>
         <p mat-line>
           <button
-            [disabled]="product.quantity === 1"
             id="btn-dec"
             tabindex="-1"
             class="jfs-cart-quantity-button"
             matTooltip="Decrease"
-            (click)="cart.changeNumber(product.productId, -1)">
+            [disabled]="product.quantity === 1"
+            (click)="cart.changeNumber(product.identifier, -1)">
             -
           </button>
           <span>&nbsp;{{product.quantity}}&nbsp;</span>
           <button
-            [disabled]="product.quantity === product.maxQuantity"
             id="btn-inc"
             tabindex="-1"
             class="jfs-cart-quantity-button"
             matTooltip="Increase"
-            (click)="cart.changeNumber(product.productId, 1)">
+            [disabled]="product.allowOutOfQuantityPurchase ? false : product.quantity >= product.maxQuantity"
+            (click)="cart.changeNumber(product.identifier, 1)">
             +
           </button>
         </p>
+        <ng-container *ngIf="product.filters">
+          <div *ngFor="let filter of product.filters | keyvalue">
+            <p>{{filter.key}}: {{filter.value}}</p>
+          </div>
+        </ng-container>
         <button
           id="btn-rem-all"
           mat-icon-button
           tabindex="-1"
           matTooltip="Remove"
           (click)="cart.remove(product.productId)"
-          aria-label="Remove"
-        >
+          aria-label="Remove">
           <mat-icon>close</mat-icon>
         </button>
       </mat-list-item>

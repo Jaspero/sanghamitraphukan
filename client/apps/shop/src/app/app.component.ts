@@ -9,7 +9,6 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
-import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {interval, Observable} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {environment} from '../environments/environment';
@@ -45,10 +44,13 @@ export class AppComponent implements OnInit {
   webpClass: string;
 
   showLayout$: Observable<boolean>;
+  cartBadge$: Observable<number | string>;
 
   ngOnInit() {
     this.webpClass = BROWSER_CONFIG.webpSupported ? 'webp' : 'no-webp';
-
+    this.cartBadge$ = this.cart.numOfItems$.pipe(
+      map(inCart => (inCart ? inCart : ''))
+    );
     this.showLayout$ = this.state.currentRoute$.pipe(
       map(res => !res.data.hideLayout)
     );
