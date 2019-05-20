@@ -1,3 +1,4 @@
+<ngx-json-ld [json]="state.structuredData"></ngx-json-ld>
 <ng-container *ngIf="showLayout$ | async">
   <!--Header-->
   <header class="app-header">
@@ -28,9 +29,17 @@
         </ng-template>
       </div>
 
-      <button mat-button (click)="openCheckout()">Cart
-        <ng-container *ngIf="cart.numOfItems$ | async as numOfItems; else empty">({{numOfItems}})</ng-container>
-        <ng-template #empty></ng-template>
+      <!--Cart button-->
+      <button
+        id="btn-open-chck"
+        mat-button
+        matTooltip="Cart"
+        aria-label="Your cart"
+        (click)="openCheckout()">
+        Cart
+        <ng-container *ngIf="cartBadge$ | async as numOfItems;">
+          ({{numOfItems}})
+        </ng-container>
       </button>
 
       <button aria-label="Menu" class="app-header-menu" (click)="openMobileHeader()" [class.active]="toggleMobileHeader">
@@ -122,3 +131,8 @@
 <jfs-cookie>
   <p class="ff-secondary ta-center fs-small">To help personalize content and provide a safer experience, we use cookies. By clicking or navigating the site, you agree to our <a class="link"><u>Cookies Policy</u></a>.</p>
 </jfs-cookie>
+
+<!--Loading-->
+<div class="jfs-shop-loading" *ngIf="state.loading$ | async">
+  <mat-progress-bar mode="query"></mat-progress-bar>
+</div>

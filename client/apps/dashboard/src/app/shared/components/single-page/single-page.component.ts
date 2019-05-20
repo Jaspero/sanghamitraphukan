@@ -1,12 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
 import * as nanoid from 'nanoid';
-import {defer, from, Observable, of} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {map, switchMap, take, takeUntil, tap} from 'rxjs/operators';
 import {Role} from '../../enums/role.enum';
 import {StateService} from '../../services/state/state.service';
@@ -29,7 +30,8 @@ export class SinglePageComponent extends RxDestroy implements OnInit {
     public state: StateService,
     public activatedRoute: ActivatedRoute,
     public cdr: ChangeDetectorRef,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public dialog: MatDialog
   ) {
     super();
   }
@@ -40,6 +42,7 @@ export class SinglePageComponent extends RxDestroy implements OnInit {
   form: FormGroup;
   viewState = ViewState;
   currentState: ViewState;
+  createdOn: number;
 
   ngOnInit() {
     this.activatedRoute.params
@@ -80,8 +83,10 @@ export class SinglePageComponent extends RxDestroy implements OnInit {
         }),
         takeUntil(this.destroyed$)
       )
-      .subscribe(data => {
+      .subscribe((data: any) => {
         this.buildForm(data);
+
+        this.createdOn = data.createdOn || Date.now();
 
         if (this.state.role === Role.Read) {
           this.form.disable();
@@ -101,15 +106,17 @@ export class SinglePageComponent extends RxDestroy implements OnInit {
   }
 
   save() {
-    const {id, ...item} = this.form.getRawValue();
-    this.initialValue = this.form.getRawValue();
+    return () => {
+      const {id, ...item} = this.form.getRawValue();
+      this.initialValue = this.form.getRawValue();
 
-    return this.getSaveData(id, item).pipe(
-      notify(),
-      tap(() => {
-        this.back();
-      })
-    );
+      return this.getSaveData(id, item).pipe(
+        notify(),
+        tap(() => {
+          this.back();
+        })
+      );
+    };
   }
 
   buildForm(data: any) {}
@@ -119,24 +126,17 @@ export class SinglePageComponent extends RxDestroy implements OnInit {
   }
 
   getSaveData(...args): Observable<any> {
-    return defer(() => {
-      const [id, item] = args;
+    const [id, item] = args;
 
-      return from(
-        this.afs
-          .collection(this.collection)
-          .doc(id || this.createId())
-          .set(
-            {
-              ...item,
-              ...(this.currentState === this.viewState.Edit
-                ? {}
-                : {createdOn: Date.now()})
-            },
-            {merge: true}
-          )
-      );
-    });
+    return from(
+      this.afs
+        .collection(this.collection)
+        .doc(id || this.createId())
+        .set({
+          ...item,
+          createdOn: this.createdOn
+        })
+    );
   }
 
   back() {

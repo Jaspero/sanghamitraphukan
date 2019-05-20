@@ -43,21 +43,21 @@ export class CustomerLookupComponent implements OnInit, ControlValueAccessor {
       .collection<Customer>(FirestoreCollections.Customers)
       .snapshotChanges()
       .pipe(
-        map(actions => {
-          return actions.map(action => ({
+        map(actions =>
+          actions.map(action => ({
             id: action.payload.doc.id,
             ...action.payload.doc.data()
-          }));
-        })
+          }))
+        )
       );
 
-    this.filteredCustomers$ = combineLatest(
+    this.filteredCustomers$ = combineLatest([
       this.customers$,
       this.search.valueChanges.pipe(
         startWith(this.search.value || ''),
         map(value => value.toLowerCase())
       )
-    ).pipe(
+    ]).pipe(
       map(([customers, value]) =>
         customers.filter(customer =>
           (customer.name || '').toLowerCase().includes(value)
@@ -89,7 +89,7 @@ export class CustomerLookupComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  writeValue(value: any) {
-    this.search.setValue(value);
+  writeValue(value: string | {id: string; name: string}) {
+    this.search.setValue(typeof value === 'string' ? value : value.name);
   }
 }

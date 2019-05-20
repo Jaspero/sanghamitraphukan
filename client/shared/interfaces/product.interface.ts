@@ -1,3 +1,8 @@
+export interface ProductAttribute {
+  key: string;
+  list: string[];
+}
+
 export interface Product {
   id: string;
   category: string;
@@ -18,4 +23,12 @@ export interface Product {
   showingQuantity: boolean;
   quantity: number;
   allowOutOfQuantityPurchase: boolean;
+  default?: string;
+  attributes?: ProductAttribute[];
+  inventory?: {
+    [key: string]: {
+      price: number;
+      quantity: number;
+    };
+  };
 }

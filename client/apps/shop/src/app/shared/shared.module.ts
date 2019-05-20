@@ -35,6 +35,7 @@ import {
   EnumKeyFormatModule,
   EnumModule,
   FormTouchOnHoverModule,
+  LoadClickModule,
   SanitizeModule,
   StopPropagationModule
 } from '@jaspero/ng-helpers';
@@ -44,6 +45,7 @@ import {ColorPickerComponent} from '@jf/components/color-picker/color-picker.com
 import {ConfirmationComponent} from '@jf/components/confirmation/confirmation.component';
 import {RatingScaleComponent} from '@jf/components/rating-scale/rating-scale.component';
 import {CookieComponent} from './components/cookie/cookie.component';
+import {NgxJsonLdModule} from '@ngx-lite/json-ld';
 import {LoginSignupDialogComponent} from './components/login-signup-dialog/login-signup-dialog.component';
 import {NetworkWidgetComponent} from './components/network-widget/network-widget.component';
 import {ProductCardComponent} from './components/product-card/product-card.component';
@@ -99,9 +101,11 @@ const MODULES = [
   EnumModule,
   EnumKeyFormatModule,
   SanitizeModule,
+  LoadClickModule,
 
   JpImagePreloadModule,
-  JpSliderModule
+  JpSliderModule,
+  NgxJsonLdModule
 ];
 const ENTRY_COMPONENTS = [
   ColorPickerComponent,

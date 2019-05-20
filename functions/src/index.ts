@@ -2,8 +2,6 @@ import {initializeApp} from 'firebase-admin';
 
 initializeApp();
 
-export {ssr} from './ssr';
-
 // Triggers
 export {userCreated} from './triggers/user-created';
 export {userDeleted} from './triggers/user-deleted';
@@ -17,3 +15,5 @@ export {importData} from './rest/import-data';
 export {similarProducts} from './rest/similar-products';
 export {stripe} from './rest/stripe';
 export {instagram} from './rest/instagram-authorization';
+
+export {ssr} from './ssr';

@@ -64,51 +64,39 @@
             </ng-template>
           </ng-container>
 
-          <div>
-            <ng-container>
-              <mat-form-field class="w-full" appearance="outline">
-                <mat-label>Size</mat-label>
-                <mat-select>
-                  <mat-option value="datSize" *ngFor="let datSize of data.product.size ">
-                    {{datSize}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </ng-container>
+          <!--TODO(Trt): style-->
+          <p class="ta-center" *ngIf="data.product.showingQuantity">
+            {{data.quantity ? data.quantity + ' in stock' : 'There are no more items in stock'}}
+          </p>
+          <!--TODO(Trt): style-->
+          <div class="m-b-s" *ngIf="data.product.attributes">
+            <form [formGroup]="filters">
+              <div *ngFor="let attribute of data.product.attributes">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{attribute.key}}</mat-label>
+                  <mat-select [formControlName]="attribute.key">
+                    <mat-option *ngFor="let option of attribute.list" [value]="option">{{option}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </form>
           </div>
 
-          <p class="ta-center" *ngIf="data.product.showingQuantity">{{data.product.quantity}} in stock</p>
-          <p class="ta-center" *ngIf="data.quantity === data.product.quantity">--There are no more items in stock--</p>
-
           <div class="p-b-s">
-            <ng-container *ngIf="data.quantity; else notInCart">
-              <button
-                id="btn-add-more-prod-0"
-                class="w-full"
-                mat-flat-button
-                color="accent"
-                [disabled]="data.quantity >= data.product.quantity"
-                (click)="cart.add(data.product)">
-                <span class="iblock p-x-s">Add more to cart (currently {{data.quantity}})</span>
-              </button>
-            </ng-container>
-            <ng-template #notInCart>
-              <button
-                id="btn-add-cart-prod-1"
-                class="w-full"
-                mat-flat-button
-                color="accent"
-                [disabled]="data.quantity >= data.product.quantity"
-                (click)="cart.add(data.product)">
-                <span class="iblock p-x-m">Add to cart</span>
-              </button>
-            </ng-template>
+            <button
+              id="btn-add-cart-prod-1"
+              mat-flat-button
+              type="button"
+              color="accent"
+              [disabled]="data.isDisabled"
+              (click)="cart.add(data.product, filters ? filters.getRawValue() : {})">
+              <span class="iblock p-x-m">{{data.itemsInCart ? 'Add more to cart (currently ' + data.itemsInCart + ')' : 'Add to cart'}} </span>
+            </button>
           </div>
           <h2 class="m-b-xs">Product Details</h2>
           <div class="product-description ff-secondary">
             <div [innerHTML]="data.product.description | jpSanitize"></div>
             <ul>
-            <!--<li><b>Size</b>: s</li>-->
               <li><b>Fabric</b>: {{data.product.fabric}}</li>
               <li>{{data.product.made}}</li>
             </ul>
@@ -127,17 +115,19 @@
   </section>
 
   <!--Similar products-->
-  <section class="p-b-l">
-    <div class="ta-center starting-line line-top-margin">
-      <h1 class="title">Related</h1>
-    </div>
-    <div class="grid grid-shop jc-start connecting-line ending-line" *ngIf="similar$ | async as similarProducts">
-      <div class="col-6 col-xs-12" *ngFor="let next of similarProducts">
-        <jfs-product-card
-          [product]="next">
-        </jfs-product-card>
+  <ng-container *ngIf="similar$ | async as similarProducts">
+    <section *ngIf="similarProducts.length" class="p-b-l">
+      <div class="ta-center starting-line line-top-margin">
+        <h1 class="title">Related</h1>
       </div>
-    </div>
-  </section>
+      <div class="grid grid-shop jc-start connecting-line ending-line">
+        <div class="col-6 col-xs-12" *ngFor="let next of similarProducts">
+          <jfs-product-card
+            [product]="next">
+          </jfs-product-card>
+        </div>
+      </div>
+    </section>
+  </ng-container>
 
 </ng-container>

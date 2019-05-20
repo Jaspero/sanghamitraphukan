@@ -16,7 +16,7 @@ import {
 export class LangSinglePageComponent extends SinglePageComponent
   implements OnInit {
   ngOnInit() {
-    combineLatest(this.activatedRoute.params, this.state.language$)
+    combineLatest([this.activatedRoute.params, this.state.language$])
       .pipe(
         switchMap(([params, lang]) => {
           if (params.id === 'new') {
@@ -53,8 +53,9 @@ export class LangSinglePageComponent extends SinglePageComponent
         }),
         takeUntil(this.destroyed$)
       )
-      .subscribe(data => {
+      .subscribe((data: any) => {
         this.buildForm(data);
+        this.createdOn = data.createdOn || Date.now();
 
         if (this.state.role === Role.Read) {
           this.form.disable();
@@ -73,37 +74,32 @@ export class LangSinglePageComponent extends SinglePageComponent
       });
   }
   save() {
-    const {id, ...item} = this.form.getRawValue();
-    this.initialValue = this.form.getRawValue();
-    return this.state.language$.pipe(
-      take(1),
-      switchMap(lang => this.getSaveData(id, item, lang)),
-      notify(),
-      tap(() => {
-        this.back();
-      })
-    );
+    return () => {
+      const {id, ...item} = this.form.getRawValue();
+      this.initialValue = this.form.getRawValue();
+      return this.state.language$.pipe(
+        take(1),
+        switchMap(lang => this.getSaveData(id, item, lang)),
+        notify(),
+        tap(() => {
+          this.back();
+        })
+      );
+    };
   }
 
   getSaveData(...args) {
-    return defer(() => {
-      const [id, item, lang] = args;
+    const [id, item, lang] = args;
 
-      return from(
-        this.afs
-          .collection(`${this.collection}-${lang}`)
-          .doc(id || this.createId())
-          .set(
-            {
-              ...item,
-              ...(this.currentState === this.viewState.Edit
-                ? {}
-                : {createdOn: Date.now()})
-            },
-            {merge: true}
-          )
-      );
-    });
+    return from(
+      this.afs
+        .collection(`${this.collection}-${lang}`)
+        .doc(id || this.createId())
+        .set({
+          ...item,
+          createdOn: this.createdOn
+        })
+    );
   }
 
   buildForm(data: any) {}
