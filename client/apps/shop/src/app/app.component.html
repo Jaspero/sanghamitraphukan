@@ -74,38 +74,46 @@
 </main>
 
 <ng-container *ngIf="showLayout$ | async">
-  <footer class="bg-primary p-y-l">
+  <footer class="bg-primary p-t-l">
     <div class="grid">
-      <div class="col-8 col-m-6 col-s-12">
-        <p>Get first access to new collections</p>
-        <div class="p-l-s">
-          <mat-form-field class="mat-hint">
-            <input type="email" matInput placeholder="Email" [formControl]="email" #mailEl>
-            <ng-container matSuffix>
-              <mat-spinner *ngIf="loading$ | async; else loaded;" [diameter]="24"></mat-spinner>
-              <ng-template #loaded>
-                <button [disabled]="email.invalid" mat-icon-button (click)="submitEmail()" aria-label="Submit">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#999999"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-              </ng-template>
-            </ng-container>
-            <mat-error *ngIf="email.invalid">Please enter a valid email</mat-error>
-          </mat-form-field>
-        </div>
+      <div class="col-12 ta-center">
+        <h2>Get first access to new collections</h2>
+        <br>
+        <mat-form-field class="newsletter">
+          <input type="email" matInput placeholder="Email" [formControl]="email" #mailEl>
+          <ng-container matSuffix>
+            <mat-spinner *ngIf="loading$ | async; else loaded;" [diameter]="24"></mat-spinner>
+            <ng-template #loaded>
+              <button [disabled]="email.invalid" mat-icon-button (click)="submitEmail()" aria-label="Submit">
+                <mat-icon>arrow_forward</mat-icon>
+              </button>
+            </ng-template>
+          </ng-container>
+          <mat-error *ngIf="email.invalid">Please enter a valid email</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="grid m-t-s ta-center">
+      <div class="col-3 col-s-12">
+        <h2 class="m-t-xs m-b-s">Legal</h2>
+        <p class="m-y-xs"><a class="link ws-nowrap">Shipping & returns</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap">Terms of service</a></p>
       </div>
 
-      <div class="col-2 col-m-3 col-s-6 col-xs-12 ta-right">
-        <p class="p-y-xs"><a class="link ws-nowrap">Shipping & returns</a></p>
-        <p class="p-y-xs"><a class="link ws-nowrap">Terms of service</a></p>
+      <div class="col-3 col-s-12">
+        <h2 class="m-t-xs m-b-s">Contact</h2>
+        <p class="m-y-xs"><a routerLink="/contact" class="link ws-nowrap">Contact page</a></p>
       </div>
 
-      <div class="col-2 col-m-3 col-s-6 col-xs-12 ta-right">
-        <p class="p-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.instagram.com/sanghamitraphukan/">Instagram</a></p>
-        <p class="p-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
+      <div class="col-3 col-s-12">
+        <h2 class="m-t-xs m-b-s">Follow us</h2>
+        <p class="m-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.instagram.com/sanghamitraphukan/">Instagram</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
       </div>
 
-      <div class="col-12 ta-right p-t-m">
-        <p>© {{year}} Sanghamitra Phukan — By <a class="link" target="_blank" rel="noopener" href="https://jaspero.co">Jaspero</a></p>
+      <div class="col-12">
+        <p class="p-t-m">© {{year}} Sanghamitra Phukan — By <a class="link" target="_blank" rel="noopener" href="https://jaspero.co">Jaspero</a></p>
       </div>
     </div>
   </footer>
