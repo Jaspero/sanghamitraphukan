@@ -49,13 +49,19 @@ service cloud.firestore {
     }
 
     match /newsletter/{newsletter} {
-      allow read, delete: if readWrite()
+      allow read, delete: if readOrWrite()
       allow write: if true
     }
 
     match /landing-page-en/{page} {
-      allow write, delete: if readWrite()
+      allow write, delete: if readOrWrite()
       allow read: if true
+    }
+
+    match /contacts/{contact} {
+      allow create: if true;
+      allow read: if readOrWrite();
+      allow write, delete: if write();
     }
   }
 }

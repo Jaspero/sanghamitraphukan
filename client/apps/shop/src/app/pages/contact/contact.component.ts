@@ -30,17 +30,22 @@ export class ContactComponent implements OnInit {
   }
 
   send() {
-    const formData = this.form.getRawValue();
+    return () => {
+      const formData = this.form.getRawValue();
 
-    from(
-      this.afs
-        .collection(FirestoreCollections.Contacts)
-        .doc(nanoid())
-        .set(formData)
-    )
-      .pipe(notify())
-      .subscribe(() => {
-        this.form.reset();
-      });
+      return from(
+        this.afs
+          .collection(FirestoreCollections.Contacts)
+          .doc(nanoid())
+          .set({
+            ...this.form.getRawValue(),
+            createdOn: Date.now()
+          })
+      )
+        .pipe(notify())
+        .subscribe(() => {
+          this.form.reset();
+        });
+    };
   }
 }

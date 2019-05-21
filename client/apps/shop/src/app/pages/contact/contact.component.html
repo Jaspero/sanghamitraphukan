@@ -41,7 +41,7 @@
       <mat-form-field class="w-full">
         <textarea matInput formControlName="message" placeholder="Message"></textarea>
       </mat-form-field>
-      <button type="reset" [disabled]="form.invalid" (click)="send()" mat-flat-button>Send</button>
+      <button type="submit" [disabled]="form.invalid" [jpLoadClick]="send()" mat-flat-button>Send</button>
     </form>
   </div>
 

@@ -183,8 +183,8 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       latest: data.latest || false,
       fabric: data.fabric || '',
       made: data.made || 'Hand Made in India',
-      instgramLink: data.instgramLink || '',
-      preOrder: data.preOrder || false
+      instagramLink: data.instagramLink || '',
+      preOrder: data.preOrder || false,
       default: data.default || ''
     });
   }

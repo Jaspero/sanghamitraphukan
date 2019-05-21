@@ -215,16 +215,6 @@
                 </mat-form-field>
               </div>
               <div class="p-y-xs">
-                <mat-form-field appearance="outline" class="w-full mat-hint">
-                  <mat-label>Size</mat-label>
-                  <mat-select formControlName="size" multiple>
-                    <mat-option [value]="size" *ngFor="let size of sizes">
-                      {{size}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="p-y-xs">
                 <mat-checkbox color="primary" formControlName="preOrder">Pre order</mat-checkbox>
               </div>
             </mat-card>
@@ -248,7 +238,7 @@
               <div class="p-y-xs">
                 <mat-form-field appearance="outline" class="w-full mat-hint">
                 <mat-label>Instagram link</mat-label>
-                  <input matInput formControlName="instgramLink" multiple>
+                  <input matInput formControlName="instagramLink" multiple>
                 </mat-form-field>
               </div>
               <div class="p-y-xs">

@@ -18,7 +18,7 @@ export interface Product {
   made?: string;
   latest?: boolean;
   size?: string[];
-  instgramLink?: string;
+  instagramLink?: string;
   preOrder?: boolean;
   showingQuantity: boolean;
   quantity: number;
