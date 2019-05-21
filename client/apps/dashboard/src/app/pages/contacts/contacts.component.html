@@ -1,23 +1,124 @@
-<table mat-table [dataSource]="data$ | async" class="mat-elevation-z8">
+<section>
+  <mat-toolbar color="primary">
+    <h1>Contacts</h1>
+    <div class="f1"></div>
+  </mat-toolbar>
+</section>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
+<section class="p-y-m">
+  <div class="grid">
+    <div class="col-12">
+      <mat-card>
+        <form [formGroup]="filters" class="toolbar toolbar-inset p-t-0">
+          <jfsc-search-input formControlName="search"></jfsc-search-input>
+          <div class="f1"></div>
+        </form>
+        <jfsc-chips [chips$]="filters.valueChanges" (filterValue)="changeFilters($event)"></jfsc-chips>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef> Email </th>
-    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-  </ng-container>
+        <div class="toolbar toolbar-inset">
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="message">
-    <th mat-header-cell *matHeaderCellDef> Message </th>
-    <td mat-cell *matCellDef="let element"> {{element.message}} </td>
-  </ng-container>
+          <!--Select all-->
+          <ng-container *ngIf="allChecked$ | async as ac">
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue() && ac.checked"
+              [indeterminate]="selection.hasValue() && !ac.checked"
+              color="primary"
+              matTooltip="Select">
+            </mat-checkbox>&nbsp;&nbsp;&nbsp;
+          </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+
+          <button mat-button [matMenuTriggerFor]="batchActions" *ngIf="selection.hasValue()">
+            <span>Actions ({{selection.selected.length}})</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu  #batchActions="matMenu">
+            <button mat-menu-item (click)="deleteSelection()">
+              <mat-icon>delete_forever</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+
+          <!--Divider-->
+          <div class="f1"></div>
+
+          <button mat-button (click)="export()">
+            <mat-icon>vertical_align_top</mat-icon>
+            <span>Export</span>
+          </button>
+        </div>
+
+        <table
+          class="w-full"
+          mat-table
+          matSort
+          matSortDisableClear
+          [dataSource]="items$ | async"
+          [matSortActive]="options.sort.active"
+          [matSortDirection]="options.sort.direction">
+
+          <ng-container matColumnDef="checkBox">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row.id) : null"
+                [checked]="selection.isSelected(row.id)"
+                color="primary">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="message">
+            <th mat-header-cell *matHeaderCellDef> Message </th>
+            <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+          </ng-container>
+
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <div class="ta-center p-y-m bg-l-secondary" *ngIf="emptyState$ | async">
+          <span class="iblock m-b-s">No contacts yet. </span><br>
+        </div>
+
+        <div class="flex jc-between p-y-s">
+          <div class="p-x-m hide-xs"></div>
+          <button
+            mat-button
+            color="primary"
+            [disabled]="(hasMore$ | async) === false"
+            [class.loading]="dataLoading$ | async"
+            (click)="loadMore$.next(true)">
+            Load More
+          </button>
+          <mat-form-field class="fs-small">
+            <mat-select placeholder="Page size" [formControl]="pageSize">
+              <mat-option *ngFor="let size of pageSizes" [value]="size">
+                {{size}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+      </mat-card>
+    </div>
+  </div>
+</section>

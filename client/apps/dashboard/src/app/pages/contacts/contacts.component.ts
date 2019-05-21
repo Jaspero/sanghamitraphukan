@@ -1,32 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {Component} from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Contact} from '@jf/interfaces/contact.interface';
+import {ListComponent} from '../../shared/components/list/list.component';
 
 @Component({
   selector: 'jfsc-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css']
 })
-export class ContactsComponent implements OnInit {
-  displayedColumns: string[] = ['email', 'name', 'message'];
+export class ContactsComponent extends ListComponent<Contact> {
+  displayedColumns: string[] = ['checkBox', 'email', 'name', 'message'];
 
-  constructor(private afs: AngularFirestore) {}
-
-  data$: Observable<any>;
-
-  ngOnInit() {
-    this.data$ = this.afs
-      .collection(FirestoreCollections.Contacts)
-      .snapshotChanges()
-      .pipe(
-        map(actions => {
-          return actions.map(action => ({
-            id: action.payload.doc.id,
-            ...action.payload.doc.data()
-          }));
-        })
-      );
-  }
+  collection = FirestoreCollections.Contacts;
 }
