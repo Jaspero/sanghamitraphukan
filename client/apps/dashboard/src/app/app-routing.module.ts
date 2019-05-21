@@ -40,6 +40,10 @@ const routes: Routes = [
         loadChildren: './pages/customers/customers.module#CustomersModule'
       },
       {
+        path: 'contacts',
+        loadChildren: './pages/contacts/contacts.module#ContactsModule'
+      },
+      {
         path: 'discounts',
         loadChildren: './pages/discounts/discounts.module#DiscountsModule'
       },
