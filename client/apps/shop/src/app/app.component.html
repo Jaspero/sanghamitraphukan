@@ -83,9 +83,13 @@
 </main>
 
 <ng-container *ngIf="showLayout$ | async">
-  <footer class="bg-primary p-t-l">
+  <footer class="bg-primary ta-center">
+    <div class="p-b-s p-t-l">
+      <a routerLink="/"><img src="assets/images/logo.svg" alt="Sanghamitra" width="60" height="60"></a>
+    </div>
+
     <div class="grid">
-      <div class="col-12 ta-center">
+      <div class="col-12">
         <h2>Get first access to new collections</h2>
         <br>
         <mat-form-field class="newsletter">
@@ -103,16 +107,19 @@
       </div>
     </div>
 
-    <div class="grid m-t-s ta-center">
+    <div class="grid m-t-s">
+      <div class="col-3 col-s-12">
+        <h2 class="m-t-xs m-b-s">Contact</h2>
+        <p class="m-y-xs"><a routerLink="/contact" class="link ws-nowrap">Contact page</a></p>
+        <p class="m-y-xs"><a routerLink="/about" class="link ws-nowrap">About us</a></p>
+      </div>
+
       <div class="col-3 col-s-12">
         <h2 class="m-t-xs m-b-s">Legal</h2>
         <p class="m-y-xs"><a class="link ws-nowrap">Shipping & returns</a></p>
         <p class="m-y-xs"><a class="link ws-nowrap">Terms of service</a></p>
-      </div>
-
-      <div class="col-3 col-s-12">
-        <h2 class="m-t-xs m-b-s">Contact</h2>
-        <p class="m-y-xs"><a routerLink="/contact" class="link ws-nowrap">Contact page</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap">Privacy policy</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap">Cookies policy</a></p>
       </div>
 
       <div class="col-3 col-s-12">
