@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
@@ -61,7 +61,6 @@ export class ProductComponent extends RxDestroy implements OnInit {
     isDisabled: boolean;
   }>;
   similar$: Observable<any>;
-  imgIndex = 0;
   filters: FormGroup;
 
   @ViewChild('reviewsDialog') reviewsDialog: TemplateRef<any>;
@@ -193,10 +192,6 @@ export class ProductComponent extends RxDestroy implements OnInit {
     this.dialog.open(this.reviewsDialog, {
       width: '600px'
     });
-  }
-
-  changePicture(index) {
-    this.imgIndex = index;
   }
 
   facebookShare(data) {
