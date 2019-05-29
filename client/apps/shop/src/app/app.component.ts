@@ -45,8 +45,10 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate
   ) {}
 
-  @ViewChild('cookiesPolicy') cookiesPolicy: TemplateRef<any>;
+  @ViewChild('shippingAndReturns') shippingAndReturns: TemplateRef<any>;
+  @ViewChild('termsOfService') termsOfService: TemplateRef<any>;
   @ViewChild('privacyPolicy') privacyPolicy: TemplateRef<any>;
+  @ViewChild('cookiesPolicy') cookiesPolicy: TemplateRef<any>;
 
   /**
    * Useful for showing backgrounds in css
@@ -162,12 +164,28 @@ export class AppComponent implements OnInit {
     this.afAuth.auth.signOut();
   }
 
-  openCookies() {
-    this.dialog.open(this.cookiesPolicy);
+  openShipping() {
+    this.dialog.open(this.shippingAndReturns, {
+      width: '1000px'
+    });
+  }
+
+  openTerms() {
+    this.dialog.open(this.termsOfService, {
+      width: '1000px'
+    });
   }
 
   openPrivacy() {
-    this.dialog.open(this.privacyPolicy);
+    this.dialog.open(this.privacyPolicy, {
+      width: '1000px'
+    });
+  }
+
+  openCookies() {
+    this.dialog.open(this.cookiesPolicy, {
+      width: '1000px'
+    });
   }
 
   private connectSw() {

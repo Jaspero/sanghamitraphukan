@@ -116,8 +116,8 @@
 
       <div class="col-3 col-s-12">
         <h2 class="m-t-xs m-b-s">Legal</h2>
-        <p class="m-y-xs"><a class="link ws-nowrap">Shipping & returns</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap">Terms of service</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="openShipping()">Shipping & returns</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="openTerms()">Terms of service</a></p>
         <p class="m-y-xs"><a class="link ws-nowrap" (click)="openPrivacy()">Privacy policy</a></p>
         <p class="m-y-xs"><a class="link ws-nowrap" (click)="openCookies()">Cookies policy</a></p>
       </div>
@@ -144,10 +144,100 @@
   <mat-progress-bar mode="query"></mat-progress-bar>
 </div>
 
-<ng-template #cookiesPolicy>
-
+<!--Shipping & Returns dialog-->
+<ng-template #shippingAndReturns>
+  <section class="policy">
+    <button class="policy-close" mat-icon-button mat-dialog-close aria-label="Close this dialog" matTooltip="Close this dialog"><mat-icon>cancel</mat-icon></button>
+    <h1>Shipping & Returns</h1>
+    <p>Online orders are normally shipped within 10 business days via Aramex or Vamaship. In case there is a delay in production we will notify you as soon as possible.</p>
+    <h2>Shipping within India</h2>
+    <p>Enjoy free shipping within India when you pay online via debit card, credit card, Paypal, Apple Pay net banking or bank transfer.</p>
+    <h2>International shipping</h2>
+    <p>Once you feed in your complete shipping address at check out, you will be able to see an auto-generated shipping fee. Please see approximate shipping charges for two garments below:</p>
+    <ul>
+      <li>USA - US $20</li>
+      <li>UK - £15</li>
+      <li>Europe and rest of the world – US $25</li>
+      <li>Australia - AUD $30</li>
+      <li>Singapore - SGD $25</li>
+    </ul>
+    <h2>Order communication</h2>
+    <p>You will receive two order related communications via email:</p>
+    <ol>
+      <li>Order confirmation once you place the order.</li>
+      <li>A shipment message once the order is dispatched from our studio to your address. You will be able to track your order on the website of the relevant courier company through the tracking code received in the second email.</li>
+    </ol>
+    <p>Please ensure someone is there at the given address to receive your order. Delivery will be attempted three times before the shipment is returned to our studio. There will be additional fees for further delivery attempts. Please note that we will be unable to schedule shipping for orders with incomplete address or wrong telephone number.</p>
+    <p>If you desire express shipping, please write to <a href="mailto:info@sanghamitraphukan.com">info@sanghamitraphukan.com</a> in order to inquire about the additional charges to your city.</p>
+    <h2>Order cancellation</h2>
+    <p>If you wish to cancel your order, write to us within 24 hours of placing the order at <a href="mailto:sales@sanghamitraphukan.com">sales@sanghamitraphukan.com</a></p>
+    <h2>Refund</h2>
+    <p>We do not offer refunds on orders, due to the time and labour that goes into each of our product. Refunds are only processed based on fulfilment errors, such as incorrectly shipped or missing items. In such cases the amount can be refunded either via store credit to your SANGHAMITRA account, or cash via the original mode of payment, within one week of initiation.</p>
+    <h2>Returns & Exchanges</h2>
+    <p>SANGHAMITRA’s garments are meticulously handmade by slow tailoring processes and techniques; each and every piece is designed and produced to last a lifetime with an unbiased focus on quality. Possible unevenness in colour or texture of print would therefore not be a fault, but a beautiful characteristic of our natural/ traditional modus operandi, giving character and uniqueness to our beautiful pieces.</p>
+    <p>Any purchase can be exchanged for a different size. In case the size is not available, we shall provide you a store credit valid for five months. You can see our size range here before making a purchase. If you have any inquiries about size, fabric or fit, you can call us on
+      <a href="tel:+91 9820428314">+91 9820428314</a> or email our customer care at <a href="mailto:info@sanghamitraphukan.com">info@sanghamitraphukan.com</a></p>
+    <p>All orders go through a stringent quality check before shipping. However, in the off chance that you have received a damaged product, please notify us at info@sanghamitraphukan.com within 3 days of receiving the order.</p>
+    <p>In case of either damaged product return or size exchange, please write to info@sanghamitraphukan.com with subject: RETURN. Clothing sent to us without prior email communication will not be accepted. SANGHAMITRA must be notified within three days of receipt of clothes about your intent to exchange. Once the email is received, we accept returns within 15 days. The cost of any exchange is to be borne by the customer.</p>
+    <p>SANGHAMITRA holds the right to not accept returns in case the product is used or damaged by the customer.</p>
+  </section>
 </ng-template>
 
-<ng-template #privacyPolicy>
+<!--Terms of Service dialog-->
+<ng-template #termsOfService>
+  <section class="policy">
+    <button class="policy-close" mat-icon-button mat-dialog-close aria-label="Close this dialog" matTooltip="Close this dialog"><mat-icon>cancel</mat-icon></button>
+    <h1>Terms of service</h1>
+    <p>Welcome to SANGHAMITRA’s website (SANGHAMITRA, “the Site”, “we”, “us”/ “our”). By using this site, you agree to follow and be bound by the Terms & Conditions below. SANGHAMITRA is a registered brand owned by Sanghamitra Fashions PVT ltd.</p>
+    <p>We reserve the right to modify these Terms at any time without prior notification. Site users must agree upon and abide by these changes accordingly. Please review this page periodically for changes as any use of our Site at any time constitutes full acceptance of our service Terms.</p>
+    <h2>Description of service</h2>
+    <p>SANGHAMITRA is a lifestyle brand and retailer of sustainably produced designer-quality goods, offered at great value our customers. Membership allows customers to purchase our designs and products.</p>
+    <h2>Usage restrictions</h2>
+    <p>All content appearing on the SANGHAMITRA website, including all visuals, text, audio and video clips are subject to copyright protections and /or other intellectual property rights or licences held by SANGHAMITRA. Content of the website is intended exclusively for the personal/ non-commercial use by the users of our Site.</p>
+    <h2>Membership eligibility</h2>
+    <p>Membership to sanghamitraphukan.com is free. However, our membership services are not available to users under the age of 18 or to members who, at our discretion, have been suspended or removed from the Site systems. Members agree to all terms of service and must only apply for membership if eligible.</p>
+    <h2>Notice</h2>
+    <p>SANGHAMITRA may contact you or provide you with service-related and/ or promotional notices by means of electronic mail, general site notifications and more using the contact information you have provided to us.</p>
+    <h2>Pricing policy</h2>
+    <p>At SANGHAMITRA we are committed to providing our customers with great quality products fair price, reflecting the labour infused in our products creations. Our products are sold online and through physical retail stores. We do our outmost best to display our items as accurately as possible on the Site. Please be aware, minor variations in style, colour, size, shape and look may occur. If you are not satisfied with your purchase, please review our Shipping & Retuns section for further assistance.</p>
+    <h2>Site use</h2>
+    <p>You cannot access or use The SANGHAMITRA website for any illegal or unauthorized purpose. You also agree that no comments or other user submissions done by you to The SANGHAMITRA website will violate any right of any third party, including copyright, trademark, privacy and other personal rights. You are and shall remain solely responsible for the content of any comments you make.</p>
+    <h2>Indemnity</h2>
+    <p>By use of this Site, you agree to indemnify and hold SANGHAMITRA (including our officers, directors, agents, subsidiaries, joint ventures, and employees) harmless from any claim or demand, as well as losses, expenses, damages and costs, resulting from any violation of these terms of service or any activity related to your account.</p>
+  </section>
+</ng-template>
 
+<!--Privacy Policy dialog-->
+<ng-template #privacyPolicy>
+  <section class="policy">
+    <button class="policy-close" mat-icon-button mat-dialog-close aria-label="Close this dialog" matTooltip="Close this dialog"><mat-icon>cancel</mat-icon></button>
+    <h1>Privacy policy</h1>
+    <p>We care about your privacy and the security of your personal information. We do not rent, sell or distribute our customers’ database or newsletter e-mails to anyone. We also do not store your credit card details on our server, all credit card purchases are processed through our secure payment gateway. Your privacy is important to us.</p>
+    <p>Information We Collect:</p>
+    <ul>
+      <li><b>Your Email</b>: We only send our newsletters and members communications to email addresses that have opted in, and they may opt out at any time. If you place an order with us, we will send email messages pertaining to your order. We do not sell your email address to third parties.</li>
+      <li><b>Your Personal Information</b>: We collect your personal information when you provide it to us as you place your order, including your name, shipping and billing address, credit card number, and email address. We use this information to process your order, provide you with support, and update you on your order. We do not sell your personal information to any third party.</li>
+      <li><b>Anonymous Information</b>: We collect non-personal information from you, including your browser type, the URL of the previous web site you visited, your ISP, operating system, etc. This information is anonymous and is collected by almost all sites that you visit. We use this information, which does not identify individual users, to analyse trends, administer the site, track users' movements around the site and gather demographic information about our users base.</li>
+    </ul>
+    <h2>Final disclaimer</h2>
+    <p>Although we have taken all the appropriate security measures for the safety of personal information, we cannot guarantee complete protection. You provide all personal information at your own risk.</p>
+  </section>
+</ng-template>
+
+<!--Cookies Policy dialog-->
+<ng-template #cookiesPolicy>
+  <section class="policy">
+    <button class="policy-close" mat-icon-button mat-dialog-close aria-label="Close this dialog" matTooltip="Close this dialog"><mat-icon>cancel</mat-icon></button>
+    <h1>Cookies Policy</h1>
+    <p>Like almost all e-commerce websites, we use cookies. Our cookies don't store any of your personal information, but they do allow us to do things like keep items in your shopping cart during your visit and provide you with a more personalized user experience. We may use selected third parties for marketing and analysis purposes. This anonymous information is collected through the use of a pixel tag, an industry standard technology used by most websites. The use of third party services like these improves your online experience, because they allow you to see ads that will be more likely to be something you are interested in. If you want to opt-out from some cookies or tags that we collect, please visit the pages below for more information:</p>
+    <ul>
+      <li><a href="www.google.com/ads/preferences">www.google.com/ads/preferences</a></li>
+      <li><a href="www.adroll.com/about/privacy#optpolicy">www.adroll.com/about/privacy#optpolicy</a></li>
+      <li><a href="www.networkadvertising.org/choices">www.networkadvertising.org/choices</a></li>
+    </ul>
+    <h2>Security</h2>
+    <p>We maintain best practices to protect your information, which include relevant physical as well as electronic security measures. We use 128 bit Secure Socket Layer (SSL) technology to encrypt all of your private information when placing an order, which ensures that no one else can read this information.</p>
+    <h2>Information We Don't Collect</h2>
+    <p>We don't collect Credit/ Debit Card Information. This information goes directly to our third party, secure payment gateway and it is not retained in our servers.</p>
+  </section>
 </ng-template>
