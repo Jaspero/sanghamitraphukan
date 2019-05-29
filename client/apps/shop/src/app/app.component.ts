@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  OnInit
+  OnInit,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {MatDialog, MatSnackBar} from '@angular/material';
@@ -42,6 +44,9 @@ export class AppComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private swUpdate: SwUpdate
   ) {}
+
+  @ViewChild('cookiesPolicy') cookiesPolicy: TemplateRef<any>;
+  @ViewChild('privacyPolicy') privacyPolicy: TemplateRef<any>;
 
   /**
    * Useful for showing backgrounds in css
@@ -155,6 +160,14 @@ export class AppComponent implements OnInit {
     }
 
     this.afAuth.auth.signOut();
+  }
+
+  openCookies() {
+    this.dialog.open(this.cookiesPolicy);
+  }
+
+  openPrivacy() {
+    this.dialog.open(this.privacyPolicy);
   }
 
   private connectSw() {

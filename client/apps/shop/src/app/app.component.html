@@ -118,8 +118,8 @@
         <h2 class="m-t-xs m-b-s">Legal</h2>
         <p class="m-y-xs"><a class="link ws-nowrap">Shipping & returns</a></p>
         <p class="m-y-xs"><a class="link ws-nowrap">Terms of service</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap">Privacy policy</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap">Cookies policy</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="openPrivacy()">Privacy policy</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="openCookies()">Cookies policy</a></p>
       </div>
 
       <div class="col-3 col-s-12">
@@ -143,3 +143,11 @@
 <div class="jfs-shop-loading" *ngIf="state.loading$ | async">
   <mat-progress-bar mode="query"></mat-progress-bar>
 </div>
+
+<ng-template #cookiesPolicy>
+
+</ng-template>
+
+<ng-template #privacyPolicy>
+
+</ng-template>
