@@ -113,7 +113,7 @@ export class AppComponent implements OnInit {
     from(this.afs.doc(`newsletter/${this.email.value}`).set({}))
       .pipe(
         notify({
-          success: `Thank you for signing up for our newsletter!`,
+          success: `Success! Please check your email.`,
           error: `Unfortunately there was an error with your signup.`
         }),
         finalize(() => this.loading$.next(false))
