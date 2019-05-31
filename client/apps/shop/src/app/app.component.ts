@@ -2,13 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  OnInit
+  OnInit,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
+import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
+import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
 import {BehaviorSubject, from, interval, Observable} from 'rxjs';
 import {filter, map, finalize} from 'rxjs/operators';
@@ -43,6 +47,8 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate
   ) {}
 
+  @ViewChild('dialogLegal') dialogLegal: TemplateRef<any>;
+
   /**
    * Useful for showing backgrounds in css
    */
@@ -55,6 +61,7 @@ export class AppComponent implements OnInit {
   email: FormControl;
   toggleMobileHeader: boolean;
   year = new Date().getFullYear();
+  dialogContent = [];
 
   ngOnInit() {
     this.email = new FormControl('', [Validators.required, Validators.email]);
@@ -135,6 +142,17 @@ export class AppComponent implements OnInit {
     this.dialog.open(SearchComponent, {
       width: '400px'
     });
+  }
+
+  legalDialog(el) {
+    this.afs
+      .collection(FirestoreCollections.Settings)
+      .doc('legal')
+      .get()
+      .subscribe(value => {
+        this.dialogContent = value.data()[el];
+        this.dialog.open(this.dialogLegal);
+      });
   }
 
   logIn() {
