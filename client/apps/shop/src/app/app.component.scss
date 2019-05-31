@@ -270,3 +270,45 @@
     fill: transparent;
   }
 }
+
+/* Policy dialogs
+ *============================================================================*/
+
+.policy {
+  position: relative;
+  padding-bottom: 100px;
+
+  &-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  h1 {
+    margin: 0 0 1em;
+  }
+
+  h2, h3, h4, h5, h6 {
+    margin: 2em 0 1em;
+  }
+
+  p {
+    margin: 1em 0;
+    font-family: $font-secondary;
+  }
+
+  ul, ol {
+    margin: 1em 0;
+    font-family: $font-secondary;
+  }
+
+  p + ol,
+  p + ul {
+    margin-top: -.5em;
+  }
+
+  a {
+    color: dodgerblue;
+    text-decoration: underline;
+  }
+}
