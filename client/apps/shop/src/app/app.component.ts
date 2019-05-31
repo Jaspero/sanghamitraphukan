@@ -151,7 +151,9 @@ export class AppComponent implements OnInit {
       .get()
       .subscribe(value => {
         this.dialogContent = value.data()[el];
-        this.dialog.open(this.dialogLegal);
+        this.dialog.open(this.dialogLegal, {
+          width: '1000px'
+        });
       });
   }
 

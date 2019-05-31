@@ -145,5 +145,10 @@
 </div>
 
 <ng-template #dialogLegal>
-  <div [innerHTML]="dialogContent"></div>
+  <article class="policy">
+    <button class="policy-close" mat-dialog-close mat-icon-button aria-label="Close this dialog">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <main [innerHTML]="dialogContent"></main>
+  </article>
 </ng-template>

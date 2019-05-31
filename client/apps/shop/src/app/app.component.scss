@@ -274,12 +274,12 @@
 /* Policy dialogs
  *============================================================================*/
 
-.policy {
+::ng-deep .policy {
   position: relative;
-  padding-bottom: 100px;
+  padding-bottom: 40px;
 
   &-close {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     right: 0;
   }
