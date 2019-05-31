@@ -81,6 +81,15 @@ export class SettingsComponent extends RxDestroy implements OnInit {
       compile: {
         shippingCost: value => (value ? toStripeFormat(value) : 0)
       }
+    },
+    {
+      collection: FirestoreStaticDocuments.Legal,
+      defaultValues: {
+        privacy: '',
+        cookies: '',
+        shippingReturns: '',
+        termsService: ''
+      }
     }
   ];
   role = Role;
