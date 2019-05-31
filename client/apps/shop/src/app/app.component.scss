@@ -276,6 +276,7 @@
 
 .policy {
   position: relative;
+  padding-bottom: 100px;
 
   &-close {
     position: absolute;
@@ -305,7 +306,7 @@
   p + ul {
     margin-top: -.5em;
   }
-  
+
   a {
     color: dodgerblue;
     text-decoration: underline;

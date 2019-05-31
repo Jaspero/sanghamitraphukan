@@ -161,6 +161,15 @@ img {
   background: none;
 }
 
+
+
+/* Scrolling behaviour for dialogs on mobile
+ *============================================================================*/
+
+.mat-dialog-container {
+  -webkit-overflow-scrolling: touch;
+}
+
 /* jaspero slider image aspect ratio
  *============================================================================*/
 
