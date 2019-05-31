@@ -121,6 +121,68 @@
 
             </mat-card>
           </div>
+
+          <div class="col-12">
+            <mat-card formGroupName="legal">
+              <h6 class="p-y-xs">Roles</h6>
+              <div class="p-y-xs">
+                <mat-divider></mat-divider>
+              </div>
+              <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Privacy
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <ng-template matExpansionPanelContent>
+                    <jfsc-wysiwyg formControlName="privacy"></jfsc-wysiwyg>
+                  </ng-template>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Cookies
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <ng-template matExpansionPanelContent>
+                    <jfsc-wysiwyg formControlName="cookies"></jfsc-wysiwyg>
+                  </ng-template>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Shipping returns
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+
+                  <ng-template matExpansionPanelContent>
+                    <jfsc-wysiwyg formControlName="shippingReturns"></jfsc-wysiwyg>
+                  </ng-template>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Terms of service
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <ng-template matExpansionPanelContent>
+                    <jfsc-wysiwyg formControlName="termsService"></jfsc-wysiwyg>
+                  </ng-template>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </mat-card>
+          </div>
         </div>
       </div>
       <div class="col-4 col-s-10 col-xs-12">
