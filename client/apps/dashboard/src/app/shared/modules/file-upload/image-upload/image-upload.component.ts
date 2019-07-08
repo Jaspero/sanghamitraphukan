@@ -31,7 +31,7 @@ export class ImageUploadComponent {
     private cdr: ChangeDetectorRef
   ) {}
 
-  @ViewChild('file')
+  @ViewChild('file', {static: true})
   fileEl: ElementRef<HTMLInputElement>;
 
   @Input()

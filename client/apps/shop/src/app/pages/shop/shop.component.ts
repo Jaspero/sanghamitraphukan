@@ -9,7 +9,7 @@ import {
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSort} from '@angular/material';
 import {Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
@@ -52,7 +52,8 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   filters: FormGroup;
 
-  @ViewChild('filterDialog') filterDialog: TemplateRef<any>;
+  @ViewChild('filterDialog', {static: true})
+  filterDialog: TemplateRef<any>;
 
   products$: Observable<Product[]>;
   loadMore$ = new BehaviorSubject(null);
@@ -108,13 +109,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
       .collection<Category>(
         `${FirestoreCollections.Categories}-${STATIC_CONFIG.lang}`
       )
-      .snapshotChanges()
-      .subscribe(actions => {
-        this.categories = actions.map(action => ({
-          id: action.payload.doc.id,
-          ...action.payload.doc.data()
-        }));
-      });
+      .valueChanges('id');
 
     this.products$ = this.filters.valueChanges.pipe(
       startWith(this.filters.getRawValue()),

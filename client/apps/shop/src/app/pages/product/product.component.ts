@@ -63,7 +63,7 @@ export class ProductComponent extends RxDestroy implements OnInit {
   similar$: Observable<any>;
   filters: FormGroup;
 
-  @ViewChild('reviewsDialog') reviewsDialog: TemplateRef<any>;
+  @ViewChild('reviewsDialog', {static: true}) reviewsDialog: TemplateRef<any>;
 
   ngOnInit() {
     this.data$ = this.activatedRoute.data.pipe(

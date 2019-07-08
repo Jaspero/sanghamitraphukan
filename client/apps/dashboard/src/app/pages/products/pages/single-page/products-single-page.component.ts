@@ -4,13 +4,13 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {FormArray, FormGroup, Validators} from '@angular/forms';
+import {FormArray, Validators} from '@angular/forms';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format.ts';
 import {Observable} from 'rxjs';
-import {map, shareReplay, switchMap, take} from 'rxjs/operators';
+import {shareReplay, switchMap, take} from 'rxjs/operators';
 import {environment} from '../../../../../../../shop/src/environments/environment';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
 import {CURRENCIES} from '../../../../shared/const/currency.const';
@@ -25,7 +25,7 @@ import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gal
 })
 export class ProductsSinglePageComponent extends LangSinglePageComponent
   implements OnInit {
-  @ViewChild(GalleryUploadComponent)
+  @ViewChild(GalleryUploadComponent, {static: true})
   galleryUploadComponent: GalleryUploadComponent;
 
   categories$: Observable<Category[]>;
@@ -44,14 +44,8 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       switchMap(lang =>
         this.afs
           .collection<Category>(`${FirestoreCollections.Categories}-${lang}`)
-          .snapshotChanges()
+          .valueChanges('id')
       ),
-      map(actions => {
-        return actions.map(action => ({
-          id: action.payload.doc.id,
-          ...action.payload.doc.data()
-        }));
-      }),
       shareReplay(1)
     );
   }

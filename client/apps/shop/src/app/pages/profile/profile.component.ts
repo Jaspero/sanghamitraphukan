@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     private state: StateService
   ) {}
 
-  @ViewChild('file')
+  @ViewChild('file', {static: true})
   fileEl: ElementRef<HTMLInputElement>;
 
   links = [
