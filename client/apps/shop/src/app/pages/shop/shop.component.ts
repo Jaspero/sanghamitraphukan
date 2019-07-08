@@ -53,7 +53,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
   filters: FormGroup;
 
   @ViewChild('filterDialog') filterDialog: TemplateRef<any>;
-  @ViewChild('contact') contact: TemplateRef<any>;
 
   products$: Observable<Product[]>;
   loadMore$ = new BehaviorSubject(null);
@@ -99,15 +98,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
   categories: any;
 
   ngOnInit() {
-    this.dialog
-      .open(this.contact, {
-        width: '400px'
-      })
-      .afterClosed()
-      .subscribe(() => {
-        this.router.navigate(['/about']);
-      });
-
     this.filters = this.fb.group({
       category: '',
       order: '',
