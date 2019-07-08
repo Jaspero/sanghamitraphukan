@@ -1,5 +1,4 @@
 <div class="featured" *ngFor="let product of product$ | async">
-
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
     <img class="featured-hero-img" [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
@@ -18,5 +17,4 @@
   <div class="ta-center m-b-l">
     <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
   </div>
-
 </div>
