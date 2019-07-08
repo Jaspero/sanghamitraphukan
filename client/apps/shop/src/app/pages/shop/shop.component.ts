@@ -10,6 +10,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
+import {Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
@@ -43,7 +44,8 @@ export class ShopComponent extends RxDestroy implements OnInit {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private fb: FormBuilder,
-    private state: StateService
+    private state: StateService,
+    private router: Router
   ) {
     super();
   }

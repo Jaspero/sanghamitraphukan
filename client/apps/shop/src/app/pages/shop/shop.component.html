@@ -32,12 +32,12 @@
     </div>
   </section>-->
 
-  <div class="ta-center">
+<!--  <div class="ta-center">
     <h1 class="title starting-line">Resort Wear</h1>
   </div>
 
   <div class="grid grid-shop jc-start connecting-line ending-line">
-    <!--Products-->
+    &lt;!&ndash;Products&ndash;&gt;
     <ng-container *ngIf="(products$ | async) as prod">
       <ng-container *ngIf="prod.length; else emptyList">
         <div
@@ -47,13 +47,13 @@
         </div>
       </ng-container>
     </ng-container>
-    <!--Products empty-->
+    &lt;!&ndash;Products empty&ndash;&gt;
     <ng-template #emptyList>
       <div class="col-12">
         <p class="p-y-s ta-center c-l-primary">There aren't any products here.</p>
       </div>
     </ng-template>
-  </div>
+  </div>-->
 
   <!--Filters dialog-->
   <!--<ng-template #filterDialog>
@@ -93,3 +93,4 @@
   </ng-template>-->
 
 </form>
+
