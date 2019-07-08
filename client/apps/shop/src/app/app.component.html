@@ -5,6 +5,7 @@
     <nav class="hide-s">
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/about">About</a>
+      <a mat-button [routerLink]="['/news']">News</a>
       <a mat-button [routerLink]="['/shop']">Shop</a>
       <a mat-button [routerLink]="['/contact']">Contact</a>
     </nav>
@@ -52,6 +53,7 @@
         <a class="mobile-row-first link-home" (click)="openMobileHeader()" routerLink="/"><span>Home</span></a>
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
         <a class="mobile-row-first link-contact" (click)="openMobileHeader()" routerLink="/contact"><span>Contact</span></a>
+        <a class="mobile-row-first link-news" (click)="openMobileHeader()" routerLink="/news"><span>News</span></a>
         <a class="mobile-row-first link-shop" (click)="openMobileHeader()" [routerLink]="['/shop']" [queryParams]="{globalCategory: 'resortWear'}"><span>Shop</span></a>
       </div>
 
