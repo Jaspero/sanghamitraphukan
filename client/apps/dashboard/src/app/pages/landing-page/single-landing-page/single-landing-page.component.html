@@ -27,7 +27,14 @@
               <div class="p-y-xs">
                 <mat-divider></mat-divider>
               </div>
-              <jfsc-image-upload formControlName="featuredImage"></jfsc-image-upload>
+              <div>
+                <mat-label>Mobile</mat-label>
+                <jfsc-image-upload formControlName="featuredImage"></jfsc-image-upload>
+              </div>
+              <div class="p-y-xs">
+                <mat-label>Desktop</mat-label>
+                <jfsc-image-upload formControlName="featuredImageDesktop"></jfsc-image-upload>
+              </div>
             </mat-card>
             <br>
             <mat-card>
@@ -36,7 +43,14 @@
                 <mat-divider></mat-divider>
               </div>
               <div class="p-y-xs">
-                <jfsc-gallery-upload formControlName="gallery"></jfsc-gallery-upload>
+                <div>
+                  <mat-label>Mobile</mat-label>
+                  <jfsc-gallery-upload formControlName="gallery"></jfsc-gallery-upload>
+                </div>
+                <div class="p-y-xs">
+                  <mat-label>Desktop</mat-label>
+                  <jfsc-gallery-upload formControlName="galleryDesktop"></jfsc-gallery-upload>
+                </div>
               </div>
             </mat-card>
           </div>

@@ -28,7 +28,6 @@ export class LandingComponent implements OnInit {
     blocksPerView: 5,
     loop: false
   };
-
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.resize(event.target.innerWidth);
@@ -41,7 +40,18 @@ export class LandingComponent implements OnInit {
         `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`
       )
       .valueChanges()
-      .pipe(map(actions => actions));
+      .pipe(
+        map(actions =>
+          actions.map(action => {
+            if (!BROWSER_CONFIG.isMobileDevice) {
+              action.featuredImage = action.featuredImageDesktop;
+              action.gallery = action.galleryDesktop;
+            }
+
+            return action;
+          })
+        )
+      );
   }
 
   goToSingle(category: string) {
