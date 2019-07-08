@@ -1,0 +1,15 @@
+<div *ngIf="data$ | async as data">
+  <section class="p-y-l">
+    <div class="ta-center">
+      <h1 class="title starting-line">{{data.news.title}}</h1>
+    </div>
+
+    <div class="grid ff-secondary connecting-line ending-line">
+      <div class="col-6 col-m-8 col-s-10 col-xs-12">
+        <p class="fs-small m-b-xs">{{data.news.createdOn | date}}</p>
+        <img class="m-b-xs w-full" [src]="data.news.gallery[0]" alt="Article featured image.">
+        <div class="single-news">{{data.news.content}}</div>
+      </div>
+    </div>
+  </section>
+</div>

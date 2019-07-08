@@ -36,12 +36,12 @@ export class LandingComponent implements OnInit {
     loop: false
   };
 
+  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.resize(event.target.innerWidth);
   }
-
-  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
 
   ngOnInit() {
     this.resize(BROWSER_CONFIG.screenWidth);
@@ -50,7 +50,18 @@ export class LandingComponent implements OnInit {
         `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`
       )
       .valueChanges()
-      .pipe(map(actions => actions));
+      .pipe(
+        map(actions =>
+          actions.map(action => {
+            if (!BROWSER_CONFIG.isMobileDevice) {
+              action.featuredImage = action.featuredImageDesktop;
+              action.gallery = action.galleryDesktop;
+            }
+
+            return action;
+          })
+        )
+      );
   }
 
   disableShopForNow() {

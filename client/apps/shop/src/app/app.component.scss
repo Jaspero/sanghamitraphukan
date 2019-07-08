@@ -108,7 +108,7 @@
   z-index: 1;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   padding-top: 80px;
   transform: scaleX(1) scaleY(1);
@@ -134,20 +134,26 @@
   .mobile-row-first:nth-child(2) {
     transition-delay: 0.6s;
     border-left: 1px solid $fg-tertiary;
-    border-right: 1px solid $fg-tertiary;
   }
   .mobile-row-first:nth-child(3) {
     transition-delay: 0.5s;
-    border-right: 1px solid $fg-tertiary;
+    border-left: 1px solid $fg-tertiary;
   }
   .mobile-row-first:nth-child(4) {
-    transition-delay: 0.5s;
+    transition-delay: 0.4s;
+    border-left: 1px solid $fg-tertiary;
+  }
+  .mobile-row-first:nth-child(5) {
+    transition-delay: 0.3s;
+    border-left: 1px solid $fg-tertiary;
   }
 
   .link-home,
   .link-about,
   .link-shop,
-  .link-contact {
+  .link-contact,
+  .link-news,
+  .link-login {
     position: relative;
     & > span {
       display: inline-block;
@@ -155,6 +161,7 @@
       z-index: 2;
       padding: 5px;
       background: rgba(255, 255, 255, 0.75);
+      font-size: .8em;
     }
     &:after {
       content: '';
@@ -169,14 +176,38 @@
     }
   }
 
-  .link-home:after {
+  .link-home::after {
     background-image: url('/assets/images/menu-home.jpg');
     background-size: cover;
     opacity: 0.25;
   }
 
-  .link-shop:after {
+  .link-about::after {
+    background-image: url('/assets/images/menu-about.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-news::after {
+    /*background-image: url('/assets/images/menu-about.jpg');*/
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-contact::after {
+    background-image: url('/assets/images/menu-contact.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-shop::after {
     background-image: url('/assets/images/menu-shop.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-login::after {
+    background-image: url('/assets/images/menu-login.jpg');
     background-size: cover;
     opacity: 0.25;
   }
@@ -211,17 +242,17 @@
 
   .mobile-row-logo {
     opacity: 1;
-    transition: opacity 0.2s 0.7s;
+    transition: opacity 0.2s 0.8s;
   }
 
   .mobile-row-login {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $bg-secondary;
     border-top: 1px solid $fg-tertiary;
+    transition: opacity 0.2s .9s;
     opacity: 1;
-    transition: opacity 0.2s 0.8s;
   }
 
   &:not(.active) {

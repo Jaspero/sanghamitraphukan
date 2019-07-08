@@ -8,5 +8,6 @@ export enum FirestoreCollections {
   Discounts = 'discounts',
   Reviews = 'reviews',
   Newsletter = 'newsletter',
-  Contacts = 'contacts'
+  Contacts = 'contacts',
+  News = 'news'
 }

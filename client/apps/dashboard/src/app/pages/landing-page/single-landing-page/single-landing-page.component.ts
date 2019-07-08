@@ -50,6 +50,7 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       id: data.id || '',
       title: data.title || '',
       featuredImage: data.featuredImage || '',
+      featuredImageDesktop: data.featuredImageDesktop || '',
       gallery: data.gallery ? [data.gallery] : [[]],
       category: data.category || ''
     });

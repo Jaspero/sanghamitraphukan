@@ -28,6 +28,12 @@ service cloud.firestore {
       allow write, delete: if write()
     }
 
+
+    match /news-en/{new} {
+      allow read: if true
+      allow write, delete: if write()
+    }
+
     match /discounts-en/{discount} {
       allow read: if true
       allow write, delete: if write()
