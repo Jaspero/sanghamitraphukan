@@ -3,9 +3,9 @@
   <!--Header-->
   <header class="app-header">
     <nav class="hide-s">
-      <a mat-button routerLink="/">Home</a>
+<!--      <a mat-button routerLink="/">Home</a>-->
       <a mat-button routerLink="/about">About</a>
-      <a mat-button [routerLink]="['/shop']">Shop</a>
+<!--      <a mat-button [routerLink]="['/shop']">Shop</a>-->
       <a mat-button [routerLink]="['/contact']">Contact</a>
     </nav>
 
@@ -49,10 +49,10 @@
 
     <nav class="app-header-mobile" [class.active]="toggleMobileHeader">
       <div class="flex f2">
-        <a class="mobile-row-first link-home" (click)="openMobileHeader()" routerLink="/"><span>Home</span></a>
+<!--        <a class="mobile-row-first link-home" (click)="openMobileHeader()" routerLink="/"><span>Home</span></a>-->
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
         <a class="mobile-row-first link-contact" (click)="openMobileHeader()" routerLink="/contact"><span>Contact</span></a>
-        <a class="mobile-row-first link-shop" (click)="openMobileHeader()" [routerLink]="['/shop']" [queryParams]="{globalCategory: 'resortWear'}"><span>Shop</span></a>
+<!--        <a class="mobile-row-first link-shop" (click)="openMobileHeader()" [routerLink]="['/shop']" [queryParams]="{globalCategory: 'resortWear'}"><span>Shop</span></a>-->
       </div>
 
       <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra">
