@@ -1,13 +1,15 @@
-<section class="p-y-l">
-  <div class="ta-center">
-    <h1 class="title starting-line">News title</h1>
-  </div>
-
-  <div class="grid ff-secondary connecting-line ending-line">
-    <div class="col-6 col-m-8 col-s-10 col-xs-12">
-      <p class="fs-small m-b-xs">July 4th, 2069</p>
-      <img class="m-b-xs w-full" src="assets/images/menu-login.jpg" alt="Article featured image.">
-      <div class="single-news">SANGHAMITRA means “Universal Friend”. It is the name of King Ashoka’s daughter, the nomad princess and Buddhist prophet who brought the Buddha’s harmonious message of peace to Sri Lanka. Having unified Hindustan for the first time in history through war and bloodshed, Ashoka is enlightened. Driven by the love for his wife, he converts to Buddhism, so to find a pathway towards peace. Sanghamitra is therefore the personification of the King’s journey of redemption through the values of peace, friendship and love. The SANGHAMITRA logo is a stylization of a pre-Christian Irish metalwork, representing a local European interpretation of the Buddhist meditational symbol ‘Yin and Yang’, incorporated in a Celtic ‘Triskelion’. By providing evidence of cultural contamination and Buddhist influence in Europe during those ancient times, this artifact becomes the perfect representation of our values, showing the two symbols melting one in the other, perfectly combined to give shape to a new unite image. </div>
+<div *ngIf="data$ | async as data">
+  <section class="p-y-l">
+    <div class="ta-center">
+      <h1 class="title starting-line">{{data.news.title}}</h1>
     </div>
-  </div>
-</section>
+
+    <div class="grid ff-secondary connecting-line ending-line">
+      <div class="col-6 col-m-8 col-s-10 col-xs-12">
+        <p class="fs-small m-b-xs">{{data.news.createdOn | date}}</p>
+        <img class="m-b-xs w-full" [src]="data.news.gallery[0]" alt="Article featured image.">
+        <div class="single-news">{{data.news.content}}</div>
+      </div>
+    </div>
+  </section>
+</div>

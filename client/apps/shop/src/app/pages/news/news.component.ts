@@ -1,4 +1,9 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {STATIC_CONFIG} from '@jf/consts/static-config.const';
+import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
+import {News} from '@jf/interfaces/news.interface';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'jfs-news',
@@ -7,7 +12,13 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsComponent implements OnInit {
-  constructor() {}
+  constructor(private afs: AngularFirestore) {}
 
-  ngOnInit() {}
+  news$: Observable<News[]>;
+
+  ngOnInit() {
+    this.news$ = this.afs
+      .collection<News>(`${FirestoreCollections.News}-${STATIC_CONFIG.lang}`)
+      .valueChanges({idField: 'id'});
+  }
 }

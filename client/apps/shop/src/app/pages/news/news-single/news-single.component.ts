@@ -1,4 +1,8 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {ActivatedRoute} from '@angular/router';
+import {News} from '@jf/interfaces/news.interface';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'jfs-news-single',
@@ -7,7 +11,14 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsSingleComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private afs: AngularFirestore
+  ) {}
 
-  ngOnInit() {}
+  data$: Observable<{news: News}>;
+
+  ngOnInit() {
+    this.data$ = this.activatedRoute.data.pipe();
+  }
 }

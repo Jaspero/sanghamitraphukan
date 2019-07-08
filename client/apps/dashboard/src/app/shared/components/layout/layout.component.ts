@@ -41,7 +41,8 @@ export class LayoutComponent implements OnInit {
     {label: 'Orders', icon: 'receipt', value: '/orders'},
     {label: 'Customers', icon: 'supervisor_account', value: '/customers'},
     {label: 'Reviews', icon: 'star_rate', value: '/reviews'},
-    {label: 'Contacts', icon: 'contacts', value: '/contacts'}
+    {label: 'Contacts', icon: 'contacts', value: '/contacts'},
+    {label: 'News', icon: 'news', value: '/news'}
   ];
 
   ngOnInit() {
