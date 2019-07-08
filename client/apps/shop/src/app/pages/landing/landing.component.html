@@ -1,5 +1,4 @@
 <div class="featured" *ngFor="let product of product$ | async">
-
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
     <img class="featured-hero-img" [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
@@ -16,7 +15,17 @@
   </div>
 
   <div class="ta-center m-b-l">
-    <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
+    <a class="title ff-primary fs-20 link" (click)="disableShopForNow()">Shop</a>
   </div>
-
 </div>
+
+<ng-template #shopDisable>
+  <section class="ta-center">
+    <div class="p-y-xs">
+      <img src="assets/images/logo-full.svg" alt="Sanghamitra." width="140">
+    </div>
+    <p class="ff-secondary m-b-s">The SANGHAMITRA store will launch on September the 2nd 2019. Sign up to our newsletter to receive updates and contact us for bespoke orders and consultations:</p>
+    <p class="m-b-xs"><a href="mailto:info@sanghamitraphukan.com"><u>info@sanghamitraphukan.com</u></a></p>
+    <p class="m-b-xs"><a href="mailto:bespoke@sanghamitraphukan.com"><u>bespoke@sanghamitraphukan.com</u></a></p>
+  </section>
+</ng-template>

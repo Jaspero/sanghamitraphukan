@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
-  OnInit
+  OnInit,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
@@ -13,6 +15,7 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Landing} from '../../shared/interfaces/landing.interface';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'jfs-landing',
@@ -21,7 +24,11 @@ import {Landing} from '../../shared/interfaces/landing.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent implements OnInit {
-  constructor(private afs: AngularFirestore, private router: Router) {}
+  constructor(
+    private afs: AngularFirestore,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   product$: Observable<Landing[]>;
   sliderOption: Partial<SliderOptions> = {
@@ -34,6 +41,8 @@ export class LandingComponent implements OnInit {
     this.resize(event.target.innerWidth);
   }
 
+  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
+
   ngOnInit() {
     this.resize(BROWSER_CONFIG.screenWidth);
     this.product$ = this.afs
@@ -42,6 +51,12 @@ export class LandingComponent implements OnInit {
       )
       .valueChanges()
       .pipe(map(actions => actions));
+  }
+
+  disableShopForNow() {
+    this.dialog.open(this.shopDisable, {
+      width: '400px'
+    });
   }
 
   goToSingle(category: string) {
