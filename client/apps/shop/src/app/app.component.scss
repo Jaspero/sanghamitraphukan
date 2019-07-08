@@ -147,7 +147,8 @@
   .link-home,
   .link-about,
   .link-shop,
-  .link-contact {
+  .link-contact,
+  .link-login {
     position: relative;
     & > span {
       display: inline-block;
@@ -169,14 +170,32 @@
     }
   }
 
-  .link-home:after {
+  .link-home::after {
     background-image: url('/assets/images/menu-home.jpg');
     background-size: cover;
     opacity: 0.25;
   }
 
-  .link-shop:after {
+  .link-about::after {
+    background-image: url('/assets/images/menu-about.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-contact::after {
+    background-image: url('/assets/images/menu-contact.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-shop::after {
     background-image: url('/assets/images/menu-shop.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-login::after {
+    background-image: url('/assets/images/menu-login.jpg');
     background-size: cover;
     opacity: 0.25;
   }
@@ -211,17 +230,17 @@
 
   .mobile-row-logo {
     opacity: 1;
-    transition: opacity 0.2s 0.7s;
+    transition: opacity 0.2s 0.8s;
   }
 
   .mobile-row-login {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $bg-secondary;
     border-top: 1px solid $fg-tertiary;
+    transition: opacity 0.2s .9s;
     opacity: 1;
-    transition: opacity 0.2s 0.8s;
   }
 
   &:not(.active) {
