@@ -35,12 +35,13 @@ export class LandingComponent implements OnInit {
     blocksPerView: 5,
     loop: false
   };
+
+  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.resize(event.target.innerWidth);
   }
-
-  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
 
   ngOnInit() {
     this.resize(BROWSER_CONFIG.screenWidth);
