@@ -36,7 +36,8 @@ export class LandingComponent implements OnInit {
     loop: false
   };
 
-  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
+  @ViewChild('shopDisable', {static: true})
+  shopDisable: TemplateRef<any>;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {

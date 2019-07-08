@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewChild
+  QueryList,
+  ViewChild,
+  ViewChildren
 } from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
@@ -20,11 +22,11 @@ import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-up
 })
 export class SingleLandingPageComponent extends LangSinglePageComponent
   implements OnInit {
-  @ViewChild(GalleryUploadComponent)
-  galleryUploadComponent: GalleryUploadComponent;
+  @ViewChildren(GalleryUploadComponent)
+  galleryUploadComponent: QueryList<GalleryUploadComponent>;
 
-  @ViewChild(ImageUploadComponent)
-  imageUploadComponent: ImageUploadComponent;
+  @ViewChildren(ImageUploadComponent)
+  imageUploadComponent: QueryList<ImageUploadComponent>;
 
   collection = FirestoreCollections.landingPage;
   categories$: Observable<Category[]>;
@@ -52,15 +54,16 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       featuredImage: data.featuredImage || '',
       featuredImageDesktop: data.featuredImageDesktop || '',
       gallery: data.gallery ? [data.gallery] : [[]],
+      galleryDesktop: data.galleryDesktop ? [data.galleryDesktop] : [[]],
       category: data.category || ''
     });
   }
 
   getSaveData(...args) {
-    return forkJoin(
-      this.galleryUploadComponent.save(),
-      this.imageUploadComponent.save()
-    ).pipe(
+    return forkJoin([
+      ...this.galleryUploadComponent.map(item => item.save()),
+      ...this.imageUploadComponent.map(item => item.save())
+    ]).pipe(
       switchMap(() => {
         const {id, ...data} = this.form.getRawValue();
 

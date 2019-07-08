@@ -33,7 +33,7 @@
     "@angular/service-worker": "8.0.0",
     "@jaspero/ng-helpers": "2.0.0",
     "@jaspero/ng-image-preload": "1.1.1",
-    "@jaspero/ng-slider": "^1.6.6",
+    "@jaspero/ng-slider": "2.0.0",
     "@nguniversal/common": "8.0.0-rc.0",
     "@nguniversal/express-engine": "8.0.0-rc.0",
     "@nguniversal/module-map-ngfactory-loader": "8.0.0-rc.0",

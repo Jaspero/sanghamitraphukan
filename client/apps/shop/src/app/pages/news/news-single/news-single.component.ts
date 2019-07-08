@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedRoute} from '@angular/router';
 import {News} from '@jf/interfaces/news.interface';
 import {Observable} from 'rxjs';
@@ -11,14 +10,11 @@ import {Observable} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsSingleComponent implements OnInit {
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private afs: AngularFirestore
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   data$: Observable<{news: News}>;
 
   ngOnInit() {
-    this.data$ = this.activatedRoute.data.pipe();
+    this.data$ = this.activatedRoute.data as Observable<{news: News}>;
   }
 }

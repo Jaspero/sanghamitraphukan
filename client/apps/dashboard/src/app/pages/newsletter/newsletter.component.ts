@@ -28,7 +28,7 @@ export class NewsletterComponent extends ListComponent<Newsletter> {
     sort: null
   };
 
-  @ViewChild('addDialog')
+  @ViewChild('addDialog', {static: true})
   addDialog: TemplateRef<any>;
   emailControl: FormControl;
 

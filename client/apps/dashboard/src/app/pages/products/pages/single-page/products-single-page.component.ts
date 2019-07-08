@@ -25,7 +25,7 @@ import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gal
 })
 export class ProductsSinglePageComponent extends LangSinglePageComponent
   implements OnInit {
-  @ViewChild(GalleryUploadComponent, {static: true})
+  @ViewChild(GalleryUploadComponent, {static: false})
   galleryUploadComponent: GalleryUploadComponent;
 
   categories$: Observable<Category[]>;

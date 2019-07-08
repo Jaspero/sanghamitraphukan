@@ -1,4 +1,3 @@
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +8,7 @@ import {
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog, MatSort} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
@@ -20,12 +19,10 @@ import {Product} from '@jf/interfaces/product.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
   debounceTime,
-  filter,
   map,
   scan,
   startWith,
   switchMap,
-  takeUntil,
   tap
 } from 'rxjs/operators';
 import {CartService} from '../../shared/services/cart/cart.service';

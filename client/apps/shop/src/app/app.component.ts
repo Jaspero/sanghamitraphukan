@@ -47,8 +47,8 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate
   ) {}
 
-  @ViewChild('dialogLegal') dialogLegal: TemplateRef<any>;
-  @ViewChild('shopDisable') shopDisable: TemplateRef<any>;
+  @ViewChild('dialogLegal', {static: true}) dialogLegal: TemplateRef<any>;
+  @ViewChild('shopDisable', {static: true}) shopDisable: TemplateRef<any>;
 
   /**
    * Useful for showing backgrounds in css
