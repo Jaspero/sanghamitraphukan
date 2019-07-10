@@ -19,7 +19,8 @@ import {ShopComponent} from './shop.component';
           meta: {
             title: 'Shop',
             description:
-              'Browse through and shop our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics'
+              'Browse through and shop our collections of handmade garments, ' +
+              'produced through traditional techniques using exclusively natural fabrics'
           },
           structuredData: {
             '@type': 'WebSite',

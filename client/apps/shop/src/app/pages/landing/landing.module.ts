@@ -17,11 +17,12 @@ import {LandingComponent} from './landing.component';
           meta: {
             title: 'Homepage',
             description:
-              'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast'
+              'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, ' +
+              'made from Muga Silk and other precious indigenous fabrics from the Northeast'
           },
           structuredData: {
             '@type': 'WebSite',
-            name: 'Fireshop',
+            name: 'SANGHAMITRA',
             email: 'info@jaspero.co',
             url: 'https://jaspero.co/',
             logo: 'http://jaspero.co/assets/imgs/logo.svg',
