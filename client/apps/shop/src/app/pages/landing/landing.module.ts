@@ -15,8 +15,9 @@ import {LandingComponent} from './landing.component';
         component: LandingComponent,
         data: {
           meta: {
-            title: 'Home page',
-            description: 'Home page of the fireshop webshop'
+            title: 'Homepage',
+            description:
+              'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast'
           },
           structuredData: {
             '@type': 'WebSite',
