@@ -57,7 +57,7 @@
         <a class="mobile-row-first link-shop" (click)="disableShopForNow()"><span>Shop</span></a>
       </div>
 
-      <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra">
+      <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra" (click)="openMobileHeader()" routerLink="/">
 
       <ng-container *ngIf="state.user$ | async as user; else anonymousMobile">
         <p class="app-header-mobile-username">{{user.authData.email}}</p>

@@ -9,7 +9,7 @@ import {
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {forkJoin, Observable} from 'rxjs';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
 import {GalleryUploadComponent} from '../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-upload/image-upload.component';
