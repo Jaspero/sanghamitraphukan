@@ -15,28 +15,10 @@ import {LandingComponent} from './landing.component';
         component: LandingComponent,
         data: {
           meta: {
-            title: 'Homepage',
+            title: 'Home',
             description:
               'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, ' +
               'made from Muga Silk and other precious indigenous fabrics from the Northeast'
-          },
-          structuredData: {
-            '@type': 'WebSite',
-            name: 'SANGHAMITRA',
-            email: 'info@jaspero.co',
-            url: 'https://jaspero.co/',
-            logo: 'http://jaspero.co/assets/imgs/logo.svg',
-            author: {
-              '@type': 'Organization',
-              name: 'Jaspero Ltd.'
-            },
-            sameAs: [
-              'http://www.facebook.com/your-profile',
-              'http://instagram.com/yourProfile',
-              'http://www.linkedin.com/in/yourprofile'
-            ],
-            description: 'A modern pwa webshop built on Firebase with Angular',
-            keywords: 'web-shop, jaspero, firebase, angular'
           }
         },
         resolve: {
