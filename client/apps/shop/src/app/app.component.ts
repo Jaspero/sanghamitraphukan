@@ -7,17 +7,16 @@ import {
   ViewChild
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FormControl, Validators} from '@angular/forms';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
-import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
 import {BehaviorSubject, from, interval, Observable} from 'rxjs';
-import {filter, map, finalize} from 'rxjs/operators';
-import {interval, Observable} from 'rxjs';
-import {filter, map, take, takeUntil} from 'rxjs/operators';
+import {filter, finalize, map, take, takeUntil} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {CART_TOGGLE_ANIMATIONS} from './shared/animations/cart-toggle.animation';
 import {CartComponent} from './shared/components/cart/cart.component';
@@ -26,8 +25,6 @@ import {SearchComponent} from './shared/components/search/search.component';
 import {UpdateAvailableComponent} from './shared/components/update-available/update-available.component';
 import {CartService} from './shared/services/cart/cart.service';
 import {StateService} from './shared/services/state/state.service';
-import {FormControl, Validators} from '@angular/forms';
-import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'jfs-root',

@@ -10,11 +10,11 @@
   </button>
   <jp-slides>
     <jp-slide *ngFor="let img of data.images; index as index;">
-      <img class="jfs-lightbox-image" [src]="img" [attr.alt]="'Gallery Image '  + index">
+      <img class="jfs-lightbox-image" [jfsLibraryImage]="img" [attr.alt]="'Gallery Image '  + index">
     </jp-slide>
   </jp-slides>
 </jp-slider>
 
 <ng-template #sliderNotNeeded>
-  <img class="jfs-lightbox-image" [src]="data.images[0]" alt="Lightbox image">
+  <img class="jfs-lightbox-image" [jfsLibraryImage]="data.images[0]" alt="Lightbox image">
 </ng-template>

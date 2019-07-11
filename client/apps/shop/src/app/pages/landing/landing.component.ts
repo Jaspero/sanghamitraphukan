@@ -14,6 +14,7 @@ import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {Landing} from '../../shared/interfaces/landing.interface';
 import {MatDialog} from '@angular/material';
 
@@ -62,6 +63,12 @@ export class LandingComponent implements OnInit {
           })
         )
       );
+  }
+
+  openLightBox(landing: Landing, initialSlide: number) {
+    this.dialog.open(LightboxComponent, {
+      data: {images: landing.gallery, initialSlide}
+    });
   }
 
   disableShopForNow() {

@@ -46,6 +46,7 @@ import {ConfirmationComponent} from '@jf/components/confirmation/confirmation.co
 import {RatingScaleComponent} from '@jf/components/rating-scale/rating-scale.component';
 import {CookieComponent} from './components/cookie/cookie.component';
 import {NgxJsonLdModule} from '@ngx-lite/json-ld';
+import {LightboxComponent} from './components/lightbox/lightbox.component';
 import {LoginSignupDialogComponent} from './components/login-signup-dialog/login-signup-dialog.component';
 import {NetworkWidgetComponent} from './components/network-widget/network-widget.component';
 import {ProductCardComponent} from './components/product-card/product-card.component';

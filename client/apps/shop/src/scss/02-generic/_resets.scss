@@ -174,28 +174,30 @@ img {
 /* jaspero slider image aspect ratio
  *============================================================================*/
 
-.jp-s-w-i > div {
-  margin: 0;
-  position: relative;
-  padding-bottom: 30vw;
+.featured-gallery {
+  .jp-s-w-i > div {
+    margin: 0;
+    position: relative;
+    padding-bottom: 30vw;
 
-  @media (max-width: $screen-l) {
-    padding-bottom: 37.5vw;
-  }
-  @media (max-width: $screen-m) {
-    padding-bottom: 45vw;
-  }
-  @media (max-width: $screen-s) {
-    padding-bottom: 75vw;
-  }
+    @media (max-width: $screen-l) {
+      padding-bottom: 37.5vw;
+    }
+    @media (max-width: $screen-m) {
+      padding-bottom: 45vw;
+    }
+    @media (max-width: $screen-s) {
+      padding-bottom: 75vw;
+    }
 
-  & > .slider-img {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    object-fit: cover;
+    & > .slider-img {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: calc(100% - 20px);
+      height: calc(100% - 20px);
+      object-fit: cover;
+    }
   }
 }
 

@@ -8,8 +8,8 @@
   <div class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
-        <jp-slide *ngFor="let img of product.gallery">
-          <img draggable="false" [jfsLibraryImage]="img" aria-hidden="true" class="slider-img">
+        <jp-slide *ngFor="let img of product.gallery; index as index">
+          <img draggable="false" [jfsLibraryImage]="img" aria-hidden="true" class="slider-img cs-pointer" (click)="openLightBox(product, index)">
         </jp-slide>
       </jp-slides>
     </jp-slider>
