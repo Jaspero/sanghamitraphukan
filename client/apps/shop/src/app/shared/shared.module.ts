@@ -115,7 +115,8 @@ const ENTRY_COMPONENTS = [
   SearchComponent,
   ReviewsDialogComponent,
   RatingScaleComponent,
-  CookieComponent
+  CookieComponent,
+  LightboxComponent
 ];
 const COMPONENTS = [
   NetworkWidgetComponent,

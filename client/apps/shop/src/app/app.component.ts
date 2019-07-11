@@ -16,6 +16,8 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
 import {BehaviorSubject, from, interval, Observable} from 'rxjs';
 import {filter, map, finalize} from 'rxjs/operators';
+import {interval, Observable} from 'rxjs';
+import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {CART_TOGGLE_ANIMATIONS} from './shared/animations/cart-toggle.animation';
 import {CartComponent} from './shared/components/cart/cart.component';
@@ -188,11 +190,13 @@ export class AppComponent implements OnInit {
     /**
      * Checks for updates every 5 minutes
      */
-    interval(300000).subscribe(() => {
-      this.swUpdate.checkForUpdate();
-    });
+    interval(300000)
+      .pipe(takeUntil(this.swUpdate.available))
+      .subscribe(() => {
+        this.swUpdate.checkForUpdate();
+      });
 
-    this.swUpdate.available.subscribe(() => {
+    this.swUpdate.available.pipe(take(1)).subscribe(() => {
       this.snackBar.openFromComponent(UpdateAvailableComponent);
     });
   }
