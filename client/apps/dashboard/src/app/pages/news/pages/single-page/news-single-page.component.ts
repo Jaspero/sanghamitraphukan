@@ -5,6 +5,7 @@ import {switchMap} from 'rxjs/operators';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
 import {URL_REGEX} from '../../../../shared/const/url-regex.const';
 import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
+import {convertToSlug} from '../../../../shared/utils/string-to-slug';
 
 @Component({
   selector: 'jfsc-news-single-page',
@@ -13,7 +14,7 @@ import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gal
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsSinglePageComponent extends LangSinglePageComponent {
-  @ViewChild(GalleryUploadComponent, {static: true})
+  @ViewChild(GalleryUploadComponent, {static: false})
   galleryUploadComponent: GalleryUploadComponent;
 
   collection = FirestoreCollections.News;
@@ -22,7 +23,7 @@ export class NewsSinglePageComponent extends LangSinglePageComponent {
     this.form = this.fb.group({
       id: [
         {value: data.id, disabled: this.currentState === this.viewState.Edit},
-        [Validators.required, Validators.pattern(URL_REGEX)]
+        [Validators.pattern(URL_REGEX)]
       ],
       title: [data.title || '', Validators.required],
       gallery: [data.gallery || []],
@@ -34,7 +35,12 @@ export class NewsSinglePageComponent extends LangSinglePageComponent {
   getSaveData(...args) {
     return this.galleryUploadComponent.save().pipe(
       switchMap(() => {
+        if (!args[0]) {
+          args[0] = convertToSlug(args[1].title);
+        }
+
         args[1].gallery = this.form.get('gallery').value;
+
         return super.getSaveData(...args);
       })
     );

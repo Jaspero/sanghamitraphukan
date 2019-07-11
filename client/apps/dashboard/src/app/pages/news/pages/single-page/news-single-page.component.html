@@ -2,7 +2,7 @@
 
   <section>
     <mat-toolbar color="primary">
-      <a mat-icon-button routerLink="/categories" aria-label="Back" matTooltip="Back">
+      <a mat-icon-button routerLink="/news" aria-label="Back" matTooltip="Back">
         <mat-icon>arrow_back</mat-icon>
       </a>
       <span>News</span>
@@ -45,26 +45,20 @@
               <div class="p-y-xs">
                 <mat-divider></mat-divider>
               </div>
+              <mat-form-field class="w-full" appearance="outline">
+                <mat-label>URL</mat-label>
+                <input matInput formControlName="id">
+                <mat-hint>This field will auto-populate from the title if left empty</mat-hint>
+              </mat-form-field>
+              <mat-form-field class="m-t-xs w-full" appearance="outline">
+                <mat-label>Title</mat-label>
+                <input matInput formControlName="title">
+              </mat-form-field>
+              <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Short description</mat-label>
+                <textarea matInput formControlName="shortDescription"></textarea>
+              </mat-form-field>
               <div class="p-y-xs">
-                <mat-form-field class="w-full" appearance="outline">
-                  <mat-label>URL</mat-label>
-                  <input matInput formControlName="id">
-                </mat-form-field>
-              </div>
-              <div class="p-y-xs">
-                <mat-form-field class="w-full" appearance="outline">
-                  <mat-label>Short description</mat-label>
-                  <input matInput formControlName="shortDescription">
-                </mat-form-field>
-              </div>
-              <div class="p-y-xs">
-                <mat-form-field class="w-full" appearance="outline">
-                  <mat-label>Title</mat-label>
-                  <input matInput formControlName="title">
-                </mat-form-field>
-              </div>
-              <div class="p-y-xs">
-                <p class="jfsc-wysiwyg-label">Content</p>
                 <jfsc-wysiwyg formControlName="content"></jfsc-wysiwyg>
               </div>
               <div class="col-12">
