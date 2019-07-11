@@ -56,7 +56,6 @@ export class LandingComponent implements OnInit {
           actions.map(action => {
             if (!BROWSER_CONFIG.isMobileDevice) {
               action.featuredImage = action.featuredImageDesktop;
-              action.gallery = action.galleryDesktop;
             }
 
             return action;

@@ -22,8 +22,8 @@ import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-up
 })
 export class SingleLandingPageComponent extends LangSinglePageComponent
   implements OnInit {
-  @ViewChildren(GalleryUploadComponent)
-  galleryUploadComponent: QueryList<GalleryUploadComponent>;
+  @ViewChild(GalleryUploadComponent, {static: false})
+  galleryUploadComponent: GalleryUploadComponent;
 
   @ViewChildren(ImageUploadComponent)
   imageUploadComponent: QueryList<ImageUploadComponent>;
@@ -54,14 +54,13 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       featuredImage: data.featuredImage || '',
       featuredImageDesktop: data.featuredImageDesktop || '',
       gallery: data.gallery ? [data.gallery] : [[]],
-      galleryDesktop: data.galleryDesktop ? [data.galleryDesktop] : [[]],
       category: data.category || ''
     });
   }
 
   getSaveData(...args) {
     return forkJoin([
-      ...this.galleryUploadComponent.map(item => item.save()),
+      this.galleryUploadComponent.save(),
       ...this.imageUploadComponent.map(item => item.save())
     ]).pipe(
       switchMap(() => {
