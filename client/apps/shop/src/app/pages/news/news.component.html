@@ -6,15 +6,15 @@
       </div>
       <div class="grid grid-news jc-start connecting-line ending-line">
         <div class="col-6 col-xs-12">
-          <article class="bg-primary p-y-s p-x-xs cs-pointer">
-            <p class="fs-small">{{new.createdOn | date}}</p>
-            <h1 class="m-b-xs">{{new.title}}</h1>
+          <a class="block bg-primary p-y-s p-x-xs cs-pointer" [routerLink]="new.id">
+            <p class="fs-small m-b-xs">{{new.createdOn | date}}</p>
+            <p class="m-b-xs ff-secondary">{{new.title}}</p>
             <div class="aspect-ratio m-b-xs" data-ratio="1:1">
               <img class="aspect-item" [src]="new.gallery" alt="Article featured image.">
             </div>
             <p class="ff-secondary m-b-xs">{{new.shortDescription}}</p>
-            <p class="ff-secondary"><a [routerLink]="new.id"><u>Read more</u></a></p>
-          </article>
+            <p class="ff-secondary"><u>Read more</u></p>
+          </a>
         </div>
       </div>
     </section>

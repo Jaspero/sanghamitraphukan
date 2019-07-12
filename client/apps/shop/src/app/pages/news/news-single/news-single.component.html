@@ -1,11 +1,11 @@
 <section class="p-y-l" *ngIf="data$ | async as data">
   <div class="ta-center">
-    <h1 class="title starting-line">{{data.news.title}}</h1>
+    <h4 class="title starting-line">{{data.news.createdOn | date}}</h4>
   </div>
 
   <div class="grid ff-secondary connecting-line ending-line">
     <div class="col-6 col-m-8 col-s-10 col-xs-12">
-      <p class="fs-small m-b-xs">{{data.news.createdOn | date}}</p>
+      <h2 class="m-b-xs">{{data.news.title}}</h2>
       <img class="m-b-xs w-full" [jfsLibraryImage]="data.news.gallery[0]" alt="Article featured image.">
       <div class="single-news" [innerHTML]="data.news.content"></div>
     </div>

@@ -67,7 +67,8 @@ export class LandingComponent implements OnInit {
 
   openLightBox(landing: Landing, initialSlide: number) {
     this.dialog.open(LightboxComponent, {
-      data: {images: landing.gallery, initialSlide}
+      data: {images: landing.gallery, initialSlide},
+      panelClass: 'mat-dialog-of-visible'
     });
   }
 
