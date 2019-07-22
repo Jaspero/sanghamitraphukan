@@ -10,42 +10,25 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#AboutModule',
-    data: {
-      title: 'about'
-    }
+    loadChildren: './pages/about/about.module#AboutModule'
   },
   {
     path: 'news',
-    loadChildren: './pages/news/news.module#NewsModule',
-    data: {
-      title: 'news'
-    }
+    loadChildren: './pages/news/news.module#NewsModule'
   },
   {
     path: 'contact',
-    loadChildren: './pages/contact/contact.module#ContactModule',
-    data: {
-      title: 'contact'
-    }
+    loadChildren: './pages/contact/contact.module#ContactModule'
   },
   {
     path: 'shop',
     loadChildren: () =>
-      import('./pages/shop/shop.module').then(mod => mod.ShopModule),
-    data: {
-      title: 'shop'
-    }
+      import('./pages/shop/shop.module').then(mod => mod.ShopModule)
   },
   {
     path: 'product',
     loadChildren: () =>
-      import('./pages/product/product.module').then(mod => mod.ProductModule),
-    data: {
-      data: {
-        title: 'product'
-      }
-    }
+      import('./pages/product/product.module').then(mod => mod.ProductModule)
   },
   {
     path: 'checkout',
