@@ -5,11 +5,11 @@
   "targets": {
     "jaspero-sanghamitra": {
       "hosting": {
-        "shop": [
-          "sanghamitra-shop"
-        ],
         "admin": [
           "sanghamitra-cms"
+        ],
+        "shop": [
+          "jaspero-sanghamitra"
         ]
       }
     }

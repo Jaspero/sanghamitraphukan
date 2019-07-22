@@ -142,6 +142,10 @@ export class AppComponent implements OnInit {
 
   openMobileHeader() {
     this.toggleMobileHeader = !this.toggleMobileHeader;
+    document.documentElement.style.setProperty(
+      'overflow',
+      this.toggleMobileHeader ? 'hidden' : 'unset'
+    );
   }
 
   openSearch() {

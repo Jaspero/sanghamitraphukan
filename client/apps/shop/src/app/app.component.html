@@ -26,7 +26,8 @@
           </mat-menu>
         </ng-container>
         <ng-template #anonymous>
-          <button mat-button (click)="logIn()">Login</button>
+
+          <button mat-button (click)="logIn()" id="nav-login">Login</button>
         </ng-template>
       </div>
 
@@ -95,7 +96,7 @@
         <h2>Sanghamitra Membership Sign Up</h2>
         <br>
         <mat-form-field class="newsletter">
-          <input type="email" matInput placeholder="Email" [formControl]="email" #mailEl>
+          <input type="email" id="sing-up" matInput placeholder="Email" [formControl]="email" #mailEl>
           <ng-container matSuffix>
             <mat-spinner *ngIf="loading$ | async; else loaded;" [diameter]="24"></mat-spinner>
             <ng-template #loaded>
@@ -118,16 +119,16 @@
 
       <div class="col-3 col-s-12">
         <h2 class="m-t-xs m-b-s">Legal</h2>
-        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('shippingReturns')">Shipping & returns</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('termsService')">Terms of service</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('privacy')">Privacy policy</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('cookies')">Cookies policy</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('shippingReturns')" id="shipping">Shipping & returns</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('termsService')" id="terms">Terms of service</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('privacy')" id="privacy">Privacy policy</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('cookies')" id="cookies">Cookies policy</a></p>
       </div>
 
       <div class="col-3 col-s-12">
         <h2 class="m-t-xs m-b-s">Follow us</h2>
-        <p class="m-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.instagram.com/sanghamitraphukan/">Instagram</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap" target="_blank" rel="noopener" href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap social-instagram" target="_blank" rel="noopener" href="https://www.instagram.com/sanghamitraphukan/">Instagram</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap social-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
       </div>
 
       <div class="col-12">
@@ -138,7 +139,7 @@
 </ng-container>
 
 <jfs-cookie>
-  <p class="ff-secondary ta-center fs-small">To help personalize content and provide a safer experience, we use cookies. By clicking or navigating the site, you agree to our <a class="link"><u>Cookies Policy</u></a>.</p>
+  <p class="ff-secondary ta-center fs-small">To help personalize content and provide a safer experience, we use cookies. By clicking or navigating the site, you agree to our <a class="link" (click)="legalDialog('cookies')"><u>Cookies Policy</u></a>.</p>
 </jfs-cookie>
 
 <!--Loading-->

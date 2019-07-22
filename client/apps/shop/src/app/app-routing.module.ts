@@ -10,15 +10,18 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    loadChildren: './pages/about/about.module#AboutModule'
+    loadChildren: () =>
+      import('./pages/about/about.module').then(mod => mod.AboutModule)
   },
   {
     path: 'news',
-    loadChildren: './pages/news/news.module#NewsModule'
+    loadChildren: () =>
+      import('./pages/news/news.module').then(mod => mod.NewsModule)
   },
   {
     path: 'contact',
-    loadChildren: './pages/contact/contact.module#ContactModule'
+    loadChildren: () =>
+      import('./pages/contact/contact.module').then(mod => mod.ContactModule)
   },
   {
     path: 'shop',

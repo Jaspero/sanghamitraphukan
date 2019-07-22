@@ -4,7 +4,6 @@ import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {News} from '@jf/interfaces/news.interface';
-import {Product} from '@jf/interfaces/product.interface';
 import {Observable, throwError} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {MetaResolver} from '../../../shared/resolvers/meta.resolver';
@@ -53,7 +52,7 @@ export class NewResolver implements Resolve<Observable<News>> {
           this.structuredDataResolver.resolve({
             data: {
               structuredData: {
-                '@type': 'Product',
+                '@type': 'Article',
                 name: singleNew.title,
                 shortDescription: singleNew.shortDescription,
                 id: singleNew.id,

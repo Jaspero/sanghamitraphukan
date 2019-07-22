@@ -7,3 +7,7 @@ $app-accent: mat-palette($mat-gray, 900);
 $app-theme: mat-light-theme($app-primary, $app-accent);
 
 @include angular-material-theme($app-theme);
+
+.mat-button-wrapper {
+  pointer-events: none;
+}
