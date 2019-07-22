@@ -18,7 +18,12 @@ export class NewsComponent implements OnInit {
 
   ngOnInit() {
     this.news$ = this.afs
-      .collection<News>(`${FirestoreCollections.News}-${STATIC_CONFIG.lang}`)
+      .collection<News>(
+        `${FirestoreCollections.News}-${STATIC_CONFIG.lang}`,
+        ref => {
+          return ref.orderBy('createdOn', 'desc');
+        }
+      )
       .valueChanges({idField: 'id'});
   }
 }
