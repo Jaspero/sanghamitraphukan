@@ -27,7 +27,7 @@ export class LayoutComponent implements OnInit {
     private router: Router
   ) {}
 
-  @ViewChild('logoutDialog') logoutDialog: TemplateRef<any>;
+  @ViewChild('logoutDialog', {static: true}) logoutDialog: TemplateRef<any>;
 
   languages = LANGUAGES;
   languageName$: Observable<string>;
