@@ -22,7 +22,7 @@ import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Customer} from '@jf/interfaces/customer.interface';
 import {notify} from '@jf/utils/notify.operator';
-import {auth, firestore, User} from 'firebase';
+import {auth, firestore, User} from 'firebase/app';
 import {from, throwError} from 'rxjs';
 import {
   catchError,
