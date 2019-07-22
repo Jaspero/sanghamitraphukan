@@ -1,22 +1,18 @@
-<div *ngIf="news$ | async as news">
-  <div *ngFor="let new of news">
-    <section class="p-y-l">
-      <div class="ta-center">
-        <h1 class="title starting-line">News</h1>
-      </div>
-      <div class="grid grid-news jc-start connecting-line ending-line">
-        <div class="col-6 col-xs-12">
-          <a class="block bg-primary p-y-s p-x-xs cs-pointer" [routerLink]="new.id">
-            <p class="fs-small m-b-xs">{{new.createdOn | date}}</p>
-            <p class="m-b-xs ff-secondary">{{new.title}}</p>
-            <div class="aspect-ratio m-b-xs" data-ratio="1:1">
-              <img class="aspect-item" [src]="new.gallery" alt="Article featured image.">
-            </div>
-            <p class="ff-secondary m-b-xs">{{new.shortDescription}}</p>
-            <p class="ff-secondary"><u>Read more</u></p>
-          </a>
-        </div>
-      </div>
-    </section>
+<section class="p-y-l" *ngIf="news$ | async as news">
+  <div class="ta-center">
+    <h1 class="title starting-line">News</h1>
   </div>
-</div>
+  <div class="grid grid-news jc-start connecting-line ending-line">
+    <div class="col-6 col-xs-12" *ngFor="let new of news">
+      <a class="block bg-primary p-y-s p-x-xs cs-pointer" [routerLink]="new.id">
+        <p class="fs-small m-b-xs">{{new.createdOn | date}}</p>
+        <p class="m-b-xs ff-secondary">{{new.title}}</p>
+        <div class="aspect-ratio m-b-xs" data-ratio="1:1">
+          <img class="aspect-item" [src]="new.gallery" alt="Article featured image.">
+        </div>
+        <p class="ff-secondary m-b-xs">{{new.shortDescription}}</p>
+        <p class="ff-secondary"><u>Read more</u></p>
+      </a>
+    </div>
+  </div>
+</section>
