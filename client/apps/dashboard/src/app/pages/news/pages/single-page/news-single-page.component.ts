@@ -32,6 +32,14 @@ export class NewsSinglePageComponent extends LangSinglePageComponent {
     });
   }
 
+  createId(): string {
+    return this.form
+      .get('title')
+      .value.toLowerCase()
+      .replace(/[^\w ]+/g, '')
+      .replace(/ +/g, '-');
+  }
+
   getSaveData(...args) {
     return this.galleryUploadComponent.save().pipe(
       switchMap(() => {

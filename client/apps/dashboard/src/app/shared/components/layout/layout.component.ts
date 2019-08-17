@@ -42,7 +42,7 @@ export class LayoutComponent implements OnInit {
     {label: 'Customers', icon: 'supervisor_account', value: '/customers'},
     {label: 'Reviews', icon: 'star_rate', value: '/reviews'},
     {label: 'Contacts', icon: 'contacts', value: '/contacts'},
-    {label: 'News', icon: 'news', value: '/news'}
+    {label: 'News', icon: 'collections_bookmark', value: '/news'}
   ];
 
   ngOnInit() {
