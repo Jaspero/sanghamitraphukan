@@ -70,26 +70,15 @@ export const PAGES: PageData[] = [
   {
     name: 'Single News',
     match: /^\/news\/(?:([^\/]+?))\/?$/i,
-    operation: async (capture, document) => {
-      // TODO: Language
-      const product = await admin
-        .firestore()
-        .collection('news-en')
-        .doc(capture[1])
-        .get();
-
-      if (!product.exists) {
-        throw new Error('Article Missing');
-      }
-
-      const data = product.data();
-
-      // TODO: Structured data
-      document.title = PAGE_PREFIX + data.name + PAGE_SUFFIX;
-      document.querySelector(`meta[name=description]`).content =
-        data.shortDescription;
-      setServerState({product: data}, document);
-    }
+    operation: (capture, document) =>
+      loadItem(
+        document,
+        'news-en',
+        capture[1],
+        'title',
+        'shortDescription',
+        'news'
+      )
   },
   {
     name: 'Contact',
@@ -124,6 +113,7 @@ export const PAGES: PageData[] = [
 ];
 
 export const DEFAULT_META = {
-  description: 'A modern pwa webshop built on Firebase with Angular',
-  keywords: 'e-commerce,angular,firebase,pwa'
+  description:
+    'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast',
+  keywords: 'e-commerce,muga silk,evening wear'
 };

@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {News} from '@jf/interfaces/news.interface';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {MetaResolver} from '../../../shared/resolvers/meta.resolver';
 import {StructuredDataResolver} from '../../../shared/resolvers/structured-data.resolver';
@@ -21,6 +21,13 @@ export class NewResolver implements Resolve<Observable<News>> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
+    if (
+      this.state.serverState.news &&
+      this.state.serverState.news.id === route.params.id
+    ) {
+      return of(this.state.serverState.news);
+    }
+
     this.state.loading$.next(true);
 
     return this.afs

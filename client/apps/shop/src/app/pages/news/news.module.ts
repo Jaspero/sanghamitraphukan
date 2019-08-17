@@ -18,6 +18,7 @@ import {NewResolver} from './resolvers/new.resolver';
         data: {
           meta: {
             title: 'News',
+            // tslint:disable-next-line
             description: `Follow SANGHAMITRA’s latest news and developments, connect to our instagram account and become a member to gain access to our events`
           }
         },
