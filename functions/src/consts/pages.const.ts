@@ -11,16 +11,18 @@ export const DEFAULT_META = {
 
 export const DEFAULT_META_PROPERTIES = {
   'og:type': 'website',
-  'og:url': 'https://fireshop.jaspero.co',
-  'og:title': 'Jaspero Fireshop',
-  'og:description': 'A modern pwa webshop built on Firebase with Angular',
-  'og:image': 'https://fireshop.jaspero.co/assets/images/fireshop.svg',
+  'og:url': 'https://sanghamitraphukan.com',
+  'og:title': 'Sanghamitra',
+  'og:description':
+    'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast',
+  'og:image': 'https://sanghamitraphukan.com/assets/images/fireshop.svg',
 
   'twitter:card': 'summary_large_image',
-  'twitter:url': 'https://fireshop.jaspero.co',
-  'twitter:title': 'Jaspero Fireshop',
-  'twitter:description': 'A modern pwa webshop built on Firebase with Angular',
-  'twitter:image': 'https://fireshop.jaspero.co/assets/images/fireshop.svg'
+  'twitter:url': 'https://sanghamitraphukan.com',
+  'twitter:title': 'Sanghamitra',
+  'twitter:description':
+    'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast',
+  'twitter:image': 'https://sanghamitraphukan.com/assets/images/fireshop.svg'
 };
 
 export type Meta = {[key: string]: string};
@@ -103,6 +105,17 @@ export const PAGES: PageData[] = [
     meta: {
       description:
         'We are an Indo-Italian fashion design and lifestyle brand, aiming to Simplify and Re-value Sustainably'
+    },
+    metaProperties: {
+      'og:url': 'https://sanghamitraphukan.com/about',
+      'og:title': 'About',
+      'og:description':
+        'We are an Indo-Italian fashion design and lifestyle brand, aiming to Simplify and Re-value Sustainably',
+
+      'twitter:url': 'https://sanghamitraphukan.com/about',
+      'twitter:title': 'About',
+      'twitter:description':
+        'We are an Indo-Italian fashion design and lifestyle brand, aiming to Simplify and Re-value Sustainably'
     }
   },
   {
@@ -110,6 +123,17 @@ export const PAGES: PageData[] = [
     match: /^\/news\/?$/i,
     meta: {
       description:
+        'Follow SANGHAMITRA’s latest news and developments, connect to our instagram account and become a member to gain access to our events'
+    },
+    metaProperties: {
+      'og:url': 'https://sanghamitraphukan.com/news',
+      'og:title': 'News',
+      'og:description':
+        'Follow SANGHAMITRA’s latest news and developments, connect to our instagram account and become a member to gain access to our events',
+
+      'twitter:url': 'https://sanghamitraphukan.com/news',
+      'twitter:title': 'News',
+      'twitter:description':
         'Follow SANGHAMITRA’s latest news and developments, connect to our instagram account and become a member to gain access to our events'
     }
   },
@@ -122,7 +146,24 @@ export const PAGES: PageData[] = [
         'news-en',
         capture[1],
         'title',
-        'shortDescription',
+        item => ({
+          description: item.shortDescription
+        }),
+        item => ({
+          'og:url': 'https://sanghamitraphukan.com/news/' + capture[1],
+          'og:title': item.title,
+          'og:description': item.shortDescription,
+          ...(item.gallery && item.gallery[0]
+            ? {'og:image': item.gallery[0]}
+            : {}),
+
+          'twitter:url': 'https://sanghamitraphukan.com/news/' + capture[1],
+          'twitter:title': item.title,
+          'twitter:description': item.shortDescription,
+          ...(item.gallery && item.gallery[0]
+            ? {'twitter:image': item.gallery[0]}
+            : {})
+        }),
         'news'
       )
   },
@@ -131,6 +172,17 @@ export const PAGES: PageData[] = [
     match: /^\/contact\/?$/i,
     meta: {
       description:
+        'Contact us for customised orders, bespoke traditional wear/ silk saris and consultations'
+    },
+    metaProperties: {
+      'og:url': 'https://sanghamitraphukan.com/contact',
+      'og:title': 'Contact',
+      'og:description':
+        'Contact us for customised orders, bespoke traditional wear/ silk saris and consultations',
+
+      'twitter:url': 'https://sanghamitraphukan.com/contact',
+      'twitter:title': 'Contact',
+      'twitter:description':
         'Contact us for customised orders, bespoke traditional wear/ silk saris and consultations'
     }
   },
@@ -142,12 +194,12 @@ export const PAGES: PageData[] = [
         'Browse through and shop our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics'
     },
     metaProperties: {
-      'og:url': 'https://fireshop.jaspero.co/shop',
+      'og:url': 'https://sanghamitraphukan.com/shop',
       'og:title': 'Shop',
       'og:description':
         'Browse through and shop our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics',
 
-      'twitter:url': 'https://fireshop.jaspero.co/shop',
+      'twitter:url': 'https://sanghamitraphukan.com/shop',
       'twitter:title': 'Shop',
       'twitter:description':
         'Browse through and shop our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics'
@@ -166,13 +218,19 @@ export const PAGES: PageData[] = [
           description: item.shortDescription
         }),
         item => ({
-          'og:url': `https://fireshop.jaspero.co/product/${capture[1]}`,
+          'og:url': `https://sanghamitraphukan.com/product/${capture[1]}`,
           'og:title': item.name,
           'og:description': item.shortDescription,
+          ...(item.gallery && item.gallery[0]
+            ? {'og:image': item.gallery[0]}
+            : {}),
 
-          'twitter:url': `https://fireshop.jaspero.co/product/${capture[1]}`,
+          'twitter:url': `https://sanghamitraphukan.com/product/${capture[1]}`,
           'twitter:title': item.name,
-          'twitter:description': item.shortDescription
+          'twitter:description': item.shortDescription,
+          ...(item.gallery && item.gallery[0]
+            ? {'twitter:image': item.gallery[0]}
+            : {})
         }),
         'product'
       );
