@@ -50,7 +50,7 @@ app.get('*', async (req, res) => {
       await foundPage.operation(capture, document);
     } catch (e) {
       console.log('e', e);
-      // TODO: Redirect to 404
+      status = constants.HTTP_STATUS_NOT_FOUND;
     }
   } else {
     document.title = PAGE_PREFIX + foundPage.name + PAGE_SUFFIX;
