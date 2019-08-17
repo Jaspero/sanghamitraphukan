@@ -16,9 +16,8 @@ import {LandingComponent} from './landing.component';
         data: {
           meta: {
             title: 'Home',
-            description:
-              'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, ' +
-              'made from Muga Silk and other precious indigenous fabrics from the Northeast'
+            // tslint:disable-next-line
+            description: `The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast`
           }
         },
         resolve: {

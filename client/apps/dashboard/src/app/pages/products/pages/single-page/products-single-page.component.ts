@@ -14,7 +14,6 @@ import {shareReplay, switchMap, take} from 'rxjs/operators';
 import {environment} from '../../../../../../../shop/src/environments/environment';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
 import {CURRENCIES} from '../../../../shared/const/currency.const';
-import {URL_REGEX} from '../../../../shared/const/url-regex.const';
 import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 
 @Component({
@@ -44,7 +43,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       switchMap(lang =>
         this.afs
           .collection<Category>(`${FirestoreCollections.Categories}-${lang}`)
-          .valueChanges('id')
+          .valueChanges({idField: 'id'})
       ),
       shareReplay(1)
     );
@@ -87,6 +86,14 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   //       }
   //     });
   // }
+
+  createId(): string {
+    return this.form
+      .get('name')
+      .value.toLowerCase()
+      .replace(/[^\w ]+/g, '')
+      .replace(/ +/g, '-');
+  }
 
   getSaveData(...args) {
     return this.categories$.pipe(
@@ -142,8 +149,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   buildForm(data: any) {
     this.form = this.fb.group({
       id: [
-        {value: data.id, disabled: this.currentState === this.viewState.Edit},
-        [Validators.required, Validators.pattern(URL_REGEX)]
+        {value: data.id, disabled: this.currentState === this.viewState.Edit}
       ],
       name: [data.name || '', Validators.required],
       active: data.active || false,
