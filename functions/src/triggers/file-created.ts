@@ -9,8 +9,12 @@ import {promisify} from 'util';
 const THUMB_MEDIUM = {width: 600, height: 600};
 const THUMB_SMALL = {width: 200, height: 200};
 
-export const fileCreated = functions.storage
-  .object()
+export const fileCreated = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: '2GB'
+  })
+  .storage.object()
   .onFinalize(async ({bucket, name, contentType, metadata}) => {
     const fileName = basename(name);
     const dirName = dirname(name);
