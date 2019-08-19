@@ -15,14 +15,14 @@ export const DEFAULT_META_PROPERTIES = {
   'og:title': 'Sanghamitra',
   'og:description':
     'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast',
-  'og:image': 'https://sanghamitraphukan.com/assets/images/fireshop.svg',
+  'og:image': 'https://sanghamitraphukan.com/assets/images/logo-full.png',
 
   'twitter:card': 'summary_large_image',
   'twitter:url': 'https://sanghamitraphukan.com',
   'twitter:title': 'Sanghamitra',
   'twitter:description':
     'The Universal Friend, our latest ‘laid back couture’ and evening wear collections, made from Muga Silk and other precious indigenous fabrics from the Northeast',
-  'twitter:image': 'https://sanghamitraphukan.com/assets/images/fireshop.svg'
+  'twitter:image': 'https://sanghamitraphukan.com/assets/images/logo-full.png'
 };
 
 export type Meta = {[key: string]: string};
