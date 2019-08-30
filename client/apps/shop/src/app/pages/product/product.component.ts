@@ -20,7 +20,9 @@ import {Review} from '@jf/interfaces/review.interface';
 import {combineLatest, Observable} from 'rxjs';
 import {map, startWith, switchMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
+import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {CartItem} from '../../shared/interfaces/cart-item.interface';
+import {Landing} from '../../shared/interfaces/landing.interface';
 import {CartService} from '../../shared/services/cart/cart.service';
 import {StateService} from '../../shared/services/state/state.service';
 import {WishListService} from '../../shared/services/wish-list/wish-list.service';
@@ -186,6 +188,13 @@ export class ProductComponent extends RxDestroy implements OnInit {
           return [allReviews, avgRating] as [Review[], number];
         })
       );
+  }
+
+  openLightBox(images: string[], initialSlide: number) {
+    this.dialog.open(LightboxComponent, {
+      data: {images, initialSlide},
+      panelClass: 'mat-dialog-of-visible'
+    });
   }
 
   openReviews() {

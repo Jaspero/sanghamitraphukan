@@ -26,6 +26,7 @@
 
 .product-img {
   margin-bottom: 40px;
+  cursor: pointer;
 
   @media (max-width: $screen-xs) {
     margin-bottom: 0;
