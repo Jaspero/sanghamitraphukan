@@ -6,14 +6,16 @@
   <div class="grid connecting-line">
     <div class="col-6 col-m-8 col-s-10 col-xs-12 ta-center">
       <p>An error has occurred</p>
-      <p class="m-y-s" *ngFor="let single of error">
-        {{single.message}}
-      </p>
+      <ng-container *ngIf="error">
+        <p class="m-y-s" *ngFor="let single of error">
+          {{single.message}}
+        </p>
+      </ng-container>
     </div>
   </div>
 
-  <div class="grid connecting-line ending-line">
-    <div class="col-6 ta-right">
+  <div class="grid connecting-line ending-line jc-center ta-center">
+    <div class="col-6 ta-right" *ngIf="error">
       <button mat-flat-button color="primary" (click)="resolveIssue()">Resolve issues</button>
 
     </div>

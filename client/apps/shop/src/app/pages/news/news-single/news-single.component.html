@@ -6,7 +6,7 @@
   <div class="grid ff-secondary connecting-line ending-line">
     <div class="col-6 col-m-8 col-s-10 col-xs-12">
       <h2 class="m-b-xs">{{data.news.title}}</h2>
-      <img class="m-b-xs w-full" [jfsLibraryImage]="data.news.gallery[0]" alt="Article featured image.">
+      <img class="m-b-xs w-full" src="assets/images/empty.svg" [jfsLibraryImage]="data.news.gallery[0]" alt="Article featured image.">
       <div class="single-news" [innerHTML]="data.news.content"></div>
     </div>
   </div>

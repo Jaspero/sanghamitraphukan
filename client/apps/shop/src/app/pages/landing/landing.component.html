@@ -1,14 +1,14 @@
 <div class="featured" *ngFor="let product of product$ | async">
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
-    <img class="featured-hero-img" [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
+    <img class="featured-hero-img" src="assets/images/empty.svg" [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
   </div>
 
   <div class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
         <jp-slide *ngFor="let img of product.gallery; index as index">
-          <img draggable="false" [jfsLibraryImage]="img" aria-hidden="true" class="slider-img cs-pointer" (tap)="openLightBox(product, index)">
+          <img draggable="false" src="assets/images/empty.svg" [jfsLibraryImage]="img" aria-hidden="true" class="slider-img cs-pointer" (tap)="openLightBox(product, index)">
         </jp-slide>
       </jp-slides>
     </jp-slider>

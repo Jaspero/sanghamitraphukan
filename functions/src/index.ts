@@ -18,4 +18,4 @@ export {similarProducts} from './rest/similar-products';
 export {stripe} from './rest/stripe';
 export {instagram} from './rest/instagram-authorization';
 
-// export {ssr} from './ssr';
+export {ssr} from './ssr';

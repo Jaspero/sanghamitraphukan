@@ -28,7 +28,9 @@ export class CheckoutErrorComponent implements OnInit, OnDestroy {
   error: Array<Errors>;
 
   ngOnInit() {
-    this.error = this.state.checkoutResult as Array<Errors>;
+    if (Array.isArray(this.state.checkoutResult)) {
+      this.error = this.state.checkoutResult as Array<Errors>;
+    }
   }
 
   ngOnDestroy() {

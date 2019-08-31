@@ -1,11 +1,11 @@
-<form class="p-y-l" *ngIf="form$ | async as settingsForm" [formGroup]="settingsForm">
+<div class="p-y-l" *ngIf="form$ | async as settingsForm">
 
   <div class="ta-center">
     <h1 class="title starting-line">Personal information</h1>
   </div>
 
   <div class="grid ff-secondary connecting-line">
-    <div class="col-6 col-m-8 col-s-10 col-xs-12">
+    <form class="col-6 col-m-8 col-s-10 col-xs-12" [formGroup]="settingsForm">
       <mat-card>
         <mat-form-field class="w-full" appearance="outline">
           <mat-label>Name</mat-label>
@@ -23,10 +23,10 @@
           <textarea matInput formControlName="bio"></textarea>
         </mat-form-field>
         <div class="ta-right">
-          <button id="btn-info-sub" mat-flat-button color="primary" (click)="submitForm(settingsForm.getRawValue())">Submit</button>
+          <button id="btn-info-sub" type="submit" mat-flat-button color="primary" [jpLoadClick]="submitForm(settingsForm.getRawValue())">Submit</button>
         </div>
       </mat-card>
-    </div>
+    </form>
   </div>
 
   <div class="ta-center">
@@ -34,7 +34,7 @@
   </div>
 
   <div class="grid ff-secondary connecting-line">
-    <div class="col-6 col-m-8 col-s-10 col-xs-12">
+    <form class="col-6 col-m-8 col-s-10 col-xs-12" [formGroup]="settingsForm">
       <mat-card>
         <p class="fs-small bg-l-secondary p-a-xs m-b-s flex ai-center">
           <mat-icon>info</mat-icon>
@@ -121,10 +121,10 @@
           </mat-form-field>
         </ng-container>
         <div class="ta-right">
-          <button id="btn-address-sub" mat-flat-button color="primary" (click)="submitForm(settingsForm.getRawValue())">Submit</button>
+          <button id="btn-address-sub" type="submit" mat-flat-button color="primary" [jpLoadClick]="submitForm(settingsForm.getRawValue())">Submit</button>
         </div>
       </mat-card>
-    </div>
+    </form>
   </div>
 
 
@@ -142,4 +142,4 @@
   </div>
 
 
-</form>
+</div>

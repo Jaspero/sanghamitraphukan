@@ -6,7 +6,7 @@ import {MatDialog} from '@angular/material';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
-import {from, Observable, pipe, Subscription} from 'rxjs';
+import {from, Observable, Subscription} from 'rxjs';
 import {map, switchMap, take, takeUntil} from 'rxjs/operators';
 import {DeleteUserComponent} from '../../components/delete-user/delete-user.component';
 
@@ -90,16 +90,16 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   }
 
   submitForm(data) {
-    from(
-      this.afs
-        .doc(
-          `${FirestoreCollections.Customers}/${
-            this.afAuth.auth.currentUser.uid
-          }`
-        )
-        .update(data)
-    )
-      .pipe(notify())
-      .subscribe();
+    return () =>
+      from(
+        this.afs
+          .doc(
+            `${FirestoreCollections.Customers}/${
+              this.afAuth.auth.currentUser.uid
+            }`
+          )
+          .update(data)
+      )
+        .pipe(notify())
   }
 }
