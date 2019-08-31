@@ -15,7 +15,7 @@
     <div class="flex ai-center">
       <div class="hide-s">
         <ng-container *ngIf="state.user$ | async as user; else anonymous">
-          <button mat-button [matMenuTriggerFor]="shopCategories">{{user.authData.displayName}}</button>
+          <button mat-button [matMenuTriggerFor]="shopCategories">{{user.customerData?.name || user.authData.displayName || user.authData.email}}</button>
           <mat-menu #shopCategories="matMenu">
             <a mat-menu-item routerLink="/my-profile/settings">Settings</a>
             <a mat-menu-item routerLink="/my-profile/wish-list">Wish List</a>
@@ -92,7 +92,7 @@
     </div>
 
     <div class="grid">
-      <div class="col-12">
+      <form class="col-12">
         <h2>Sanghamitra Membership Sign Up</h2>
         <br>
         <mat-form-field class="newsletter">
@@ -100,14 +100,14 @@
           <ng-container matSuffix>
             <mat-spinner *ngIf="loading$ | async; else loaded;" [diameter]="24"></mat-spinner>
             <ng-template #loaded>
-              <button [disabled]="email.invalid" mat-icon-button (click)="submitEmail()" aria-label="Submit">
+              <button type="submit" [disabled]="email.invalid" mat-icon-button (click)="submitEmail()" aria-label="Submit">
                 <mat-icon>arrow_forward</mat-icon>
               </button>
             </ng-template>
           </ng-container>
           <mat-error *ngIf="email.invalid">Please enter a valid email</mat-error>
         </mat-form-field>
-      </div>
+      </form>
     </div>
 
     <div class="grid m-t-s">

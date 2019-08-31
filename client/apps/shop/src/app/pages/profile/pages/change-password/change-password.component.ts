@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {notify} from '@jf/utils/notify.operator';
 import {from, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {LoginSignupDialogComponent} from '../../../../shared/components/login-signup-dialog/login-signup-dialog.component';
 import {RepeatPasswordValidator} from '../../../../shared/helpers/compare-passwords';
 
@@ -30,42 +30,35 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   buildForm() {
-    this.passwordForm = this.fb.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(this.afAuth.auth.currentUser.email)
-        ]
-      ],
-      pg: this.fb.group(
-        {
-          password: ['', [Validators.required, Validators.minLength(6)]],
-          repeatPassword: ['', [Validators.required, Validators.minLength(6)]]
-        },
-        {validator: RepeatPasswordValidator('Passwords not matching')}
-      )
-    });
+    this.passwordForm = this.fb.group(
+      {
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        repeatPassword: ['', [Validators.required, Validators.minLength(6)]]
+      },
+      {validator: RepeatPasswordValidator('Passwords not matching')}
+    )
+
   }
 
   changePassword() {
-    const pass = this.passwordForm.getRawValue();
+    return () => {
+      const pass = this.passwordForm.getRawValue();
 
-    from(this.afAuth.auth.currentUser.updatePassword(pass.pg.password))
-      .pipe(
-        notify({
-          error:
-            'You must relogin to update you password because of the security reasons'
-        }),
+      return from(this.afAuth.auth.currentUser.updatePassword(pass.password))
+        .pipe(
+          notify({
+            error: 'For security reasons please re-login to update your password.'
+          }),
 
-        // TODO: If the error for invalid password shows up open a dialog here
-        catchError(err => {
-          this.dialog.open(LoginSignupDialogComponent);
-          return throwError(err);
-        })
-      )
-      .subscribe(() => {
-        this.passwordForm.reset();
-      });
+          // TODO: If the error for invalid password shows up open a dialog here
+          catchError(err => {
+            this.dialog.open(LoginSignupDialogComponent);
+            return throwError(err);
+          }),
+          tap(() =>
+            this.passwordForm.reset()
+          )
+        )
+    };
   }
 }

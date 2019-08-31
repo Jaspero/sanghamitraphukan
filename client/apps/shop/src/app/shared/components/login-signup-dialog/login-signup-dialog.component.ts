@@ -30,7 +30,6 @@ import {
   skip,
   switchMap,
   take,
-  takeUntil,
   tap
 } from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
@@ -202,7 +201,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
         )
       ).pipe(
         notify({
-          success: 'You are now logged in',
+          success: null,
           error: 'The email and password you entered did not match our records.'
         }),
         catchError(error => {

@@ -5,8 +5,10 @@
       <mat-icon>edit</mat-icon>
     </button>
   </div>
-  <h6 class="c-l-primary p-y-xs">{{afAuth.auth.currentUser.displayName}}</h6>
-  <p class="c-l-secondary">{{afAuth.auth.currentUser.email}}</p>
+  <ng-container *ngIf="state.user$ | async as user;">
+    <h6 class="c-l-primary p-y-xs">{{user.customerData?.name || user.authData.displayName || user.authData.email}}</h6>
+    <p class="c-l-secondary" *ngIf="user.customerData?.name || user.authData.displayName">{{user.authData.email}}</p>
+  </ng-container>
 </section>
 <input #file type="file" hidden (change)="filesImage($event.target)">
 <nav mat-tab-nav-bar backgroundColor="primary" mat-align-tabs="center">

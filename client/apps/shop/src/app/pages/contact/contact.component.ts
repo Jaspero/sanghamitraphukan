@@ -5,6 +5,7 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
 import * as nanoid from 'nanoid';
 import {from} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'jfs-contact',
@@ -40,10 +41,12 @@ export class ContactComponent implements OnInit {
             createdOn: Date.now()
           })
       )
-        .pipe(notify())
-        .subscribe(() => {
-          this.form.reset();
-        });
+        .pipe(
+          notify(),
+          tap(() => {
+            this.form.reset();
+          })
+        )
     };
   }
 }

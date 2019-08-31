@@ -33,9 +33,6 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
         path: '',
         component: ProfileComponent,
         canActivate: [IsLoggedInGuard],
-        data: {
-          private: true
-        },
         children: [
           {
             path: 'settings',
@@ -44,7 +41,8 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
               meta: {
                 title: 'Settings',
                 description: 'Your settings, you can edit bio here'
-              }
+              },
+              private: true
             },
             resolve: {
               meta: MetaResolver
@@ -57,7 +55,8 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
               meta: {
                 title: 'Wish-list',
                 description: 'ListComponent of your wish-list products'
-              }
+              },
+              private: true
             },
             resolve: {
               meta: MetaResolver
@@ -70,7 +69,8 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
               meta: {
                 title: 'Orders',
                 description: 'ListComponent of your orders'
-              }
+              },
+              private: true
             },
             resolve: {
               meta: MetaResolver
@@ -83,7 +83,8 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
               meta: {
                 title: 'Reviews',
                 description: 'ListComponent of your reviews'
-              }
+              },
+              private: true
             },
             resolve: {
               meta: MetaResolver
@@ -96,7 +97,8 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
               meta: {
                 title: 'Password',
                 description: 'Change your password'
-              }
+              },
+              private: true
             },
             resolve: {
               meta: MetaResolver

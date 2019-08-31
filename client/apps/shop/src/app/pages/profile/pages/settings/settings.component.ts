@@ -50,7 +50,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
 
   buildForm(data) {
     const group = this.fb.group({
-      fullName: data.fullName || '',
+      name: data.name || '',
       gender: data.gender || '',
       bio: data.bio || '',
       billing: this.checkForm(data.billing ? data.billing : {}),
