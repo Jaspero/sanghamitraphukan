@@ -23,10 +23,10 @@ import {StateService} from '../../shared/services/state/state.service';
 export class ProfileComponent implements OnInit {
   constructor(
     public afAuth: AngularFireAuth,
+    public state: StateService,
     private router: Router,
     private afs: AngularFireStorage,
     private angularFireStore: AngularFirestore,
-    private state: StateService
   ) {}
 
   @ViewChild('file', {static: true})

@@ -422,8 +422,8 @@ app.post('/webhook', async (req, res) => {
               additionalProperties: [{key: 'OrderId', value: order.id}],
               message,
               firebaseDashboard:
-                'https://console.firebase.google.com/u/2/project/jaspero-site/overview',
-              adminDashboard: 'https://fireshop.admin.jaspero.co/'
+                'https://console.firebase.google.com/u/2/project/jaspero-sanghamitra/overview',
+              adminDashboard: 'https://admin.sanghamitraphukan.com'
             }
           ),
 
