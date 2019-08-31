@@ -15,8 +15,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
-  MatSnackBar,
-  MatSort
+  MatSnackBar
 } from '@angular/material';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
@@ -86,7 +85,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
       } else {
         this.afAuth.auth.signOut();
         this.snackBar.open(
-          'You do not have an account.Please sign up first!',
+          'You do not have an account. Please sign up first!',
           'Dismiss',
           {
             duration: 2500
@@ -101,6 +100,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
       user: User
     ) => {
       this.state.logInValid$.next(true);
+
       if (doc.exists) {
         this.snackBar.open('Logged in with existing account', 'Dismiss', {
           duration: 2500
@@ -123,8 +123,8 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
         from(docRef.set(signUpData))
           .pipe(
             notify({
-              success: 'You are now logged in',
-              error: 'Invalid'
+              success: 'Your account was successfully created.',
+              error: 'There was an error. Please try again later.'
             })
           )
           .subscribe();
@@ -186,10 +186,6 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
             data.email,
             data.pg.password
           );
-        }),
-        notify({
-          success: 'Your account is successfully created',
-          error: 'Your email is invalid or already in use'
         })
       );
     };
@@ -275,8 +271,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
           );
           return docRef.get({source: 'server'}).pipe(map(doc => ({doc, user})));
         }),
-        take(1),
-        takeUntil(this.destroyed$)
+        take(1)
       )
       .subscribe(res => {
         this.validation[this.currentView](docRef, res.doc, res.user);

@@ -28,7 +28,6 @@ service cloud.firestore {
       allow write, delete: if write()
     }
 
-
     match /news-en/{new} {
       allow read: if true
       allow write, delete: if write()
@@ -45,8 +44,8 @@ service cloud.firestore {
     }
 
     match /customers/{customer} {
-      allow read: if readOrWrite() || resource.id == auth.uid;
-      allow write, delete: if write() || resource.id == auth.uid;
+      allow read, create: if true;
+      allow update, delete: if write() || resource.id == auth.uid;
     }
 
     match /reviews/{review} {

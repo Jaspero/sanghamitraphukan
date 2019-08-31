@@ -19,14 +19,7 @@ export const userCreated = functions.auth.user().onCreate(async user => {
     // Set custom user claims on this newly created user.
     await auth().setCustomUserClaims(user.uid, customClaims);
   } else {
-    await parseEmail(user.email, 'Welcome to Fireshop', 'user-created', user);
-
-    console.log(
-      'url',
-      `https://us20.api.mailchimp.com/3.0/lists/${
-        ENV_CONFIG.mailchimp.list
-      }/members/`
-    );
+    await parseEmail(user.email, 'Welcome to Sanghamtira', 'user-created', user);
 
     try {
       await rp({

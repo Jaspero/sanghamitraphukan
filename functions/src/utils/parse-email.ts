@@ -21,8 +21,8 @@ export async function parseEmail(
     .send({
       to,
       from: {
-        name: 'Jaspero Ltd',
-        email: 'info@jaspero.co'
+        name: 'Sanghamitra',
+        email: 'info@sanghamitraphukan.com'
       },
       subject,
       text: 'Please use an HTML enabled client to view this email.',

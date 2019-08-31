@@ -31,8 +31,6 @@ export class ContactComponent implements OnInit {
 
   send() {
     return () => {
-      const formData = this.form.getRawValue();
-
       return from(
         this.afs
           .collection(FirestoreCollections.Contacts)
