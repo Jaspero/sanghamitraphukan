@@ -4,7 +4,7 @@ import {
   Component,
   ElementRef,
   OnInit,
-  QueryList,
+  QueryList, TemplateRef, ViewChild,
   ViewChildren
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -105,6 +105,11 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
    */
   @ViewChildren('card')
   cardHostEl: QueryList<ElementRef<HTMLElement>>;
+
+  @ViewChild('dialogLegal', {static: true})
+  dialogLegal: TemplateRef<any>;
+
+  dialogContent = [];
 
   pageLoading$ = new BehaviorSubject(true);
   checkoutLoading$ = new BehaviorSubject(false);
@@ -370,10 +375,24 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
           );
           this.router.navigate(['checkout/success']);
         },
-        () => {
+        (error) => {
+          console.error(error);
           this.router.navigate(['checkout/error']);
         }
       );
+  }
+
+  legalDialog(el) {
+    this.afs
+      .collection(FirestoreCollections.Settings)
+      .doc('legal')
+      .get()
+      .subscribe(value => {
+        this.dialogContent = value.data()[el];
+        this.dialog.open(this.dialogLegal, {
+          width: '1000px'
+        });
+      });
   }
 
   logInSignUp(logIn = true) {

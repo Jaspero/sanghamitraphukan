@@ -46,47 +46,47 @@
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="First name" formControlName="firstName">
+                        <input matInput placeholder="First name" formControlName="firstName">
                       </mat-form-field>
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Last name" formControlName="lastName">
+                        <input matInput placeholder="Last name" formControlName="lastName">
                       </mat-form-field>
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Email" formControlName="email">
+                        <input matInput placeholder="Email" formControlName="email">
                       </mat-form-field>
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Phone" formControlName="phone">
+                        <input matInput placeholder="Phone" formControlName="phone">
                       </mat-form-field>
                     </div>
                     <div class="col-4 col-xs-7">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="City" formControlName="city">
+                        <input matInput placeholder="City" formControlName="city">
                       </mat-form-field>
                     </div>
                     <div class="col-4 col-xs-5">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="ZIP code" formControlName="zip">
+                        <input matInput placeholder="ZIP code" formControlName="zip">
                       </mat-form-field>
                     </div>
                     <div class="col-4 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Country" formControlName="country">
+                        <input matInput placeholder="Country" formControlName="country">
                       </mat-form-field>
                     </div>
                     <div class="col-8 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Billing address" formControlName="line1">
+                        <input matInput placeholder="Billing address" formControlName="line1">
                       </mat-form-field>
                     </div>
                     <div class="col-8 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Billing address, line 2" formControlName="line2">
+                        <input matInput placeholder="Billing address, line 2" formControlName="line2">
                       </mat-form-field>
                     </div>
                   </ng-container>
@@ -104,47 +104,47 @@
                   <ng-container formGroupName="shipping" *ngIf="data.form.get('shipping')">
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="First name" formControlName="firstName">
+                        <input matInput placeholder="First name" formControlName="firstName">
                       </mat-form-field>
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Last name" formControlName="lastName">
+                        <input matInput placeholder="Last name" formControlName="lastName">
                       </mat-form-field>
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Email" formControlName="email">
+                        <input matInput placeholder="Email" formControlName="email">
                       </mat-form-field>
                     </div>
                     <div class="col-6 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Phone" formControlName="phone">
+                        <input matInput placeholder="Phone" formControlName="phone">
                       </mat-form-field>
                     </div>
                     <div class="col-4 col-xs-7">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="City" formControlName="city">
+                        <input matInput placeholder="City" formControlName="city">
                       </mat-form-field>
                     </div>
                     <div class="col-4 col-xs-5">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="ZIP code" formControlName="zip">
+                        <input matInput placeholder="ZIP code" formControlName="zip">
                       </mat-form-field>
                     </div>
                     <div class="col-4 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Country" formControlName="country">
+                        <input matInput placeholder="Country" formControlName="country">
                       </mat-form-field>
                     </div>
                     <div class="col-8 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Billing address" formControlName="line1">
+                        <input matInput placeholder="Billing address" formControlName="line1">
                       </mat-form-field>
                     </div>
                     <div class="col-8 col-xs-12">
                       <mat-form-field class="w-full" appearance="outline">
-                        <input matInput type="text" placeholder="Billing address, line 2" formControlName="line2">
+                        <input matInput placeholder="Billing address, line 2" formControlName="line2">
                       </mat-form-field>
                     </div>
                   </ng-container>
@@ -248,7 +248,7 @@
                 <mat-divider></mat-divider>
               </div>
               <div class="m-t-xs m-b-s">
-                <mat-checkbox color="primary" [formControl]="data.termsControl">I agree to the</mat-checkbox>&nbsp;<a class="c-primary" href="" target="_blank"><u>terms of service</u>.</a>
+                <mat-checkbox color="primary" [formControl]="data.termsControl">I agree to the</mat-checkbox>&nbsp;<a class="c-primary" (click)="legalDialog('termsService')"><u>terms of service</u>.</a>
               </div>
               <div class="ta-right p-y-xs">
                 <button
@@ -276,3 +276,12 @@
     </mat-horizontal-stepper>
   </div>
 </div>
+
+<ng-template #dialogLegal>
+  <article class="policy">
+    <button class="policy-close" mat-dialog-close mat-icon-button aria-label="Close this dialog">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <main [innerHTML]="dialogContent"></main>
+  </article>
+</ng-template>
