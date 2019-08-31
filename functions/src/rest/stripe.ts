@@ -479,13 +479,15 @@ app.post('/webhook', async (req, res) => {
         );
 
         if (order.billing.email) {
-          parseEmail(
-            order.billing.email,
-            'Error processing order',
-            'customer-error',
-            {
-              website: 'https://fireshop.jaspero.co'
-            }
+          exec.push(
+            parseEmail(
+              order.billing.email,
+              'Error processing order',
+              'customer-error',
+              {
+                website: 'https://fireshop.jaspero.co'
+              }
+            )
           )
         }
       }
