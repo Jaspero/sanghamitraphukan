@@ -303,6 +303,9 @@ app.post('/webhook', async (req, res) => {
 
   let exec;
 
+  console.log('order', JSON.stringify(order));
+  console.log('items', JSON.stringify(items));
+
   switch (event['type']) {
     case 'payment_intent.succeeded':
       exec = [
