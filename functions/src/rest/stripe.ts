@@ -260,7 +260,7 @@ app.post('/webhook', async (req, res) => {
   } catch (err) {
     console.error(err);
     // invalid signature
-    res.status(HttpStatus.BadRequest).end();
+    res.sendStatus(HttpStatus.Ok);
     return;
   }
 
@@ -307,6 +307,13 @@ app.post('/webhook', async (req, res) => {
       }))
   ]);
 
+  if (!order) {
+    res.sendStatus(HttpStatus.Ok);
+    return;
+  }
+
+  console.log('order', JSON.stringify(order));
+
   /**
    * Join orderItems[] and orderItemsData[]
    */
@@ -322,9 +329,6 @@ app.post('/webhook', async (req, res) => {
   );
 
   let exec;
-
-  console.log('order', JSON.stringify(order));
-  console.log('items', JSON.stringify(items));
 
   switch (event['type']) {
     case 'payment_intent.succeeded':
