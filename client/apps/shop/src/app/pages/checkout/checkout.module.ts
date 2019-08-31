@@ -7,16 +7,34 @@ import {CheckoutErrorComponent} from './checkout-error/checkout-error.component'
 import {CheckoutSuccessComponent} from './checkout-success/checkout-success.component';
 
 const routes: Routes = [
-  {path: '', component: CheckoutComponent},
+  {
+    path: '',
+    component: CheckoutComponent,
+    data: {
+      meta: {
+        title: 'Checkout',
+      }
+    }
+  },
   {
     path: 'error',
     component: CheckoutErrorComponent,
-    canActivate: [CheckoutCompleteGuard]
+    canActivate: [CheckoutCompleteGuard],
+    data: {
+      meta: {
+        title: 'Checkout Error',
+      }
+    }
   },
   {
     path: 'success',
     component: CheckoutSuccessComponent,
-    canActivate: [CheckoutCompleteGuard]
+    canActivate: [CheckoutCompleteGuard],
+    data: {
+      meta: {
+        title: 'Checkout Success',
+      }
+    }
   }
 ];
 

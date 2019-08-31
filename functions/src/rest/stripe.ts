@@ -4,13 +4,16 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as stripeLib from 'stripe';
 import {ENV_CONFIG} from '../consts/env-config.const';
+import {STATIC_CONFIG} from '../consts/static-config.const';
 import {HttpStatus} from '../enums/http-status.enum';
+import {currencyFormat} from '../utils/currency-format';
 import {parseEmail} from '../utils/parse-email';
 
 interface OrderItem {
   id: string;
   quantity: number;
   identifier: string;
+  price?: number | string;
   attributes: any;
 }
 
@@ -19,6 +22,11 @@ interface GeneralSettings {
   inactiveForQuantity: boolean;
   autoReduceQuantity: boolean;
   errorNotificationEmail: string;
+}
+
+interface Currency {
+  primary: string;
+  shipping: number;
 }
 
 class CheckoutError extends Error {
@@ -257,7 +265,7 @@ app.post('/webhook', async (req, res) => {
   }
 
   const intent = event.data.object;
-  const [order, settings] = await Promise.all([
+  const [order, settings, currency] = await Promise.all([
     admin
       .firestore()
       .collection('orders')
@@ -266,9 +274,11 @@ app.post('/webhook', async (req, res) => {
       .then(snapshots => {
         const docs = snapshots.docs.map(d => ({
           ...(d.data() as {
-            email: string;
             orderItems: string[];
             orderItemsData: OrderItem[];
+            status: string
+            billing?: any;
+            price?: any;
           }),
           id: d.id
         }));
@@ -284,6 +294,16 @@ app.post('/webhook', async (req, res) => {
       .then(snapshot => ({
         id: snapshot.id,
         ...(snapshot.data() as GeneralSettings)
+      })),
+
+    admin
+      .firestore()
+      .collection('settings')
+      .doc('currency')
+      .get()
+      .then(snapshot => ({
+        id: snapshot.id,
+        ...(snapshot.data() as Currency)
       }))
   ]);
 
@@ -308,6 +328,23 @@ app.post('/webhook', async (req, res) => {
 
   switch (event['type']) {
     case 'payment_intent.succeeded':
+
+      if (order.status === 'payed') {
+        res.sendStatus(HttpStatus.Ok);
+        return;
+      }
+
+      const emailData = {
+        order: {
+          ...order,
+          orderItemsData: order.orderItemsData.map(item => {
+            item.price = currencyFormat(order.price.total, currency.primary);
+            return item;
+          }),
+          total: currencyFormat(order.price.total, currency.primary)
+        }
+      };
+
       exec = [
         admin
           .firestore()
@@ -319,11 +356,24 @@ app.post('/webhook', async (req, res) => {
             },
             {merge: true}
           ),
-        parseEmail(order.email, 'Order Complete', 'order-complete', {
-          order,
-          items
-        })
+        parseEmail(
+          STATIC_CONFIG.adminEamil,
+          'New Order Payed',
+          'admin-order-notification',
+          emailData
+        )
       ];
+
+      if (order.billing.email) {
+        exec.push(
+          parseEmail(
+            order.billing.email,
+            'Order Complete',
+            'order-complete',
+            emailData
+          )
+        )
+      }
 
       if (settings.autoReduceQuantity) {
         exec.push(
@@ -415,7 +465,7 @@ app.post('/webhook', async (req, res) => {
           parseEmail(
             settings.errorNotificationEmail,
             'Error processing payment',
-            'admin-error.hbs',
+            'admin-error',
             {
               title: 'Checkout Error',
               description: 'There was an error during checkout',
@@ -425,17 +475,19 @@ app.post('/webhook', async (req, res) => {
                 'https://console.firebase.google.com/u/2/project/jaspero-sanghamitra/overview',
               adminDashboard: 'https://admin.sanghamitraphukan.com'
             }
-          ),
+          )
+        );
 
+        if (order.billing.email) {
           parseEmail(
-            order.email,
+            order.billing.email,
             'Error processing order',
-            'customer-error.hbs',
+            'customer-error',
             {
               website: 'https://fireshop.jaspero.co'
             }
           )
-        );
+        }
       }
 
       await Promise.all(exec);

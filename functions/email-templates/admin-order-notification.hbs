@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Order</th>
+        <td>{{order.id}}</td>
+    </tr>
+    {{#each order.orderItemsData}}
+        <tr>
+            <th>{{this.name}} (x{{this.quantity}})</th>
+            <td>{{this.price}}</td>
+        </tr>
+    {{/each}}
+    <tr>
+        <th>Total</th>
+        <td>{{order.total}}</td>
+    </tr>
+</table>

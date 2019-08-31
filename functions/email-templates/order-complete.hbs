@@ -45,23 +45,18 @@
     <tr>
         <td colspan="2">Here's the summary of your order:<br><br></td>
     </tr>
-    <tr class="order-summary">
-        <td>[item] (x1)</td>
-        <td class="right">$120</td>
-    </tr>
-    <tr class="order-summary">
-        <td>[item] (x1)</td>
-        <td class="right">$120</td>
-    </tr>
-    <tr class="order-summary">
-        <td colspan="2"><hr></td>
-    </tr>
+    {{#each order.orderItemsData}}
+        <tr class="order-summary">
+            <td>{{this.name}} (x{{this.quantity}})</td>
+            <td class="right">{{this.price}}</td>
+        </tr>
+    {{/each}}
     <tr class="order-summary">
         <td>Total<br><br></td>
-        <td class="right">$120</td>
+        <td class="right">{{order.total}}</td>
     </tr>
     <tr>
-        <td colspan="2">Lorem ipsum dolor sit amet <a href="">useful link</a>.</td>
+        <td colspan="2">Please let us know if you have any issues or questions at <a href="mailto:sales@sanghamitraphukan.com">sales@sanghamitraphukan.com</a>.</td>
     </tr>
     <tr><td></td></tr>
     </tbody>
