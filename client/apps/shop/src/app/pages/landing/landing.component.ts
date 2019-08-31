@@ -1,12 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {SliderOptions} from '@jaspero/ng-slider';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
@@ -16,7 +10,6 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {Landing} from '../../shared/interfaces/landing.interface';
-import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'jfs-landing',
@@ -36,9 +29,6 @@ export class LandingComponent implements OnInit {
     blocksPerView: 5,
     loop: false
   };
-
-  @ViewChild('shopDisable', {static: true})
-  shopDisable: TemplateRef<any>;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -69,12 +59,6 @@ export class LandingComponent implements OnInit {
     this.dialog.open(LightboxComponent, {
       data: {images: landing.gallery, initialSlide},
       panelClass: 'mat-dialog-of-visible'
-    });
-  }
-
-  disableShopForNow() {
-    this.dialog.open(this.shopDisable, {
-      width: '400px'
     });
   }
 

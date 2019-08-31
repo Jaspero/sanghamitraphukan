@@ -6,7 +6,7 @@
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/about">About</a>
       <a mat-button [routerLink]="['/news']">News</a>
-      <a mat-button (click)="disableShopForNow()">Shop</a>
+      <a mat-button [routerLink]="['/shop']">Shop</a>
       <a mat-button [routerLink]="['/contact']">Contact</a>
     </nav>
 
@@ -55,7 +55,7 @@
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
         <a class="mobile-row-first link-contact" (click)="openMobileHeader()" routerLink="/contact"><span>Contact</span></a>
         <a class="mobile-row-first link-news" (click)="openMobileHeader()" routerLink="/news"><span>News</span></a>
-        <a class="mobile-row-first link-shop" (click)="disableShopForNow()"><span>Shop</span></a>
+        <a class="mobile-row-first link-shop" (click)="openMobileHeader()" routerLink="/shop"><span>Shop</span></a>
       </div>
 
       <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra" (click)="openMobileHeader()" routerLink="/">
@@ -154,15 +154,4 @@
     </button>
     <main [innerHTML]="dialogContent"></main>
   </article>
-</ng-template>
-
-<ng-template #shopDisable>
-  <section class="ta-center">
-    <div class="p-y-xs">
-      <img src="assets/images/logo-full.svg" alt="Sanghamitra." width="140">
-    </div>
-    <p class="ff-secondary m-b-s">The SANGHAMITRA store will launch on the 31st of August. Sign up to our newsletter to receive updates and contact us for bespoke orders and consultations:</p>
-    <p class="m-b-xs"><a href="mailto:info@sanghamitraphukan.com"><u>info@sanghamitraphukan.com</u></a></p>
-    <p class="m-b-xs"><a href="mailto:bespoke@sanghamitraphukan.com"><u>bespoke@sanghamitraphukan.com</u></a></p>
-  </section>
 </ng-template>

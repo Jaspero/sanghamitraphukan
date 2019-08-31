@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   @ViewChild('dialogLegal', {static: true}) dialogLegal: TemplateRef<any>;
-  @ViewChild('shopDisable', {static: true}) shopDisable: TemplateRef<any>;
 
   /**
    * Useful for showing backgrounds in css
@@ -112,12 +111,6 @@ export class AppComponent implements OnInit {
     if (environment.serviceWorker) {
       this.connectSw();
     }
-  }
-
-  disableShopForNow() {
-    this.dialog.open(this.shopDisable, {
-      width: '400px'
-    });
   }
 
   submitEmail() {
