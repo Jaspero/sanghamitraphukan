@@ -219,7 +219,9 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
       return from(
         this.afAuth.auth.sendPasswordResetEmail(this.resetPasswordControl.value)
       ).pipe(
-        notify(),
+        notify({
+          success: 'Password reset email sent.'
+        }),
         tap(() => this.dialogRef.close()),
         catchError(error => {
           this.resetPasswordControl.value.reset();
