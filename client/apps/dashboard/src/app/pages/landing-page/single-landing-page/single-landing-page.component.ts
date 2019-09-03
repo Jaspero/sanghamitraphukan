@@ -75,7 +75,7 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       switchMap(([products]) => {
         const {id, ...data} = this.form.getRawValue();
 
-        data.products = products.map(product => {
+        data.products = data.products.map(product => {
           const selected = products.find(prod => prod.id === product.id);
 
           return {
