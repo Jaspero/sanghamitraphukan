@@ -1,7 +1,7 @@
 <div class="featured" *ngFor="let product of product$ | async">
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
-    <img class="featured-hero-img" src="assets/images/empty.svg" [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
+    <img class="featured-hero-img" src="assets/images/empty.svg" size="m"  [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
   </div>
 
   <div class="featured-gallery p-y-l connecting-line">
