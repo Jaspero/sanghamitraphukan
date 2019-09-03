@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {SliderOptions} from '@jaspero/ng-slider';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
+import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -20,8 +21,7 @@ import {Landing} from '../../shared/interfaces/landing.interface';
 export class LandingComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
-    private router: Router,
-    private dialog: MatDialog
+    private router: Router
   ) {}
 
   product$: Observable<Landing[]>;
@@ -39,7 +39,8 @@ export class LandingComponent implements OnInit {
     this.resize(BROWSER_CONFIG.screenWidth);
     this.product$ = this.afs
       .collection<Landing>(
-        `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`
+        `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`,
+        ref => ref.where('active', FirebaseOperator.Equal, true)
       )
       .valueChanges()
       .pipe(
@@ -55,19 +56,16 @@ export class LandingComponent implements OnInit {
       );
   }
 
-  openLightBox(landing: Landing, initialSlide: number) {
-    this.dialog.open(LightboxComponent, {
-      data: {images: landing.gallery, initialSlide},
-      panelClass: 'mat-dialog-of-visible'
-    });
-  }
-
   goToSingle(category: string) {
     this.router.navigate(['/shop'], {
       queryParams: {
         category
       }
     });
+  }
+
+  productLink(id: string) {
+    this.router.navigate(['/product', id]);
   }
 
   resize(size) {

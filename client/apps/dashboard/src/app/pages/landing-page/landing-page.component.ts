@@ -17,6 +17,7 @@ export class LandingPageComponent extends LangListComponent<LandingPage> {
     'createdOn',
     'title',
     'category',
+    'active',
     'actions'
   ];
 }

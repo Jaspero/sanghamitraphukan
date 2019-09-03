@@ -1,17 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
+import {Product} from '@jf/interfaces/product.interface';
 import {forkJoin, Observable} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap, take} from 'rxjs/operators';
 import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
-import {GalleryUploadComponent} from '../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-upload/image-upload.component';
 
 @Component({
@@ -22,14 +15,13 @@ import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-up
 })
 export class SingleLandingPageComponent extends LangSinglePageComponent
   implements OnInit {
-  @ViewChild(GalleryUploadComponent, {static: false})
-  galleryUploadComponent: GalleryUploadComponent;
 
   @ViewChildren(ImageUploadComponent)
   imageUploadComponent: QueryList<ImageUploadComponent>;
 
   collection = FirestoreCollections.landingPage;
   categories$: Observable<Category[]>;
+  products$: Observable<Product[]>;
 
   ngOnInit() {
     super.ngOnInit();
@@ -45,6 +37,19 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
         }))
       )
     );
+
+    this.products$ = this.state.language$.pipe(
+      switchMap(lang =>
+        this.afs.collection(`${FirestoreCollections.Products}-${lang}`).get()
+      ),
+      map(snapshots =>
+        snapshots.docs.map(action => ({
+          id: action.id,
+          ...(action.data() as Product)
+        }))
+      ),
+      shareReplay(1)
+    )
   }
 
   buildForm(data: any) {
@@ -53,18 +58,31 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       title: data.title || '',
       featuredImage: data.featuredImage || '',
       featuredImageDesktop: data.featuredImageDesktop || '',
-      gallery: data.gallery ? [data.gallery] : [[]],
-      category: data.category || ''
+      products: data.products ? [data.products.map(product => product.id)] : [[]],
+      category: data.category || '',
+      active: data.active || false
     });
   }
 
   getSaveData(...args) {
     return forkJoin([
-      this.galleryUploadComponent.save(),
+      this.products$
+        .pipe(
+          take(1)
+        ),
       ...this.imageUploadComponent.map(item => item.save())
     ]).pipe(
-      switchMap(() => {
+      switchMap(([products]) => {
         const {id, ...data} = this.form.getRawValue();
+
+        data.products = products.map(product => {
+          const selected = products.find(prod => prod.id === product.id);
+
+          return {
+            id: selected.id,
+            image: selected.gallery && selected.gallery.length ? selected.gallery[0] : ''
+          }
+        });
 
         args[0] = id;
         args[1] = data;

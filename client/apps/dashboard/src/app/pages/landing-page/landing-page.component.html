@@ -97,6 +97,13 @@
             <td mat-cell *matCellDef="let element">{{element.category}}</td>
           </ng-container>
 
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef>Active</th>
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox [disabled]="true" [checked]="element.active"></mat-checkbox>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element" class="ta-right">

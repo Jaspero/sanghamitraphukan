@@ -35,16 +35,12 @@
                 <mat-label>Desktop</mat-label>
                 <jfsc-image-upload formControlName="featuredImageDesktop"></jfsc-image-upload>
               </div>
-            </mat-card>
-            <br>
-            <mat-card>
-              <h6 class="p-y-xs">Gallery</h6>
-              <div class="p-y-xs">
-                <mat-divider></mat-divider>
-              </div>
-              <div class="p-y-xs">
-                <jfsc-gallery-upload formControlName="gallery"></jfsc-gallery-upload>
-              </div>
+              <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Products</mat-label>
+                <mat-select formControlName="products" [multiple]="true">
+                  <mat-option *ngFor="let product of products$ | async" [value]="product.id">{{product.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
             </mat-card>
           </div>
           <div class="col-4 col-s-12">
@@ -52,6 +48,9 @@
               <h6 class="p-y-xs">Page info</h6>
               <div class="p-y-xs">
                 <mat-divider></mat-divider>
+              </div>
+              <div class="p-y-xs">
+                <mat-checkbox color="primary" formControlName="active">Active</mat-checkbox>
               </div>
               <mat-form-field class="w-full" appearance="outline">
                 <mat-label>Title</mat-label>
