@@ -1,4 +1,10 @@
-import {ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Product} from '@jf/interfaces/product.interface';
@@ -15,7 +21,6 @@ import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-up
 })
 export class SingleLandingPageComponent extends LangSinglePageComponent
   implements OnInit {
-
   @ViewChildren(ImageUploadComponent)
   imageUploadComponent: QueryList<ImageUploadComponent>;
 
@@ -49,7 +54,7 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
         }))
       ),
       shareReplay(1)
-    )
+    );
   }
 
   buildForm(data: any) {
@@ -58,7 +63,11 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       title: data.title || '',
       featuredImage: data.featuredImage || '',
       featuredImageDesktop: data.featuredImageDesktop || '',
-      products: data.products ? [data.products.map(product => product.id)] : [[]],
+      objectYPosition: data.objectYPosition || 50,
+      objectYPositionDesktop: data.objectYPositionDesktop || 50,
+      products: data.products
+        ? [data.products.map(product => product.id)]
+        : [[]],
       category: data.category || '',
       active: data.active || false
     });
@@ -66,10 +75,7 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
 
   getSaveData(...args) {
     return forkJoin([
-      this.products$
-        .pipe(
-          take(1)
-        ),
+      this.products$.pipe(take(1)),
       ...this.imageUploadComponent.map(item => item.save())
     ]).pipe(
       switchMap(([products]) => {
@@ -80,8 +86,11 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
 
           return {
             id: selected.id,
-            image: selected.gallery && selected.gallery.length ? selected.gallery[0] : ''
-          }
+            image:
+              selected.gallery && selected.gallery.length
+                ? selected.gallery[0]
+                : ''
+          };
         });
 
         args[0] = id;

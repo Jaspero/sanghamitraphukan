@@ -1,4 +1,9 @@
-import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnInit
+} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
@@ -19,10 +24,7 @@ import {Landing} from '../../shared/interfaces/landing.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent implements OnInit {
-  constructor(
-    private afs: AngularFirestore,
-    private router: Router
-  ) {}
+  constructor(private afs: AngularFirestore, private router: Router) {}
 
   product$: Observable<Landing[]>;
   sliderOption: Partial<SliderOptions> = {
@@ -48,6 +50,7 @@ export class LandingComponent implements OnInit {
           actions.map(action => {
             if (!BROWSER_CONFIG.isMobileDevice) {
               action.featuredImage = action.featuredImageDesktop;
+              action.objectYPosition = action.objectYPositionDesktop;
             }
 
             return action;

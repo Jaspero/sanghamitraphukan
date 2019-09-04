@@ -1,14 +1,25 @@
 <div class="featured" *ngFor="let product of product$ | async">
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
-    <img class="featured-hero-img" src="assets/images/empty.svg" size="m"  [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
+    <img
+        class="featured-hero-img"
+        src="assets/images/empty.svg"
+        [jfsLibraryImage]="product.featuredImage"
+        [style.object-position]="'50% ' + (product.objectYPosition || '50') + '%'"
+        [alt]="product.title">
   </div>
 
   <div class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
         <jp-slide *ngFor="let product of product.products; index as index">
-          <img draggable="false" src="assets/images/empty.svg" [jfsLibraryImage]="product.image" aria-hidden="true" class="slider-img cs-pointer" (tap)="productLink(product.id)">
+          <img
+              draggable="false"
+              src="assets/images/empty.svg"
+              aria-hidden="true"
+              class="slider-img cs-pointer"
+              [jfsLibraryImage]="product.image"
+              (tap)="productLink(product.id)">
         </jp-slide>
       </jp-slides>
     </jp-slider>
