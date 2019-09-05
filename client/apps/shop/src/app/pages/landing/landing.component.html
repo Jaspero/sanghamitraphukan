@@ -9,7 +9,7 @@
         [alt]="product.title">
   </div>
 
-  <div class="featured-gallery p-y-l connecting-line">
+  <div *ngIf="product.products.length;" class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
         <jp-slide *ngFor="let product of product.products; index as index">
@@ -25,7 +25,7 @@
     </jp-slider>
   </div>
 
-  <div class="ta-center m-b-l">
+  <div class="ta-center" [ngClass]="product.products.length ? 'm-b-l' : ['m-b-m', 'p-t-m', 'connecting-line']">
     <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
   </div>
 </div>
