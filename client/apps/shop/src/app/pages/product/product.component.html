@@ -87,9 +87,8 @@
               mat-flat-button
               type="button"
               color="accent"
-              [disabled]="data.isDisabled"
-              (click)="cart.add(data.product, filters ? filters.getRawValue() : {})">
-              <span class="iblock" [class.p-x-m]="!data.itemsInCart">{{data.itemsInCart ? 'Add more (currently ' + data.itemsInCart + ')' : 'Add to cart'}} </span>
+              (click)="cart.add(data.product, filters ? filters.getRawValue() : {}, data.isDisabled)">
+              <span class="iblock" [class.p-x-m]="!data.itemsInCart">{{data.isDisabled ? 'Sold Out/ Order Inquiry' : data.itemsInCart ? 'Add more (currently ' + data.itemsInCart + ')' : 'Add to cart'}} </span>
             </button>
             <ng-container *ngIf="data.itemsInCart">
               &nbsp;
