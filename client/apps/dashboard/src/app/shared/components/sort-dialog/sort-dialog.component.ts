@@ -13,7 +13,7 @@ import {SortOptions} from '../../interfaces/sort-options.interface';
 import {switchItemLocations} from '../../utils/switch-item-loactions';
 
 @Component({
-  selector: 'jfs-sort-dialog',
+  selector: 'jfsc-sort-dialog',
   templateUrl: './sort-dialog.component.html',
   styleUrls: ['./sort-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
