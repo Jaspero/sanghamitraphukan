@@ -60,6 +60,7 @@ import {WysiwygComponent} from './components/wysiwyg/wysiwyg.component';
 import {FileUploadModule} from './modules/file-upload/file-upload.module';
 import {ImportComponent} from './components/import/import.component';
 import {ForceDisableDirective} from './directives/force-disable/force-disable.directive';
+import {SortDialogComponent} from './components/sort-dialog/sort-dialog.component';
 
 const IMPORTS = [
   CommonModule,
@@ -133,7 +134,8 @@ const ENTRY_COMPONENTS = [
   ListComponent,
   LangListComponent,
   SinglePageComponent,
-  LangSinglePageComponent
+  LangSinglePageComponent,
+  SortDialogComponent
 ];
 
 const DIRECTIVES = [ForceDisableDirective];

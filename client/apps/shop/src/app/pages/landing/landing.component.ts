@@ -42,7 +42,10 @@ export class LandingComponent implements OnInit {
     this.product$ = this.afs
       .collection<Landing>(
         `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`,
-        ref => ref.where('active', FirebaseOperator.Equal, true)
+        ref =>
+          ref
+            .where('active', FirebaseOperator.Equal, true)
+            .orderBy('order', 'asc')
       )
       .valueChanges()
       .pipe(
