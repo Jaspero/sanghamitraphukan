@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Sort {{options.collectionName}}</h1>
+
+<mat-dialog-content *ngIf="items$ | async as items">
+    <div *ngFor="let item of items; index as index; first as first; last as last;">
+        <div class="flex jc-between ai-center">
+            <p class="flex-1">
+                <span class="of-x-auto">{{item[options.sortTitle]}}</span><br>
+                <span class="of-x-auto fs-small" *ngIf="options.sortSubTitle">{{item[options.sortSubTitle]}}</span>
+            </p>
+            <div>
+                <button mat-icon-button [disabled]="first" (click)="move(true, items, index)">
+                    <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <button mat-icon-button [disabled]="last" (click)="move(false, items, index)">
+                    <mat-icon>arrow_downward</mat-icon>
+                </button>
+            </div>
+        </div>
+        <hr class="m-y-s" *ngIf="!last">
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="jc-end">
+    <button mat-raised-button color="primary" [jpLoadClick]="update()">Update Order</button>
+</mat-dialog-actions>

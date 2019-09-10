@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog} from '@angular/material/dialog';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {Product} from '@jf/interfaces/product.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
+import {OutOfStockInquiryComponent} from '../../components/out-of-stock-inquiry/out-of-stock-inquiry.component';
 import {CartItem} from '../../interfaces/cart-item.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar, private dialog: MatDialog) {
     const cart = BROWSER_CONFIG.isBrowser
       ? JSON.parse(localStorage.getItem('cartItem'))
       : [];
@@ -34,7 +36,15 @@ export class CartService {
   totalPrice$: Observable<number>;
   numOfItems$: Observable<number>;
 
-  add(item: Product, filters: any = {}) {
+  add(item: Product, filters: any = {}, disabled = false) {
+    if (disabled) {
+      this.dialog.open(OutOfStockInquiryComponent, {
+        width: '500px',
+        data: item
+      });
+      return;
+    }
+
     let finalId = '';
     let filter = '';
 

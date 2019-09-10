@@ -1,20 +1,31 @@
 <div class="featured" *ngFor="let product of product$ | async">
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
-    <img class="featured-hero-img" src="assets/images/empty.svg" size="m"  [jfsLibraryImage]="product.featuredImage" [alt]="product.title">
+    <img
+        class="featured-hero-img"
+        src="assets/images/empty.svg"
+        [jfsLibraryImage]="product.featuredImage"
+        [style.object-position]="'50% ' + (product.objectYPosition || '50') + '%'"
+        [alt]="product.title">
   </div>
 
-  <div class="featured-gallery p-y-l connecting-line">
+  <div *ngIf="product.gallery.length;" class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
-        <jp-slide *ngFor="let product of product.products; index as index">
-          <img draggable="false" src="assets/images/empty.svg" [jfsLibraryImage]="product.image" aria-hidden="true" class="slider-img cs-pointer" (tap)="productLink(product.id)">
+        <jp-slide *ngFor="let prod of product.gallery; index as index">
+          <img
+              draggable="false"
+              src="assets/images/empty.svg"
+              aria-hidden="true"
+              class="slider-img cs-pointer"
+              [jfsLibraryImage]="prod"
+              (tap)="openLightBox(product, index)">
         </jp-slide>
       </jp-slides>
     </jp-slider>
   </div>
 
-  <div class="ta-center m-b-l">
+  <div class="ta-center" [ngClass]="product.gallery.length ? 'm-b-l' : ['m-b-m', 'p-t-m', 'connecting-line']">
     <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
   </div>
 </div>

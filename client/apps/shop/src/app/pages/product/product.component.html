@@ -80,16 +80,27 @@
             </div>
           </form>
 
-          <div class="p-b-s">
+          <div class="p-b-s flex">
             <button
               id="btn-add-cart-prod-1"
+              [class.f1]="data.itemsInCart"
               mat-flat-button
               type="button"
               color="accent"
-              [disabled]="data.isDisabled"
-              (click)="cart.add(data.product, filters ? filters.getRawValue() : {})">
-              <span class="iblock p-x-m">{{data.itemsInCart ? 'Add more to cart (currently ' + data.itemsInCart + ')' : 'Add to cart'}} </span>
+              (click)="cart.add(data.product, filters ? filters.getRawValue() : {}, data.isDisabled)">
+              <span class="iblock" [class.p-x-m]="!data.itemsInCart">{{data.isDisabled ? 'Sold Out/ Order Inquiry' : data.itemsInCart ? 'Add more (currently ' + data.itemsInCart + ')' : 'Add to cart'}} </span>
             </button>
+            <ng-container *ngIf="data.itemsInCart">
+              &nbsp;
+              <button
+                  id="btn-add-cart-add"
+                  mat-flat-button
+                  type="button"
+                  color="accent"
+                  [routerLink]="['/checkout']">
+                <span class="iblock">Buy Now</span>
+              </button>
+            </ng-container>
           </div>
           <h2 class="m-b-xs">Product Details</h2>
           <div class="product-description ff-secondary m-b-s">

@@ -1,4 +1,9 @@
-import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnInit
+} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
@@ -21,7 +26,8 @@ import {Landing} from '../../shared/interfaces/landing.interface';
 export class LandingComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   product$: Observable<Landing[]>;
@@ -40,7 +46,10 @@ export class LandingComponent implements OnInit {
     this.product$ = this.afs
       .collection<Landing>(
         `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`,
-        ref => ref.where('active', FirebaseOperator.Equal, true)
+        ref =>
+          ref
+            .where('active', FirebaseOperator.Equal, true)
+            .orderBy('order', 'asc')
       )
       .valueChanges()
       .pipe(
@@ -48,7 +57,10 @@ export class LandingComponent implements OnInit {
           actions.map(action => {
             if (!BROWSER_CONFIG.isMobileDevice) {
               action.featuredImage = action.featuredImageDesktop;
+              action.objectYPosition = action.objectYPositionDesktop;
             }
+
+            action.gallery = action.gallery || [];
 
             return action;
           })
@@ -64,8 +76,11 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  productLink(id: string) {
-    this.router.navigate(['/product', id]);
+  openLightBox(landing: Landing, initialSlide: number) {
+    this.dialog.open(LightboxComponent, {
+      data: {images: landing.gallery, initialSlide},
+      panelClass: 'mat-dialog-of-visible'
+    });
   }
 
   resize(size) {

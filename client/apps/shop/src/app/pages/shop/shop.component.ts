@@ -8,8 +8,7 @@ import {
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
-import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
@@ -41,8 +40,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private fb: FormBuilder,
-    private state: StateService,
-    private router: Router
+    private state: StateService
   ) {
     super();
   }
@@ -51,6 +49,9 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   @ViewChild('filterDialog', {static: true})
   filterDialog: TemplateRef<any>;
+
+  @ViewChild('welcomeDialog', {static: true})
+  welcomeDialog: TemplateRef<any>;
 
   products$: Observable<Product[]>;
   loadMore$ = new BehaviorSubject(null);
@@ -96,6 +97,11 @@ export class ShopComponent extends RxDestroy implements OnInit {
   categories: any;
 
   ngOnInit() {
+    if (!this.state.shopDialogShown) {
+      this.state.shopDialogShown = true;
+      this.dialog.open(this.welcomeDialog, {width: '500px'});
+    }
+
     this.filters = this.fb.group({
       category: '',
       order: '',

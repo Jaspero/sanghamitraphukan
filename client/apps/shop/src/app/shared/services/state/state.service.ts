@@ -47,6 +47,7 @@ export class StateService {
   user$: Observable<LoggedInUser>;
   loading$ = new BehaviorSubject<boolean>(false);
   checkoutResult: Array<Errors> | Partial<Order>;
+  shopDialogShown = false;
 
   currentRoute$ = new BehaviorSubject<{data: any; url: string}>({
     data: {},

@@ -12,7 +12,7 @@
   <section class="p-y-m">
     <div class="grid">
       <div class="col-8 col-s-10 col-xs-12">
-        <h5>{{isEdit ? form.get('title').value : 'New landing page'}}</h5>
+        <h5>{{currentState === viewState.Edit ? form.get('title').value : 'New landing page'}}</h5>
       </div>
     </div>
   </section>
@@ -32,15 +32,36 @@
                 <jfsc-image-upload formControlName="featuredImage"></jfsc-image-upload>
               </div>
               <div class="p-y-xs">
+                <mat-form-field class="w-full" appearance="outline">
+                  <mat-label>Mobile Y Position</mat-label>
+                  <input matInput type="number" formControlName="objectYPosition">
+                </mat-form-field>
+              </div>
+
+              <div class="p-y-xs">
+                <mat-divider></mat-divider>
+              </div>
+
+              <div class="p-y-xs">
                 <mat-label>Desktop</mat-label>
                 <jfsc-image-upload formControlName="featuredImageDesktop"></jfsc-image-upload>
               </div>
-              <mat-form-field class="w-full" appearance="outline">
-                <mat-label>Products</mat-label>
-                <mat-select formControlName="products" [multiple]="true">
-                  <mat-option *ngFor="let product of products$ | async" [value]="product.id">{{product.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>
+              <div class="p-y-xs">
+                <mat-form-field class="w-full" appearance="outline">
+                  <mat-label>Desktop Y Position</mat-label>
+                  <input matInput type="number" formControlName="objectYPositionDesktop">
+                </mat-form-field>
+              </div>
+            </mat-card>
+            <br>
+            <mat-card>
+              <h6 class="p-y-xs">Gallery</h6>
+              <div class="p-y-xs">
+                <mat-divider></mat-divider>
+              </div>
+              <div class="p-y-xs">
+                <jfsc-gallery-upload formControlName="gallery"></jfsc-gallery-upload>
+              </div>
             </mat-card>
           </div>
           <div class="col-4 col-s-12">
@@ -73,18 +94,18 @@
 
   <div class="jfsc-actions-header">
     <button
-      mat-flat-button
-      color="primary"
-      (click)="back()">
-      {{isEdit ? 'Discard changes' : 'Cancel'}}
+        mat-flat-button
+        color="primary"
+        (click)="back()">
+      {{currentState === viewState.Edit ? 'Discard changes' : 'Cancel'}}
     </button> &nbsp;
 
     <button
-      mat-flat-button
-      type="submit"
-      [disabled]="form.invalid"
-      [jpLoadClick]="save()">
-      {{isEdit ? 'Save changes' : 'Save'}}
+        mat-flat-button
+        type="submit"
+        [disabled]="form.invalid"
+        [jpLoadClick]="save()">
+      {{currentState === viewState.Edit ? 'Save changes' : 'Save'}}
     </button>
   </div>
 

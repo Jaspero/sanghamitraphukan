@@ -1,0 +1,26 @@
+<h4 mat-dialog-title>{{product.name}} - Order Inquiry</h4>
+
+<form [formGroup]="form">
+    <mat-dialog-content>
+        <mat-form-field class="w-full">
+            <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <textarea matInput formControlName="message" placeholder="Message"></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button
+            type="submit"
+            color="primary"
+            mat-flat-button
+            [disabled]="form.invalid"
+            [jpLoadClick]="send()">
+            Send
+        </button>
+    </mat-dialog-actions>
+</form>

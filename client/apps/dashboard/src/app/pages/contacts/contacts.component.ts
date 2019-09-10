@@ -10,7 +10,14 @@ import {ListComponent} from '../../shared/components/list/list.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactsComponent extends ListComponent<Contact> {
-  displayedColumns = ['checkBox', 'email', 'name', 'message', 'actions'];
+  displayedColumns = [
+    'checkBox',
+    'email',
+    'name',
+    'message',
+    'product',
+    'actions'
+  ];
 
   collection = FirestoreCollections.Contacts;
 }

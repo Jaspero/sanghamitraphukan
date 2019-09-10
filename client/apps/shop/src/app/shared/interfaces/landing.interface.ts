@@ -1,7 +1,9 @@
 export interface Landing {
   featuredImage: string;
   featuredImageDesktop: string;
-  products: Array<{id: string, image: string}>;
+  gallery: string[];
   category: string;
   title: string;
+  objectYPosition: number;
+  objectYPositionDesktop: number;
 }
