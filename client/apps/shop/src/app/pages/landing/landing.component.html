@@ -9,23 +9,23 @@
         [alt]="product.title">
   </div>
 
-  <div *ngIf="product.products.length;" class="featured-gallery p-y-l connecting-line">
+  <div *ngIf="product.gallery.length;" class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
-        <jp-slide *ngFor="let product of product.products; index as index">
+        <jp-slide *ngFor="let prod of product.gallery; index as index">
           <img
               draggable="false"
               src="assets/images/empty.svg"
               aria-hidden="true"
               class="slider-img cs-pointer"
-              [jfsLibraryImage]="product.image"
-              (tap)="productLink(product.id)">
+              [jfsLibraryImage]="prod"
+              (tap)="openLightBox(product, index)">
         </jp-slide>
       </jp-slides>
     </jp-slider>
   </div>
 
-  <div class="ta-center" [ngClass]="product.products.length ? 'm-b-l' : ['m-b-m', 'p-t-m', 'connecting-line']">
+  <div class="ta-center" [ngClass]="product.gallery.length ? 'm-b-l' : ['m-b-m', 'p-t-m', 'connecting-line']">
     <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
   </div>
 </div>

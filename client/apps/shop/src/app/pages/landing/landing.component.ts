@@ -24,7 +24,11 @@ import {Landing} from '../../shared/interfaces/landing.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent implements OnInit {
-  constructor(private afs: AngularFirestore, private router: Router) {}
+  constructor(
+    private afs: AngularFirestore,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   product$: Observable<Landing[]>;
   sliderOption: Partial<SliderOptions> = {
@@ -70,8 +74,11 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  productLink(id: string) {
-    this.router.navigate(['/product', id]);
+  openLightBox(landing: Landing, initialSlide: number) {
+    this.dialog.open(LightboxComponent, {
+      data: {images: landing.gallery, initialSlide},
+      panelClass: 'mat-dialog-of-visible'
+    });
   }
 
   resize(size) {
