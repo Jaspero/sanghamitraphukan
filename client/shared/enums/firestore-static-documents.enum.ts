@@ -3,5 +3,7 @@ export enum FirestoreStaticDocuments {
   CurrencySettings = 'currency',
   GeneralSettings = 'general-settings',
   UserSettings = 'user',
-  Legal = 'legal'
+  Legal = 'legal',
+  Templates = 'templates',
+  TemplateData = 'template-data'
 }
