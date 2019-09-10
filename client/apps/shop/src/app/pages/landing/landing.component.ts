@@ -60,6 +60,8 @@ export class LandingComponent implements OnInit {
               action.objectYPosition = action.objectYPositionDesktop;
             }
 
+            action.gallery = action.gallery || [];
+
             return action;
           })
         )
