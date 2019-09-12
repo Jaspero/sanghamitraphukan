@@ -58,6 +58,7 @@ import {SearchComponent} from './components/search/search.component';
 import {LibraryImageDirective} from '@jf/directives/library-image.directive';
 import {StripePipe} from '@jf/pipes/stripe.pipe';
 import {OutOfStockInquiryComponent} from './components/out-of-stock-inquiry/out-of-stock-inquiry.component';
+import {CurrencyRatesComponent} from './components/currency-rates/currency-rates.component';
 
 const MODULES = [
   CommonModule,
@@ -125,6 +126,8 @@ const COMPONENTS = [
   NetworkWidgetComponent,
   ReviewCardComponent,
   ProductCardComponent,
+  CurrencyRatesComponent,
+
   ...ENTRY_COMPONENTS
 ];
 const DIRECTIVES = [LibraryImageDirective];

@@ -13,6 +13,9 @@
     <a routerLink="/"><img class="app-header-logo" src="assets/images/logo.svg" alt="Sanghamitra" width="60" height="60"></a>
 
     <div class="flex ai-center">
+
+      <jfs-currency-rates></jfs-currency-rates>
+
       <div class="hide-s">
         <ng-container *ngIf="state.user$ | async as user; else anonymous">
           <button mat-button [matMenuTriggerFor]="shopCategories">{{user.customerData?.name || user.authData.displayName || user.authData.email}}</button>
