@@ -5,7 +5,7 @@
     </div>
     <div class="flex jc-between p-a-xs">
       <p>{{product.name}}</p>
-      <p>{{product.price | sp}}</p>
+      <p>{{product.price | cr | async}}</p>
     </div>
     <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center"><b>Pre-orders available!</b></p>
     <ng-container *ngIf="wishList$ | async as ws">

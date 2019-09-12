@@ -59,6 +59,7 @@ import {LibraryImageDirective} from '@jf/directives/library-image.directive';
 import {StripePipe} from '@jf/pipes/stripe.pipe';
 import {OutOfStockInquiryComponent} from './components/out-of-stock-inquiry/out-of-stock-inquiry.component';
 import {CurrencyRatesComponent} from './components/currency-rates/currency-rates.component';
+import {CurrencyRatePipe} from './pipes/currency-rate.pipe';
 
 const MODULES = [
   CommonModule,
@@ -131,7 +132,7 @@ const COMPONENTS = [
   ...ENTRY_COMPONENTS
 ];
 const DIRECTIVES = [LibraryImageDirective];
-const PIPES = [StripePipe];
+const PIPES = [StripePipe, CurrencyRatePipe];
 
 @NgModule({
   declarations: [...COMPONENTS, ...DIRECTIVES, ...PIPES],

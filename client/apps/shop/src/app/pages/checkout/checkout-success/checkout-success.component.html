@@ -10,25 +10,25 @@
       <table class="w-full ta-left">
         <tr *ngFor="let product of result.orderItems">
           <td class="w-half p-a-xs">{{product.name}}:</td>
-          <td class="w-half p-a-xs">{{product.price | sp }} x{{product.quantity}}</td>
+          <td class="w-half p-a-xs">{{product.price | cr | async}} x{{product.quantity}}</td>
         </tr>
         <tr>
           <td class="w-half p-a-xs">Subtotal:</td>
-          <td class="w-half p-a-xs">{{result.price.subTotal | sp}}</td>
+          <td class="w-half p-a-xs">{{result.price.subTotal | cr | async}}</td>
         </tr>
         <tr>
           <td colspan="2"><hr></td>
         </tr>
         <tr>
           <td class="w-half p-a-xs">Shipping:</td>
-          <td class="w-half p-a-xs">{{result.price.shipping ? (result.price.shipping | sp) : 'Free'}}</td>
+          <td class="w-half p-a-xs">{{result.price.shipping ? (result.price.shipping | cr | async) : 'Free'}}</td>
         </tr>
         <tr>
           <td colspan="2"><hr></td>
         </tr>
         <tr class="fw-bold">
           <td class="w-half p-a-xs">Total:</td>
-          <td class="w-half p-a-xs">{{result.price.total | sp}}</td>
+          <td class="w-half p-a-xs">{{result.price.total | cr | async}}</td>
         </tr>
       </table>
       <div class="p-y-xs">

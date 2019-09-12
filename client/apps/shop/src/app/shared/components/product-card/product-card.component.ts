@@ -10,6 +10,7 @@ import {UNIQUE_ID, UNIQUE_ID_PROVIDER} from '@jf/utils/id.provider';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {CartService} from '../../services/cart/cart.service';
+import {CurrencyRatesService} from '../../services/currency/currency-rates.service';
 import {WishListService} from '../../services/wish-list/wish-list.service';
 import {getProductFilters} from '../../utils/get-product-filters';
 import {OnChange} from '@jaspero/ng-helpers';
@@ -26,7 +27,8 @@ export class ProductCardComponent implements OnInit {
     @Inject(UNIQUE_ID)
     public uniqueId: string,
     public cart: CartService,
-    public wishList: WishListService
+    public wishList: WishListService,
+    public cr: CurrencyRatesService
   ) {}
 
   // TODO: @onChange is broken. Strangely it links all the product-cards together
