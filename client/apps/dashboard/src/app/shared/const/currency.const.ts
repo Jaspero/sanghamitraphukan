@@ -3,5 +3,6 @@ export const CURRENCIES = [
   {value: 'EUR', symbol: '€'},
   {value: 'GBP', symbol: '£'},
   {value: 'HRK', symbol: 'KN'},
-  {value: 'USD', symbol: '$'}
+  {value: 'USD', symbol: '$'},
+  {value: 'INR', symbol: '₹'}
 ];
