@@ -1,14 +1,15 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {AngularFireFunctions} from '@angular/fire/functions';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {BehaviorSubject, from, Observable, of} from 'rxjs';
+import {filter, map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyRatesService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public aff: AngularFireFunctions) {
     this.getRates();
   }
 
@@ -35,7 +36,9 @@ export class CurrencyRatesService {
     }
 
     if (!currentRate) {
-    } else {
+      from(this.aff.functions.httpsCallable('countries')())
+        .pipe(filter(value => !!value))
+        .subscribe(value => {});
     }
 
     this.current$ = new BehaviorSubject(
@@ -44,7 +47,6 @@ export class CurrencyRatesService {
         rate: 1
       }
     );
-
     this.current$.subscribe(change => {
       localStorage.setItem(
         CurrencyRatesService.CURRENT_CACHE_KEY,
