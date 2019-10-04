@@ -16,4 +16,7 @@ export const ENV_CONFIG = functions.config() as {
     clientid: string;
     clientsecret: string;
   };
+  ipdata: {
+    apiKey: string;
+  };
 };

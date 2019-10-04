@@ -18,7 +18,7 @@ export class CurrencyRatePipe implements PipeTransform {
 
     return this.currentRates.current$.pipe(
       map(current => {
-        const valueToUse = value * current.rate;
+        const valueToUse = Math.ceil(value * current.rate);
         return this.stripePipe.transform(valueToUse, current.currency);
       })
     );

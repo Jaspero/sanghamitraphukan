@@ -34,6 +34,10 @@ export class CurrencyRatesService {
       } catch (e) {}
     }
 
+    if (!currentRate) {
+    } else {
+    }
+
     this.current$ = new BehaviorSubject(
       currentRate || {
         currency: DYNAMIC_CONFIG.currency.primary,

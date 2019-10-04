@@ -19,10 +19,10 @@ export class StripePipe implements PipeTransform {
     locale?: string
   ): string {
     return this.currencyPipe.transform(
-      data / 100,
+      Math.ceil(data / 100),
       currencyCode || DYNAMIC_CONFIG.currency.primary,
       display,
-      digitsInfo,
+      digitsInfo || '.0-2',
       locale
     );
   }
