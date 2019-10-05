@@ -29,6 +29,7 @@ export class CurrencyRatesService {
       CurrencyRatesService.CURRENT_CACHE_KEY
     );
 
+    // tslint:disable-next-line:no-console
     console.log('currentRate', currentRate);
 
     if (currentRate) {
@@ -38,10 +39,12 @@ export class CurrencyRatesService {
     }
 
     if (!currentRate) {
+      // tslint:disable-next-line:no-console
       console.log('in here');
       from(this.aff.functions.httpsCallable('ipData')())
         .pipe(filter(value => !!value))
         .subscribe(value => {
+          // tslint:disable-next-line:no-console
           console.log('value', value);
         });
     }
