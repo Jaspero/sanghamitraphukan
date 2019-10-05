@@ -7,6 +7,7 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {FirestoreStaticDocuments} from '@jf/enums/firestore-static-documents.enum';
 import {CurrencySettings} from '@jf/interfaces/currency-settings.interface';
 import {take} from 'rxjs/operators';
+import {CurrencyRatesService} from '../services/currency/currency-rates.service';
 import {NetworkService} from '../services/network/network.service';
 import {StateService} from '../services/state/state.service';
 
@@ -15,7 +16,8 @@ export async function appInit(
   networkService: NetworkService,
   jpPreloadService: JpPreloadService,
   afs: AngularFirestore,
-  stateService: StateService
+  stateService: StateService,
+  currencyRatesService: CurrencyRatesService
 ) {
   stateService.serverState = window['aServerState'] || {};
 
@@ -33,6 +35,8 @@ export async function appInit(
         .pipe(take(1))
         .toPromise();
     } catch (e) {}
+
+    currencyRatesService.getRates();
 
     if (!self.createImageBitmap) {
       BROWSER_CONFIG.webpSupported = false;

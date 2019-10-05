@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {CurrencyRatesService} from '../../services/currency/currency-rates.service';
 
@@ -21,7 +16,8 @@ export class CurrencyRatesComponent {
   changeCurrent(value: {key: string; value: number}) {
     this.currencyRates.current$.next({
       currency: value.key,
-      rate: value.value
+      rate: value.value,
+      base: DYNAMIC_CONFIG.currency.primary
     });
   }
 }

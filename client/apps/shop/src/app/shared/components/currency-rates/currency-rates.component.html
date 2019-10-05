@@ -2,7 +2,6 @@
     {{current.currency}}
 </button>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="changeCurrent({key: base, value: 1})">{{base}}</button>
     <button
         *ngFor="let rate of currencyRates.rates$ | async | keyvalue"
         mat-menu-item

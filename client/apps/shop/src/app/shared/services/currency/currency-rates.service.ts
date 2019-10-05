@@ -2,42 +2,38 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AngularFireFunctions} from '@angular/fire/functions';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
-import {BehaviorSubject, from, Observable, of} from 'rxjs';
-import {filter, map, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, from, Observable, of} from 'rxjs';
+import {filter, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyRatesService {
-  constructor(private http: HttpClient, public aff: AngularFireFunctions) {
-    this.getRates();
-
-    this.current$.subscribe(change => {
-      localStorage.setItem(
-        CurrencyRatesService.CURRENT_CACHE_KEY,
-        JSON.stringify(change)
-      );
-    });
-  }
+  constructor(private http: HttpClient, public aff: AngularFireFunctions) {}
 
   static BASE_URL = 'https://api.exchangeratesapi.io/latest';
-  static CURRENCIES_TO_REQUEST = ['USD', 'INR', 'EUR'];
+  static CURRENCIES_TO_REQUEST = ['USD', 'INR', 'EUR', 'GBP'];
+  static COUNTRY_CACHE_KEY = 'country-req';
   static CACHE_KEY = 'rates';
   static CURRENT_CACHE_KEY = 'current-rate';
 
   rates$: Observable<{
     [key: string]: number;
   }>;
-  current$: BehaviorSubject<{currency: string; rate: number}>;
+  current$: BehaviorSubject<{
+    currency: string;
+    rate: number;
+    base: string;
+  }>;
 
   getRates() {
     let rates: any = localStorage.getItem(CurrencyRatesService.CACHE_KEY);
     let currentRate: any = localStorage.getItem(
       CurrencyRatesService.CURRENT_CACHE_KEY
     );
-
-    // tslint:disable-next-line:no-console
-    console.log('currentRate', currentRate);
+    let countryCheck = localStorage.getItem(
+      CurrencyRatesService.COUNTRY_CACHE_KEY
+    );
 
     if (currentRate) {
       try {
@@ -47,6 +43,7 @@ export class CurrencyRatesService {
 
     this.current$ = new BehaviorSubject(
       currentRate &&
+      currentRate.base === DYNAMIC_CONFIG.currency.primary &&
       CurrencyRatesService.CURRENCIES_TO_REQUEST.includes(currentRate.currency)
         ? currentRate
         : {
@@ -55,14 +52,34 @@ export class CurrencyRatesService {
           }
     );
 
-    if (!currentRate) {
-      // tslint:disable-next-line:no-console
-      console.log('in here');
+    this.current$.subscribe(change => {
+      localStorage.setItem(
+        CurrencyRatesService.CURRENT_CACHE_KEY,
+        JSON.stringify(change)
+      );
+    });
+
+    if (!currentRate && !countryCheck) {
       from(this.aff.functions.httpsCallable('ipData')())
-        .pipe(filter(value => !!value))
-        .subscribe(value => {
-          // tslint:disable-next-line:no-console
-          console.log('value', value);
+        .pipe(
+          filter(value => !!value),
+          switchMap(value =>
+            combineLatest([this.current$, this.rates$]).pipe(
+              map(val => [...val, value.data])
+            )
+          ),
+          take(1)
+        )
+        .subscribe(([current, rates, countryCurrency]) => {
+          localStorage.setItem(CurrencyRatesService.COUNTRY_CACHE_KEY, 'sent');
+
+          if (countryCurrency !== current.currency && rates[countryCurrency]) {
+            this.current$.next({
+              currency: countryCurrency,
+              rate: rates[countryCurrency],
+              base: DYNAMIC_CONFIG.currency.primary
+            });
+          }
         });
     }
 
@@ -116,7 +133,8 @@ export class CurrencyRatesService {
               JSON.stringify(res)
             );
           }),
-          map(res => res.rates)
+          map(res => res.rates),
+          shareReplay(1)
         );
     }
   }
