@@ -6,6 +6,7 @@ stages:
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
+  policy: pull
   paths:
     - node_modules/
     - functions/node_modules/
