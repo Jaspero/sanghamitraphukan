@@ -9,7 +9,7 @@ export const ipData = functions.https.onCall(async (value, context) => {
 
   try {
     data = await rp(
-      `https://api.ipdata.co/${ip}?api-key=${ENV_CONFIG.ipdata.apiKey}`,
+      `https://api.ipdata.co/${ip}?api-key=${ENV_CONFIG.ipdata.apikey}`,
       {
         json: true
       }
