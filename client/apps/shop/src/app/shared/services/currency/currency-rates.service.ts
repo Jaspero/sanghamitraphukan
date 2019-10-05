@@ -11,6 +11,13 @@ import {filter, map, tap} from 'rxjs/operators';
 export class CurrencyRatesService {
   constructor(private http: HttpClient, public aff: AngularFireFunctions) {
     this.getRates();
+
+    this.current$.subscribe(change => {
+      localStorage.setItem(
+        CurrencyRatesService.CURRENT_CACHE_KEY,
+        JSON.stringify(change)
+      );
+    });
   }
 
   static BASE_URL = 'https://api.exchangeratesapi.io/latest';
@@ -38,6 +45,16 @@ export class CurrencyRatesService {
       } catch (e) {}
     }
 
+    this.current$ = new BehaviorSubject(
+      currentRate &&
+      CurrencyRatesService.CURRENCIES_TO_REQUEST.includes(currentRate.currency)
+        ? currentRate
+        : {
+            currency: DYNAMIC_CONFIG.currency.primary,
+            rate: 1
+          }
+    );
+
     if (!currentRate) {
       // tslint:disable-next-line:no-console
       console.log('in here');
@@ -48,20 +65,6 @@ export class CurrencyRatesService {
           console.log('value', value);
         });
     }
-
-    this.current$ = new BehaviorSubject(
-      currentRate || {
-        currency: DYNAMIC_CONFIG.currency.primary,
-        rate: 1
-      }
-    );
-
-    this.current$.subscribe(change => {
-      localStorage.setItem(
-        CurrencyRatesService.CURRENT_CACHE_KEY,
-        JSON.stringify(change)
-      );
-    });
 
     if (rates) {
       try {
