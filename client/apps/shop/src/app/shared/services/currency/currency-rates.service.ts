@@ -29,6 +29,8 @@ export class CurrencyRatesService {
       CurrencyRatesService.CURRENT_CACHE_KEY
     );
 
+    console.log('currentRate', currentRate);
+
     if (currentRate) {
       try {
         currentRate = JSON.parse(currentRate);
@@ -36,9 +38,12 @@ export class CurrencyRatesService {
     }
 
     if (!currentRate) {
-      from(this.aff.functions.httpsCallable('countries')())
+      console.log('in here');
+      from(this.aff.functions.httpsCallable('ipData')())
         .pipe(filter(value => !!value))
-        .subscribe(value => {});
+        .subscribe(value => {
+          console.log('value', value);
+        });
     }
 
     this.current$ = new BehaviorSubject(
@@ -47,6 +52,7 @@ export class CurrencyRatesService {
         rate: 1
       }
     );
+
     this.current$.subscribe(change => {
       localStorage.setItem(
         CurrencyRatesService.CURRENT_CACHE_KEY,
@@ -65,7 +71,7 @@ export class CurrencyRatesService {
         rates.base === DYNAMIC_CONFIG.currency.primary
       ) {
         const cacheDate = new Date(rates.date);
-        const today = new Date(rates.date);
+        const today = new Date();
 
         if (
           cacheDate.getDate() === today.getDate() &&

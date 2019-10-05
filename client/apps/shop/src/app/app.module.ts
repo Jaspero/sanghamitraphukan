@@ -5,6 +5,7 @@ import {
   AngularFirestore,
   AngularFirestoreModule
 } from '@angular/fire/firestore';
+import {AngularFireFunctionsModule} from '@angular/fire/functions';
 import {MatProgressBarModule} from '@angular/material';
 import {AngularFirePerformanceModule} from '@angular/fire/performance';
 import {BrowserModule} from '@angular/platform-browser';
@@ -56,6 +57,8 @@ const ENTRY_COMPONENTS = [UpdateAvailableComponent];
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     AngularFirePerformanceModule,
+    AngularFireFunctionsModule,
+
     MatProgressBarModule,
     JpImagePreloadModule.forRoot()
   ],
