@@ -44,6 +44,7 @@ import {ElementType} from '../../shared/modules/stripe-elements/enums/element-ty
 import {ElementConfig} from '../../shared/modules/stripe-elements/interfaces/element-config.interface';
 import {StripeElementsComponent} from '../../shared/modules/stripe-elements/stripe-elements.component';
 import {CartService} from '../../shared/services/cart/cart.service';
+import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
 import {StateService} from '../../shared/services/state/state.service';
 
 interface Item extends OrderItem {
@@ -71,7 +72,8 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private state: StateService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private currencyRatesService: CurrencyRatesService
   ) {
     super();
   }
@@ -158,8 +160,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
           `${environment.restApi}/stripe/checkout`,
           {
             orderItems,
-            // TODO: This could be dynamic in other implementations
-            currency: DYNAMIC_CONFIG.currency.primary,
+            currency: this.currencyRatesService.current$.getValue(),
             lang: STATIC_CONFIG.lang,
             form: data,
             ...(user && {
@@ -316,9 +317,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
             .doc(nanoid())
             .set({
               price,
-
-              // TODO: This could be dynamic in other implementations
-              currency: DYNAMIC_CONFIG.currency.primary,
+              currency: this.currencyRatesService.current$.getValue(),
               status: OrderStatus.Ordered,
               paymentIntentId: paymentIntent.id,
               billing: data.billing,

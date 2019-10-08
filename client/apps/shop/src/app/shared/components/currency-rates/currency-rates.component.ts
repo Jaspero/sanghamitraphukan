@@ -12,12 +12,9 @@ export class CurrencyRatesComponent {
   constructor(public currencyRates: CurrencyRatesService) {}
 
   base = DYNAMIC_CONFIG.currency.primary;
+  currencyList = DYNAMIC_CONFIG.currency.supportedCurrencies;
 
-  changeCurrent(value: {key: string; value: number}) {
-    this.currencyRates.current$.next({
-      currency: value.key,
-      rate: value.value,
-      base: DYNAMIC_CONFIG.currency.primary
-    });
+  changeCurrent(value: string) {
+    this.currencyRates.current$.next(value);
   }
 }
