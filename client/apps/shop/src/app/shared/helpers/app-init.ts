@@ -28,12 +28,11 @@ export async function appInit(
     BROWSER_CONFIG.isBrowser = true;
 
     try {
-      DYNAMIC_CONFIG.currency = await afs
+      DYNAMIC_CONFIG.currency = (await afs
         .collection(FirestoreCollections.Settings)
         .doc<CurrencySettings>(FirestoreStaticDocuments.CurrencySettings)
-        .valueChanges()
-        .pipe(take(1))
-        .toPromise();
+        .get()
+        .toPromise()).data() as CurrencySettings;
     } catch (e) {}
 
     currencyRatesService.getRates();

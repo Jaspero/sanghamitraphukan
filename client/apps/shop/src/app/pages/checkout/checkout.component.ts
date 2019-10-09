@@ -21,6 +21,7 @@ import {OrderStatus} from '@jf/enums/order-status.enum';
 import {Country} from '@jf/interfaces/country.interface';
 import {Customer} from '@jf/interfaces/customer.interface';
 import {OrderItem} from '@jf/interfaces/order.interface';
+import {Price} from '@jf/interfaces/product.interface';
 import {Shipping} from '@jf/interfaces/shipping.interface';
 import * as nanoid from 'nanoid';
 import {combineLatest, from, Observable, Subscription, throwError} from 'rxjs';
@@ -48,7 +49,7 @@ import {StateService} from '../../shared/services/state/state.service';
 interface Item extends OrderItem {
   id: string;
   quantity: number;
-  price: number;
+  price: Price;
   name: string;
   attributes: any;
   identifier: string;
@@ -157,6 +158,8 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
           `${environment.restApi}/stripe/checkout`,
           {
             orderItems,
+            // TODO: This could be dynamic in other implementations
+            currency: DYNAMIC_CONFIG.currency.primary,
             lang: STATIC_CONFIG.lang,
             form: data,
             ...(user && {
@@ -190,12 +193,12 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
           shippingItem && Number.isInteger(shippingItem.value)
             ? shippingItem.value
             : DYNAMIC_CONFIG.currency.shippingCost || 0;
-        const total = cartTotal + shipping;
+        const total = cartTotal[DYNAMIC_CONFIG.currency.primary] + shipping;
 
         return {
           total,
           shipping,
-          subTotal: total - shipping
+          subTotal: cartTotal[DYNAMIC_CONFIG.currency.primary]
         };
       })
     );
@@ -302,7 +305,9 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
         if (this.afAuth.auth.currentUser && data.saveInfo) {
           this.afs
             .doc(
-              `${FirestoreCollections.Customers}/${this.afAuth.auth.currentUser.uid}`
+              `${FirestoreCollections.Customers}/${
+                this.afAuth.auth.currentUser.uid
+              }`
             )
             .update(data);
         }
@@ -313,6 +318,9 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
             .doc(nanoid())
             .set({
               price,
+
+              // TODO: This could be dynamic in other implementations
+              currency: DYNAMIC_CONFIG.currency.primary,
               status: OrderStatus.Ordered,
               paymentIntentId: paymentIntent.id,
               billing: data.billing,
