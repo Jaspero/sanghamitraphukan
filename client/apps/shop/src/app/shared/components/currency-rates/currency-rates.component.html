@@ -1,11 +1,11 @@
 <button mat-button [matMenuTriggerFor]="menu" *ngIf="currencyRates.current$ | async as current">
-    {{current.currency}}
+    {{current}}
 </button>
 <mat-menu #menu="matMenu">
     <button
-        *ngFor="let rate of currencyRates.rates$ | async | keyvalue"
+        *ngFor="let it of currencyList"
         mat-menu-item
-        (click)="changeCurrent(rate)">
-        {{rate.key}}
+        (click)="changeCurrent(it)">
+        {{it}}
     </button>
 </mat-menu>
