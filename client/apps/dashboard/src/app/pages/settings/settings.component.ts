@@ -1,22 +1,38 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {getCurrencySymbol} from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireFunctions} from '@angular/fire/functions';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {FirestoreStaticDocuments} from '@jf/enums/firestore-static-documents.enum';
+import {Country} from '@jf/interfaces/country.interface';
+import {Shipping} from '@jf/interfaces/shipping.interface';
 import {notify} from '@jf/utils/notify.operator';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format';
 import {forkJoin, from, Observable, of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
-import {CURRENCIES} from '../../shared/const/currency.const';
 import {Role} from '../../shared/enums/role.enum';
 import {hasDuplicates} from '../../shared/utils/has-duplicates';
 import {EMAIL_TAG_COLORS} from './consts/email-tag-colors.const';
 import {EMAIL_TEMPLATES} from './consts/email-templates.const';
 import {EmailTag} from './enums/email-tag.enum';
+import {Currency} from './interfaces/currency.interface';
 import {EmailTemplate} from './interfaces/email-template.interface';
 
 interface UserRole {
@@ -47,7 +63,10 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   @ViewChild('emailTemplateData', {static: true})
   emailTemplateData: TemplateRef<any>;
 
-  currencies = CURRENCIES;
+  @ViewChild('shippingDialog', {static: true})
+  shippingDialog: TemplateRef<any>;
+
+  currencies$: Observable<Currency[]>;
   form: FormGroup;
   groups = [
     {
@@ -81,6 +100,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
       collection: FirestoreStaticDocuments.CurrencySettings,
       defaultValues: {
         primary: 'USD',
+        supportedCurrencies: ['USD'],
         shippingCost: 0
       },
       transform: {
@@ -98,16 +118,22 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   emailTagColors = EMAIL_TAG_COLORS;
   emailEditorOptions = {
     valid_elements: '*[*]',
-    valid_styles: '*[*]'
+    valid_styles: '*[*]',
+    entity_encoding: 'raw'
   };
   emailTemplateCache: {
     [id: string]: {
       exampleData?: any;
       template?: string;
-    }
+    };
   } = {};
   selectedTemplate: EmailTemplate;
   selectedTemplateController: FormControl;
+  shipping: Shipping[];
+  shippingControl: FormArray;
+  countries: Country[];
+
+  private _snapshot: any;
 
   static setFieldValue(group: any, key: string, value: any) {
     return group.transform && group.transform[key]
@@ -126,16 +152,20 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   }
 
   get currencySymbol() {
-    return CURRENCIES.find(
-      cur => cur.value === this.form.get('currency.primary').value
-    ).symbol;
+    return getCurrencySymbol(this.form.get('currency.primary').value, 'narrow');
   }
 
   ngOnInit() {
+    this.currencies$ = from(
+      this.aff.functions.httpsCallable('currencies')()
+    ).pipe(map((res: any) => res.data));
+
     this.afs
       .collection(FirestoreCollections.Settings)
       .get()
       .subscribe(snapshot => {
+        this._snapshot = snapshot;
+
         this.form = this.fb.group(
           this.groups.reduce((acc, cur) => {
             const document = snapshot.docs.find(
@@ -186,8 +216,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   save() {
     return () => {
       const updated: any = {};
-
-      return forkJoin(
+      const toExec: any = [
         this.groups.map(group => {
           const data = (this.form.get(
             group.collection
@@ -208,7 +237,22 @@ export class SettingsComponent extends RxDestroy implements OnInit {
               })
           );
         })
-      ).pipe(
+      ];
+
+      if (this.shipping) {
+        toExec.push(
+          from(
+            this.afs
+              .collection(FirestoreCollections.Settings)
+              .doc(FirestoreStaticDocuments.Shipping)
+              .set({
+                value: this.shipping
+              })
+          )
+        );
+      }
+
+      return forkJoin(toExec).pipe(
         notify(),
         tap(() => {
           DYNAMIC_CONFIG.currency = updated['currency'];
@@ -219,137 +263,216 @@ export class SettingsComponent extends RxDestroy implements OnInit {
 
   editTemplate(template: EmailTemplate) {
     return () => {
-
       this.selectedTemplate = template;
 
-      return this.loadTemplate(template)
-        .pipe(
-          tap(res => {
-            this.selectedTemplateController = new FormControl(res, Validators.required);
-            this.dialog.open(this.emailTemplate, {width: '800px'});
-          })
-        );
-    }
+      return this.loadTemplate(template).pipe(
+        tap(res => {
+          this.selectedTemplateController = new FormControl(
+            res,
+            Validators.required
+          );
+          this.dialog.open(this.emailTemplate, {width: '800px'});
+        })
+      );
+    };
   }
 
   editTemplateData(template: EmailTemplate) {
     return () => {
-
       this.selectedTemplate = template;
 
-      return ((
-        this.emailTemplateCache[template.id] && this.emailTemplateCache[template.id].exampleData ?
-          of(this.emailTemplateCache[template.id].exampleData) :
-          // tslint:disable-next-line:max-line-length
-          this.afs.doc(`${FirestoreCollections.Settings}/${FirestoreStaticDocuments.Templates}/${FirestoreStaticDocuments.TemplateData}/${template.id}`).get()
+      return ((this.emailTemplateCache[template.id] &&
+      this.emailTemplateCache[template.id].exampleData
+        ? of(this.emailTemplateCache[template.id].exampleData)
+        : this.afs
+            .doc(
+              [
+                FirestoreCollections.Settings,
+                FirestoreStaticDocuments.Templates,
+                FirestoreStaticDocuments.TemplateData,
+                template.id
+              ].join('/')
+            )
+            .get()
             .pipe(
-              map(res => res.exists ? res.data().value : {})
-            )
-      ) as any)
-        .pipe(
-          tap(res => {
-            if (!this.emailTemplateCache[template.id]) {
-              this.emailTemplateCache[template.id] = {};
-            }
-
-            this.emailTemplateCache[template.id].exampleData = res;
-            this.selectedTemplateController = new FormControl(res, Validators.required);
-
-            this.dialog.open(this.emailTemplateData, {width: '800px'});
-          })
-        )
-    }
-  }
-
-  sendExampleEmail(temp: EmailTemplate, control?: FormControl) {
-    return () => {
-
-      const exec = (template: string) => {
-        const func = this.aff.functions.httpsCallable('exampleEmail');
-        return from(func({
-          id: temp.id,
-          email: this.form.get('general-settings.errorNotificationEmail').value,
-          subject: temp.title,
-          template
-        }))
-          .pipe(
-            notify()
-          );
-      };
-
-      if (control) {
-        return exec(control.value)
-      } else {
-        return this.loadTemplate(temp)
-          .pipe(
-            switchMap(res =>
-              exec(res)
-            )
-          )
-      }
-    }
-  }
-
-  saveTemplate() {
-    return () => {
-
-      const value = this.selectedTemplateController.value;
-
-      return from(
-        // tslint:disable-next-line:max-line-length
-        this.afs.doc(`${FirestoreCollections.Settings}/${FirestoreStaticDocuments.Templates}/${FirestoreStaticDocuments.Templates}/${this.selectedTemplate.id}`).set({
-          value
-        })
-      )
-        .pipe(
-          notify(),
-          tap(() => {
-            this.emailTemplateCache[this.selectedTemplate.id].template = value;
-            this.dialog.closeAll();
-          })
-        )
-    }
-  }
-
-  saveTemplateData() {
-    return () => {
-
-      const value = this.selectedTemplateController.value;
-
-      return from(
-        // tslint:disable-next-line:max-line-length
-        this.afs.doc(`${FirestoreCollections.Settings}/${FirestoreStaticDocuments.Templates}/${FirestoreStaticDocuments.TemplateData}/${this.selectedTemplate.id}`).set({
-          value
-        })
-      )
-        .pipe(
-          notify(),
-          tap(() => {
-            this.emailTemplateCache[this.selectedTemplate.id].exampleData = value;
-            this.dialog.closeAll();
-          })
-        )
-    }
-  }
-
-  private loadTemplate(template: EmailTemplate): Observable<string> {
-    return ((
-      this.emailTemplateCache[template.id] && this.emailTemplateCache[template.id].template ?
-        of(this.emailTemplateCache[template.id].template) :
-        // tslint:disable-next-line:max-line-length
-        this.afs.doc(`${FirestoreCollections.Settings}/${FirestoreStaticDocuments.Templates}/${FirestoreStaticDocuments.Templates}/${template.id}`).get()
-          .pipe(
-            map(res => res.exists ? res.data().value : '')
-          )
-    ) as any)
-      .pipe(
-        tap((res: string) => {
+              map(res => (res.exists ? res.data().value : {}))
+            )) as any).pipe(
+        tap(res => {
           if (!this.emailTemplateCache[template.id]) {
             this.emailTemplateCache[template.id] = {};
           }
 
-          this.emailTemplateCache[template.id].template = res;
+          this.emailTemplateCache[template.id].exampleData = res;
+          this.selectedTemplateController = new FormControl(
+            res,
+            Validators.required
+          );
+
+          this.dialog.open(this.emailTemplateData, {width: '800px'});
         })
-      )
+      );
+    };
+  }
+
+  sendExampleEmail(temp: EmailTemplate, control?: FormControl) {
+    return () => {
+      const exec = (template: string) => {
+        const func = this.aff.functions.httpsCallable('exampleEmail');
+        return from(
+          func({
+            id: temp.id,
+            email: this.form.get('general-settings.errorNotificationEmail')
+              .value,
+            subject: temp.title,
+            template
+          })
+        ).pipe(notify());
+      };
+
+      if (control) {
+        return exec(control.value);
+      } else {
+        return this.loadTemplate(temp).pipe(switchMap(res => exec(res)));
+      }
+    };
+  }
+
+  saveTemplate() {
+    return () => {
+      /**
+       * Fix for tinymce escaping handlebars partials
+       */
+      const value = this.selectedTemplateController.value.replace(
+        /{{&gt;/g,
+        '{{>'
+      );
+
+      return from(
+        this.afs
+          .doc(
+            [
+              FirestoreCollections.Settings,
+              FirestoreStaticDocuments.Templates,
+              FirestoreStaticDocuments.Templates,
+              this.selectedTemplate.id
+            ].join('/')
+          )
+          .set({
+            value
+          })
+      ).pipe(
+        notify(),
+        tap(() => {
+          this.emailTemplateCache[this.selectedTemplate.id].template = value;
+          this.dialog.closeAll();
+        })
+      );
+    };
+  }
+
+  saveTemplateData() {
+    return () => {
+      const value = this.selectedTemplateController.value;
+
+      return from(
+        this.afs
+          .doc(
+            [
+              FirestoreCollections.Settings,
+              FirestoreStaticDocuments.Templates,
+              FirestoreStaticDocuments.TemplateData,
+              this.selectedTemplate.id
+            ].join('/')
+          )
+          .set({
+            value
+          })
+      ).pipe(
+        notify(),
+        tap(() => {
+          this.emailTemplateCache[this.selectedTemplate.id].exampleData = value;
+          this.dialog.closeAll();
+        })
+      );
+    };
+  }
+
+  manageShipping() {
+    return () => {
+      const func = this.aff.functions.httpsCallable('countries');
+      const document = this._snapshot.docs.find(
+        it => it.id === FirestoreStaticDocuments.Shipping
+      );
+      const documentData = document ? document.data().value : null;
+
+      let shipping: Shipping[];
+
+      if (this.shipping) {
+        shipping = [...this.shipping];
+      } else if (documentData) {
+        shipping = [...documentData];
+      } else {
+        shipping = [];
+      }
+
+      return from(func()).pipe(
+        switchMap((value: any) => {
+          this.countries = value.data;
+
+          this.shippingControl = new FormArray(
+            this.countries.map(country => {
+              const setValue = shipping.find(it => it.code === country.code);
+
+              return new FormControl(
+                setValue ? fromStripeFormat(setValue.value) : 0
+              );
+            })
+          );
+
+          return this.dialog
+            .open(this.shippingDialog, {width: '800px'})
+            .afterClosed();
+        }),
+        tap(value => {
+          if (value) {
+            this.shipping = value.reduce((acc, cur, index) => {
+              if (cur) {
+                acc.push({
+                  ...this.countries[index],
+                  value: toStripeFormat(cur)
+                });
+              }
+
+              return acc;
+            }, []);
+          }
+        })
+      );
+    };
+  }
+
+  private loadTemplate(template: EmailTemplate): Observable<string> {
+    return ((this.emailTemplateCache[template.id] &&
+    this.emailTemplateCache[template.id].template
+      ? of(this.emailTemplateCache[template.id].template)
+      : this.afs
+          .doc(
+            [
+              FirestoreCollections.Settings,
+              FirestoreStaticDocuments.Templates,
+              FirestoreStaticDocuments.Templates,
+              template.id
+            ].join('/')
+          )
+          .get()
+          .pipe(map(res => (res.exists ? res.data().value : '')))) as any).pipe(
+      tap((res: string) => {
+        if (!this.emailTemplateCache[template.id]) {
+          this.emailTemplateCache[template.id] = {};
+        }
+
+        this.emailTemplateCache[template.id].template = res;
+      })
+    );
   }
 }
