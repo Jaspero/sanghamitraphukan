@@ -16,6 +16,5 @@ export const ipData = functions.https.onCall(async (value, context) => {
     );
   } catch (e) {}
 
-  console.log('rp', data);
   return data && data.currency ? data.currency.code : null;
 });
