@@ -1,39 +1,26 @@
-<form class="p-y-l" [formGroup]="filters">
-
-  <!--Filters section-->
-<!--  <section class="jfs-shop-filters bg-primary">-->
-<!--    <div class="grid">-->
-<!--      <div class="col-12 flex">-->
-<!--        Filters trigger-->
-<!--        <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">-->
-<!--          <mat-icon>filter_list</mat-icon>-->
-<!--          <span>&nbsp;Filters&nbsp;</span>-->
-<!--        </button>-->
-<!--        &lt;!&ndash;Divider&ndash;&gt;-->
-<!--        <div class="f1"></div>-->
-<!--        &lt;!&ndash;Sort by&ndash;&gt;-->
-<!--        <button id="btn-sort" mat-flat-button color="primary" [matMenuTriggerFor]="sortByMenu">-->
-<!--          <span>Sort by:</span> <span>&nbsp;{{orderName}}&nbsp;</span>-->
-<!--          <mat-icon>arrow_drop_down</mat-icon>-->
-<!--        </button>-->
-<!--        <mat-menu #sortByMenu="matMenu">-->
-<!--          <button id="btn-update-order" *ngFor="let order of orderList" (click)="updateOrder(order)" mat-menu-item>-->
-<!--            {{order.name}}-->
-<!--          </button>-->
-<!--        </mat-menu>-->
-<!--        &lt;!&ndash;Filters chips&ndash;&gt;-->
-<!--        <mat-chip-list class="col-12" *ngIf="chipArray.length">-->
-<!--          <mat-chip *ngFor="let chip of chipArray">-->
-<!--            <span>{{chip.filter}}: {{chip.value}}</span>-->
-<!--            <mat-icon matChipRemove (click)="removeChip(chip)">cancel</mat-icon>-->
-<!--          </mat-chip>-->
-<!--        </mat-chip-list>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
-
+<form class="p-t-l" [formGroup]="filters">
   <div class="ta-center">
     <h1 class="title starting-line">Shop</h1>
+  </div>
+
+  <div class="ta-center">
+    <div class="connecting-line p-b-s">
+      <!--Filters trigger-->
+      <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">
+        <mat-icon>filter_list</mat-icon>
+        <span>&nbsp;Filters&nbsp;</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex jc-center connecting-line p-b-s">
+    <!--Filters chips-->
+    <mat-chip-list *ngIf="chipArray.length">
+      <mat-chip *ngFor="let chip of chipArray">
+        <span>{{chip.filter}}: {{chip.value}}</span>
+        <mat-icon matChipRemove (click)="removeChip(chip)">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
   </div>
 
   <div class="grid grid-shop jc-start connecting-line ending-line">
@@ -73,9 +60,7 @@
     <div mat-dialog-content>
       <mat-form-field class="w-full m-b-xs">
         <mat-select placeholder="Category" formControlName="category">
-          <mat-option
-            *ngFor="let category of categories"
-            [value]="category">
+          <mat-option *ngFor="let category of categories$ | async" [value]="category">
             {{category.name}}
           </mat-option>
         </mat-select>
@@ -84,8 +69,8 @@
 
     <div mat-dialog-actions>
       <div class="ta-right w-full">
-        <button mat-button (click)="resetAll()">Reset all</button>&nbsp;
-        <button id="btn-cont-shop" mat-flat-button mat-dialog-close color="primary">
+        <button mat-button type="button" (click)="filters.reset()">Reset all</button>&nbsp;
+        <button id="btn-cont-shop" type="submit" mat-flat-button mat-dialog-close color="primary">
           Continue shopping
         </button>
       </div>

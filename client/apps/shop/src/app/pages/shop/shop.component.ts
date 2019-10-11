@@ -59,47 +59,23 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   pageSize = 6;
   cursor: any = null;
-  orderName = 'Price High - Low';
-  orderList = [
-    {
-      name: 'Latest',
-      type: 'createdOn',
-      direction: 'desc'
-    },
-    {
-      name: 'Oldest',
-      type: 'createdOn',
-      direction: 'asc'
-    },
-    {
-      name: 'Price High - Low',
-      type: 'price',
-      direction: 'desc'
-    },
-    {
-      name: 'Price Low - High',
-      type: 'price',
-      direction: 'asc'
-    },
-    {
-      name: 'Name A - Z',
-      type: 'name',
-      direction: 'asc'
-    },
-    {
-      name: 'Name Z - A',
-      type: 'name',
-      direction: 'desc'
-    }
-  ];
   chipArray = [];
-  priceLimit: number;
-  categories: any;
+  categories$: Observable<Array<{id: string; name: string}>>;
 
   ngOnInit() {
     if (!this.state.shopDialogShown) {
-      this.state.shopDialogShown = true;
-      this.dialog.open(this.welcomeDialog, {width: '500px'});
+      const showDialogOn = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      let welcomeDialogDate: any = localStorage.getItem('welcome-dialog');
+
+      if (welcomeDialogDate) {
+        welcomeDialogDate = parseInt(welcomeDialogDate);
+      }
+
+      if (!welcomeDialogDate || welcomeDialogDate <= showDialogOn) {
+        this.state.shopDialogShown = true;
+        localStorage.setItem('welcome-dialog', Date.now().toString());
+        this.dialog.open(this.welcomeDialog, {width: '500px'});
+      }
     }
 
     this.filters = this.fb.group({
@@ -108,11 +84,11 @@ export class ShopComponent extends RxDestroy implements OnInit {
       price: null
     });
 
-    this.afs
+    this.categories$ = this.afs
       .collection<Category>(
         `${FirestoreCollections.Categories}-${STATIC_CONFIG.lang}`
       )
-      .valueChanges('id');
+      .valueChanges({idField: 'id'});
 
     this.products$ = this.filters.valueChanges.pipe(
       startWith(this.filters.getRawValue()),
@@ -135,7 +111,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
                   this.chipArray = [];
 
-                  if (query.order.name) {
+                  if (query.order && query.order.name) {
                     final = final.orderBy(
                       query.order.type,
                       query.order.direction
@@ -214,19 +190,5 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   removeChip(chip) {
     this.filters.get(chip.filter).setValue('');
-  }
-
-  updateOrder(order) {
-    this.filters.get('order').setValue(order);
-    this.orderName = order.name;
-  }
-
-  formatRateLabel(value: number) {
-    this.priceLimit = value;
-    return value;
-  }
-
-  setCategory(id: string) {
-    this.filters.get('category').setValue(id);
   }
 }

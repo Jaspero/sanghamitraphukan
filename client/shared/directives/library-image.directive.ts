@@ -14,6 +14,7 @@ export class LibraryImageDirective {
 
   static FIRESHOP_URL =
     'https://firebasestorage.googleapis.com/v0/b/jaspero-fireshop.appspot.com/o/';
+  // 'https://firebasestorage.googleapis.com/v0/b/jaspero-sanghamitra.appspot.com/o/';
 
   @Input()
   webp = true;
