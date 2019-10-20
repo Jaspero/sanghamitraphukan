@@ -1,16 +1,21 @@
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {
-  ChangeDetectionStrategy,
   Component,
+  OnInit,
+  ChangeDetectionStrategy,
   Inject,
-  OnInit
+  TemplateRef
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {notify} from '@jf/utils/notify.operator';
-import {forkJoin, from, Observable, of} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import {SortOptions} from '../../interfaces/sort-options.interface';
-import {switchItemLocations} from '../../utils/switch-item-loactions';
+
+interface Item {
+  id: string;
+  [key: string]: any;
+}
 
 @Component({
   selector: 'jfsc-sort-dialog',
@@ -18,65 +23,106 @@ import {switchItemLocations} from '../../utils/switch-item-loactions';
   styleUrls: ['./sort-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SortDialogComponent implements OnInit {
+export class SortDialogComponent<T = Item> implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public options: SortOptions,
+    private data: {
+      sortKey: string;
+      collection: string;
+      title: string;
+      templateRef: TemplateRef<any>;
+      displayKey?: string;
+    },
     private afs: AngularFirestore,
     private dialogRef: MatDialogRef<SortDialogComponent>
   ) {}
 
-  items$: Observable<any>;
-  updateMap: {[key: string]: number} = {};
+  title = 'Sort Items';
+  displayKey = 'name';
+  templateRef?: TemplateRef<any>;
+  items$: Observable<T[]>;
+
+  private _originals: {[key: string]: number};
 
   ngOnInit() {
+    if (!this.data.sortKey) {
+      this.data.sortKey = 'order';
+    }
+
+    if (this.data.displayKey) {
+      this.displayKey = this.data.displayKey;
+    }
+
+    if (this.data.title) {
+      this.title = this.data.title;
+    }
+
+    if (this.data.templateRef) {
+      this.templateRef = this.data.templateRef;
+    }
+
     this.items$ = this.afs
-      .collection(this.options.collection, ref =>
-        ref.orderBy(this.options.sortKey, 'asc')
+      .collection<T>(this.data.collection, ref =>
+        ref.orderBy(this.data.sortKey, 'asc')
       )
       .snapshotChanges()
       .pipe(
-        map(actions =>
-          actions.map(action => ({
-            id: action.payload.doc.id,
-            ...action.payload.doc.data()
-          }))
-        )
+        map(actions => {
+          const {data, originals} = actions.reduce(
+            (acc, action) => {
+              const item = {
+                id: action.payload.doc.id,
+                ...action.payload.doc.data()
+              };
+
+              acc.data.push(item);
+              acc.originals[item.id] = item[this.data.sortKey];
+
+              return acc;
+            },
+            {
+              data: [],
+              originals: {}
+            }
+          );
+
+          this._originals = originals;
+
+          return data;
+        })
       );
   }
 
-  move(up = false, items: any[], index: number) {
-    const currentIndex = up ? index - 1 : index + 1;
-    this.updateMap[items[index].id] = currentIndex;
-    this.updateMap[items[currentIndex].id] = index;
-    switchItemLocations(items, index, currentIndex);
+  drop(items: T[], event: CdkDragDrop<string[]>) {
+    moveItemInArray(items, event.previousIndex, event.currentIndex);
   }
 
-  update() {
+  move(up = false, items: T[], index: number) {
+    const currentIndex = up ? index - 1 : index + 1;
+    moveItemInArray(items, index, currentIndex);
+  }
+
+  update(items: Item[]) {
     return () => {
-      const data = Object.entries(this.updateMap);
+      const batch = this.afs.firestore.batch();
 
-      if (!data.length) {
-        return of([]);
-      }
+      items.forEach((item, index) => {
+        if (index !== this._originals[item.id]) {
+          const {ref} = this.afs.collection(this.data.collection).doc(item.id);
 
-      return forkJoin(
-        data.map(([id, order]) =>
-          from(
-            this.afs
-              .collection(this.options.collection)
-              .doc(id)
-              .set(
-                {
-                  [this.options.sortKey]: order
-                },
-                {
-                  merge: true
-                }
-              )
-          )
-        )
-      ).pipe(
+          batch.set(
+            ref,
+            {
+              [this.data.sortKey]: index
+            },
+            {
+              merge: true
+            }
+          );
+        }
+      });
+
+      return from(batch.commit()).pipe(
         notify(),
         tap(() => this.dialogRef.close())
       );

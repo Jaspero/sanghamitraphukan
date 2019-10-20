@@ -32,10 +32,9 @@ export class LandingPageComponent extends LangListComponent<LandingPage> {
             .open(SortDialogComponent, {
               width: '400px',
               data: {
-                collectionName: 'Landing Pages',
+                title: 'Landing Pages',
                 collection: `${this.collection}-${lang}`,
-                sortKey: 'order',
-                sortTitle: 'title'
+                displayKey: 'title'
               }
             })
             .afterClosed();

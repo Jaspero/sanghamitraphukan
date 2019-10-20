@@ -12,6 +12,7 @@ import {Category} from '@jf/interfaces/category.interface';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format.ts';
 import {Observable} from 'rxjs';
 import {
+  filter,
   shareReplay,
   startWith,
   switchMap,
@@ -20,6 +21,7 @@ import {
 } from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
+import {ProductSelectDialogComponent} from '../../../../shared/components/product-select-dialog/product-select-dialog.component';
 import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 
 interface Currency {
@@ -184,6 +186,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       gallery: [data.gallery || []],
       quantity: [data.quantity || 0, Validators.min(0)],
       category: data.category,
+      order: data.order || 0,
       showingQuantity: data.hasOwnProperty('showingQuantity')
         ? data.showingQuantity
         : DYNAMIC_CONFIG.generalSettings.showingQuantity,
@@ -192,6 +195,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       )
         ? data.allowOutOfQuantityPurchase
         : DYNAMIC_CONFIG.generalSettings.allowOutOfQuantityPurchase,
+      relatedProducts: [data.relatedProducts || []],
       attributes: this.fb.array(
         data.attributes
           ? data.attributes.map(x =>
@@ -203,7 +207,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
           : []
       ),
       inventory: this.fb.group(
-        data.inventory ? this.formatInventory(data.inventory, true) : {}
+        data.inventory ? this.formatInventory(data.inventory) : {}
       ),
       latest: data.latest || false,
       fabric: data.fabric || '',
@@ -263,7 +267,10 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
     }
 
     this.form.get('default').setValue(Object.keys(obj)[0]);
-    this.form.setControl('inventory', this.fb.group(this.formatInventory(obj)));
+    this.form.setControl(
+      'inventory',
+      this.fb.group(this.formatInventory(obj, false))
+    );
   }
 
   addAttributeValue(item, ind) {
@@ -306,7 +313,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
 
       this.form.setControl(
         'inventory',
-        this.fb.group(this.formatInventory(obj))
+        this.fb.group(this.formatInventory(obj, false))
       );
     }
   }
@@ -328,7 +335,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
     if (!obj[this.form.get('default').value]) {
       this.form.get('default').setValue(Object.keys(obj)[0]);
     }
-    obj = this.formatInventory(obj);
+    obj = this.formatInventory(obj, false);
     this.form.setControl('inventory', this.fb.group(obj));
   }
 
@@ -340,6 +347,26 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
           acc + ` <span class="${this.colors[ind]}">  ${cur}</span>`,
         ''
       );
+  }
+
+  relatedProducts() {
+    const relatedProd = this.form.get('relatedProducts');
+
+    this.dialog
+      .open(ProductSelectDialogComponent, {
+        width: '800px',
+        autoFocus: false,
+        data: {
+          selected: relatedProd.value,
+          title: 'Related Products'
+        }
+      })
+      .afterClosed()
+      .pipe(filter(value => value))
+      .subscribe(value => {
+        relatedProd.setValue(value);
+        this.cdr.markForCheck();
+      });
   }
 
   private setCurrencyGroup(price: {[key: string]: number}, adjustPrice = true) {

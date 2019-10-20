@@ -47,6 +47,7 @@ import {
 } from '@jaspero/ng-helpers';
 import {ColorPickerComponent} from '@jf/components/color-picker/color-picker.component';
 import {ConfirmationComponent} from '@jf/components/confirmation/confirmation.component';
+import {LibraryImageDirective} from '@jf/directives/library-image.directive';
 import {StripePipe} from '@jf/pipes/stripe.pipe';
 import {ChipsComponent} from './components/chips/chips.component';
 import {CustomerLookupComponent} from './components/customer-lookup/customer-lookup.component';
@@ -56,12 +57,15 @@ import {LangSinglePageComponent} from './components/lang-single-page/lang-single
 import {ListComponent} from './components/list/list.component';
 import {SearchInputComponent} from './components/search-input/search-input.component';
 import {SinglePageComponent} from './components/single-page/single-page.component';
+import {SortDialogComponent} from './components/sort-dialog/sort-dialog.component';
 import {WysiwygComponent} from './components/wysiwyg/wysiwyg.component';
 import {FileUploadModule} from './modules/file-upload/file-upload.module';
 import {ImportComponent} from './components/import/import.component';
 import {ForceDisableDirective} from './directives/force-disable/force-disable.directive';
-import { JsonEditorComponent } from './components/json-editor/json-editor.component';
-import {SortDialogComponent} from './components/sort-dialog/sort-dialog.component';
+import {JsonEditorComponent} from './components/json-editor/json-editor.component';
+import {ProductSelectDialogComponent} from './components/product-select-dialog/product-select-dialog.component';
+import {AfAutocompleteComponent} from './components/af-autocomplete/af-autocomplete.component';
+import {ProductAutocompleteComponent} from './components/product-autocomplete/product-autocomplete.component';
 
 const IMPORTS = [
   CommonModule,
@@ -126,7 +130,9 @@ const COMPONENTS = [
   SearchInputComponent,
   ImportComponent,
   CustomerLookupComponent,
-  JsonEditorComponent
+  JsonEditorComponent,
+  AfAutocompleteComponent,
+  ProductAutocompleteComponent
 ];
 
 const ENTRY_COMPONENTS = [
@@ -137,10 +143,12 @@ const ENTRY_COMPONENTS = [
   LangListComponent,
   SinglePageComponent,
   LangSinglePageComponent,
-  SortDialogComponent
+  SortDialogComponent,
+  LangSinglePageComponent,
+  ProductSelectDialogComponent
 ];
 
-const DIRECTIVES = [ForceDisableDirective];
+const DIRECTIVES = [ForceDisableDirective, LibraryImageDirective];
 
 const PIPES = [StripePipe];
 

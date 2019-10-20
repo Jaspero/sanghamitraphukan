@@ -6,7 +6,7 @@ import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {FirestoreStaticDocuments} from '@jf/enums/firestore-static-documents.enum';
 import {CurrencySettings} from '@jf/interfaces/currency-settings.interface';
-import {take} from 'rxjs/operators';
+import {GeneralSettings} from '@jf/interfaces/general-settings.interface';
 import {CurrencyRatesService} from '../services/currency/currency-rates.service';
 import {NetworkService} from '../services/network/network.service';
 import {StateService} from '../services/state/state.service';
@@ -28,11 +28,21 @@ export async function appInit(
     BROWSER_CONFIG.isBrowser = true;
 
     try {
-      DYNAMIC_CONFIG.currency = (await afs
-        .collection(FirestoreCollections.Settings)
-        .doc<CurrencySettings>(FirestoreStaticDocuments.CurrencySettings)
-        .get()
-        .toPromise()).data() as CurrencySettings;
+      const [generalSettings, currencySettings] = await Promise.all([
+        afs
+          .collection(FirestoreCollections.Settings)
+          .doc<GeneralSettings>(FirestoreStaticDocuments.GeneralSettings)
+          .get()
+          .toPromise(),
+        afs
+          .collection(FirestoreCollections.Settings)
+          .doc<CurrencySettings>(FirestoreStaticDocuments.CurrencySettings)
+          .get()
+          .toPromise()
+      ]);
+
+      DYNAMIC_CONFIG.generalSettings = generalSettings.data() as GeneralSettings;
+      DYNAMIC_CONFIG.currency = currencySettings.data() as CurrencySettings;
     } catch (e) {}
 
     currencyRatesService.getRates();
