@@ -157,7 +157,7 @@
               <table class="w-full">
                 <tr *ngFor="let product of cartService.items$ | async">
                   <td class="w-half p-a-xs">{{product.name}}:</td>
-                  <td class="w-half p-a-xs">{{product.price | sp }} x{{product.quantity}}</td>
+                  <td class="w-half p-a-xs">{{product.price | sp:currencyCode}} x{{product.quantity}}</td>
                 </tr>
                 <tr>
                   <td colspan="2"><hr></td>
@@ -165,15 +165,15 @@
                 <ng-container *ngIf="price$ | async as price">
                   <tr>
                     <td class="w-half p-a-xs">Subtotal:</td>
-                    <td class="w-half p-a-xs">{{price.subTotal | sp}}</td>
+                    <td class="w-half p-a-xs">{{price.subTotal | sp:currencyCode}}</td>
                   </tr>
                   <tr>
                     <td class="w-half p-a-xs">Shipping:</td>
-                    <td class="w-half p-a-xs">{{price.shipping ? (price.shipping | sp) : 'Free'}}</td>
+                    <td class="w-half p-a-xs">{{price.shipping ? (price.shipping | sp:currencyCode) : 'Free'}}</td>
                   </tr>
                   <tr class="fw-bold">
                     <td class="w-half p-a-xs">Total:</td>
-                    <td class="w-half p-a-xs">{{price.total | sp}}</td>
+                    <td class="w-half p-a-xs">{{price.total | sp:currencyCode}}</td>
                   </tr>
                 </ng-container>
               </table>

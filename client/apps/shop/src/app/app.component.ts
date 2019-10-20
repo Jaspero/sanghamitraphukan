@@ -129,7 +129,7 @@ export class AppComponent implements OnInit {
 
   openCheckout() {
     this.dialog.open(CartComponent, {
-      width: '400px'
+      width: '500px'
     });
   }
 

@@ -103,10 +103,15 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
 
   termsControl = new FormControl(false);
   elementType = ElementType;
+  currencyCode: string;
 
   private shippingSubscription: Subscription;
 
   ngOnInit() {
+    this.currencyRatesService.current$.pipe(take(1)).subscribe(value => {
+      this.currencyCode = value;
+    });
+
     this.countries$ = from(
       this.aff.functions.httpsCallable('countries')()
     ).pipe(
@@ -153,14 +158,15 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     this.clientSecret$ = combineLatest([
       this.state.user$.pipe(take(1)),
       this.formData$,
-      this.items$
+      this.items$,
+      this.currencyRatesService.current$.pipe(take(1))
     ]).pipe(
-      switchMap(([user, data, orderItems]) =>
+      switchMap(([user, data, orderItems, currency]) =>
         this.http.post<{clientSecret: string}>(
           `${environment.restApi}/stripe/checkout`,
           {
             orderItems,
-            currency: this.currencyRatesService.current$.getValue(),
+            currency,
             lang: STATIC_CONFIG.lang,
             form: data,
             ...(user && {
@@ -186,26 +192,31 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
           data.shippingInfo ? data.billing.country : data.shipping.country
         )
       ),
-      this.shipping$
+      this.shipping$,
+      this.currencyRatesService.current$.pipe(take(1))
     ]).pipe(
-      map(([cartTotal, country, shippingData]) => {
+      map(([cartTotal, country, shippingData, currency]) => {
         const shippingItem = shippingData.find(it => it.code === country);
         const shipping =
           shippingItem && Number.isInteger(shippingItem.value)
             ? shippingItem.value
             : DYNAMIC_CONFIG.currency.shippingCost || 0;
-        const total = cartTotal[DYNAMIC_CONFIG.currency.primary] + shipping;
+        const total = cartTotal[currency] + shipping;
 
         return {
           total,
           shipping,
-          subTotal: cartTotal[DYNAMIC_CONFIG.currency.primary]
+          subTotal: cartTotal[currency]
         };
       })
     );
 
-    this.elementConfig$ = combineLatest([this.price$, this.formData$]).pipe(
-      map(([price, data]) => [
+    this.elementConfig$ = combineLatest([
+      this.price$,
+      this.formData$,
+      this.currencyRatesService.current$.pipe(take(1))
+    ]).pipe(
+      map(([price, data, currency]) => [
         {
           type: ElementType.Card,
           options: {
@@ -221,7 +232,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
         {
           type: ElementType.PaymentRequestButton,
           options: {
-            currency: DYNAMIC_CONFIG.currency.primary.toLowerCase(),
+            currency: currency.toLowerCase(),
             country: data.billing.country,
             total: {
               label: 'Total',
@@ -300,15 +311,14 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       this.formData$,
       this.state.user$,
       this.price$,
-      this.items$
+      this.items$,
+      this.currencyRatesService.current$.pipe(take(1))
     ]).pipe(
-      switchMap(([data, user, price, items]) => {
+      switchMap(([data, user, price, items, currency]) => {
         if (this.afAuth.auth.currentUser && data.saveInfo) {
           this.afs
             .doc(
-              `${FirestoreCollections.Customers}/${
-                this.afAuth.auth.currentUser.uid
-              }`
+              `${FirestoreCollections.Customers}/${this.afAuth.auth.currentUser.uid}`
             )
             .update(data);
         }
@@ -319,7 +329,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
             .doc(nanoid())
             .set({
               price,
-              currency: this.currencyRatesService.current$.getValue(),
+              currency,
               status: OrderStatus.Ordered,
               paymentIntentId: paymentIntent.id,
               billing: data.billing,
