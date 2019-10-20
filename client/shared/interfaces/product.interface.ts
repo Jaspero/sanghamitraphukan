@@ -13,12 +13,14 @@ export interface Product {
   createdOn: number;
   name: string;
   shortDescription: string;
+  order: number;
   description: string;
   gallery: string[];
   search: string[];
   showingQuantity: boolean;
   quantity: number;
   allowOutOfQuantityPurchase: boolean;
+  relatedProducts?: string[];
   default?: string;
   attributes?: ProductAttribute[];
   inventory?: {
