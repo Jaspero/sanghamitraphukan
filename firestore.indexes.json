@@ -174,7 +174,7 @@
       "fields": [
         {
           "fieldPath": "category",
-          "order": "ASCENDING"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "createdOn",
@@ -202,7 +202,7 @@
       "fields": [
         {
           "fieldPath": "category",
-          "order": "ASCENDING"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "name",
@@ -230,7 +230,7 @@
       "fields": [
         {
           "fieldPath": "category",
-          "order": "ASCENDING"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "price",
@@ -258,7 +258,7 @@
       "fields": [
         {
           "fieldPath": "category",
-          "order": "ASCENDING"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "active",
@@ -286,7 +286,7 @@
       "fields": [
         {
           "fieldPath": "category",
-          "order": "ASCENDING"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "quantity",
@@ -314,7 +314,7 @@
       "fields": [
         {
           "fieldPath": "category",
-          "order": "ASCENDING"
+          "arrayConfig": "CONTAINS"
         },
         {
           "fieldPath": "order",
