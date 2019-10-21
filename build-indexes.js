@@ -66,7 +66,7 @@ writeFileSync(
                     fields: [
                       {
                         fieldPath: query,
-                        ...query === 'search' ? {arrayConfig: 'CONTAINS'} : {order: 'ASCENDING'}
+                        ...cur.array && cur.array.includes(query) ? {arrayConfig: 'CONTAINS'} : {order: 'ASCENDING'}
                       },
                       {
                         fieldPath: sort,
