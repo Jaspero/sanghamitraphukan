@@ -275,7 +275,7 @@
               <div class="p-y-xs">
                 <mat-form-field appearance="outline" class="w-full">
                   <mat-label>Category</mat-label>
-                  <mat-select formControlName="category">
+                  <mat-select formControlName="category" multiple>
                     <mat-option
                       *ngFor="let category of categories$ | async"
                       [value]="category.id">

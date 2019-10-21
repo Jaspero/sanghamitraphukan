@@ -80,7 +80,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
     this.filters = this.fb.group({
       category: '',
-      order: '',
+      order: {name: 'Order', direction: 'asc', type: 'order'},
       price: null
     });
 
@@ -127,7 +127,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
                     final = final.where(
                       'category',
-                      FirebaseOperator.Equal,
+                      FirebaseOperator.ArrayContains,
                       query.category.id
                     );
                   }

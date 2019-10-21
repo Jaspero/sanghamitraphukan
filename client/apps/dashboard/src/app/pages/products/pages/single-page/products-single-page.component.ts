@@ -185,7 +185,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       shortDescription: data.shortDescription || '',
       gallery: [data.gallery || []],
       quantity: [data.quantity || 0, Validators.min(0)],
-      category: data.category,
+      category: [data.category || []],
       order: data.order || 0,
       showingQuantity: data.hasOwnProperty('showingQuantity')
         ? data.showingQuantity

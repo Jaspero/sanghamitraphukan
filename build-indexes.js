@@ -6,14 +6,15 @@ const collections = [
   {
     collection: 'products',
     queries: ['search', 'category', 'active'],
+    array: ['search', 'category'],
     sort: ['createdOn', 'name', 'price', 'active', 'quantity', 'order'],
-    languages: ['']
+    languages: ['en']
   },
   {
     collection: 'categories',
     queries: ['name'],
     sort: ['createdOn', 'name', 'order'],
-    languages: ['']
+    languages: ['en']
   },
   {
     collection: 'discounts',

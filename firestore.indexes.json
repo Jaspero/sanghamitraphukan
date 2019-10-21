@@ -1,7 +1,7 @@
 {
   "indexes": [
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -15,7 +15,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -71,7 +71,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -127,7 +127,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -141,7 +141,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -169,7 +169,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -183,7 +183,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -197,7 +197,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -211,7 +211,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -225,7 +225,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -239,7 +239,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -253,7 +253,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -267,7 +267,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -281,7 +281,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -295,7 +295,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -309,7 +309,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -323,7 +323,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -337,7 +337,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -351,7 +351,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -365,7 +365,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -379,7 +379,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -393,7 +393,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -407,7 +407,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -421,7 +421,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -435,7 +435,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -449,7 +449,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -463,7 +463,7 @@
       ]
     },
     {
-      "collectionGroup": "products",
+      "collectionGroup": "products-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -477,7 +477,7 @@
       ]
     },
     {
-      "collectionGroup": "categories",
+      "collectionGroup": "categories-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -491,7 +491,7 @@
       ]
     },
     {
-      "collectionGroup": "categories",
+      "collectionGroup": "categories-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -505,7 +505,7 @@
       ]
     },
     {
-      "collectionGroup": "categories",
+      "collectionGroup": "categories-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -519,7 +519,7 @@
       ]
     },
     {
-      "collectionGroup": "categories",
+      "collectionGroup": "categories-en",
       "queryScope": "COLLECTION",
       "fields": [
         {
