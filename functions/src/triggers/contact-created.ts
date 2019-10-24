@@ -6,6 +6,19 @@ export const contactCreated = functions.firestore
   .document('contacts/{id}')
   .onCreate(async snap => {
     const data = snap.data();
-    await parseEmail(STATIC_CONFIG.adminEamil, 'Website Inquiry', 'contact-created', data);
+    await Promise.all([
+      parseEmail(
+        STATIC_CONFIG.adminEamil,
+        'Website Inquiry',
+        'admin-contact-created',
+        data
+      ),
+      parseEmail(
+        data.email,
+        'Website Inquiry Received',
+        'contact-created',
+        data
+      )
+    ]);
     return true;
   });

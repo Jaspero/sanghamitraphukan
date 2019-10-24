@@ -21,6 +21,12 @@ export const EMAIL_TEMPLATES: EmailTemplate[] = [
     tags: [EmailTag.Customer]
   },
   {
+    title: 'New Contact Customer Notification',
+    id: 'contact-created',
+    description: `Sent to customers when a new contact is created.`,
+    tags: [EmailTag.Customer]
+  },
+  {
     title: 'Checkout error',
     id: 'checkout-error',
     description: `Sent to users when their checkout failed during payment verification`,
@@ -43,6 +49,12 @@ export const EMAIL_TEMPLATES: EmailTemplate[] = [
     id: 'admin-checkout-failed-notification',
     description: `Sent to admins when a customer checkout fails.`,
     tags: [EmailTag.Error, EmailTag.Admin]
+  },
+  {
+    title: 'New Contact Admin Notification',
+    id: 'admin-contact-created',
+    description: `Sent to admins when a contact is sent.`,
+    tags: [EmailTag.Admin]
   },
   {
     title: 'Layout',

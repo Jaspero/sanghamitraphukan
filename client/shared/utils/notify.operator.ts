@@ -25,7 +25,7 @@ export function notify(
       tap(() => {
         if (finalOptions.success) {
           snackBar.open(finalOptions.success, 'Dismiss', {
-            duration: 5000
+            duration: 3000
           });
         }
       }),
