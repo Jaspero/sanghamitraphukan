@@ -10,7 +10,7 @@ export {ipData} from './callable/ip-data';
 
 // Triggers
 export {userCreated} from './triggers/user-created';
-// export {userDeleted} from './triggers/user-deleted';
+export {userDeleted} from './triggers/user-deleted';
 export {contactCreated} from './triggers/contact-created';
 export {fileCreated} from './triggers/file-created';
 export {fileDeleted} from './triggers/file-deleted';

@@ -2,6 +2,7 @@ import {auth, firestore} from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as rp from 'request-promise-native';
 import {ENV_CONFIG} from '../consts/env-config.const';
+import {STATIC_CONFIG} from '../consts/static-config.const';
 import {parseEmail} from '../utils/parse-email';
 
 export const userCreated = functions.auth.user().onCreate(async user => {
@@ -27,7 +28,7 @@ export const userCreated = functions.auth.user().onCreate(async user => {
         user
       ),
       parseEmail(
-        user.email,
+        STATIC_CONFIG.adminEamil,
         'New shop sign-up',
         'admin-sign-up-notification',
         user

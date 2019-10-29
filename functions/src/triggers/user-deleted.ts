@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import {STATIC_CONFIG} from '../consts/static-config.const';
 import {parseEmail} from '../utils/parse-email';
 import * as admin from 'firebase-admin';
 
@@ -15,7 +16,7 @@ export const userDeleted = functions.auth.user().onDelete(async user => {
     ),
     parseEmail(user.email, 'Sorry to see you go', 'user-deleted-account', user),
     parseEmail(
-      user.email,
+      STATIC_CONFIG.adminEamil,
       'User Account Deleted',
       'admin-user-deleted-account-notification',
       user
