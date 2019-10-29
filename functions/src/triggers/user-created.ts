@@ -19,14 +19,25 @@ export const userCreated = functions.auth.user().onCreate(async user => {
     // Set custom user claims on this newly created user.
     await auth().setCustomUserClaims(user.uid, customClaims);
   } else {
-    await parseEmail(user.email, 'Welcome to Sanghamtira', 'user-created', user);
+    await Promise.all([
+      parseEmail(
+        user.email,
+        'Welcome to Sanghamtira',
+        'new-user-signed-up',
+        user
+      ),
+      parseEmail(
+        user.email,
+        'New shop sign-up',
+        'admin-sign-up-notification',
+        user
+      )
+    ]);
 
     try {
       await rp({
         method: 'POST',
-        uri: `https://us20.api.mailchimp.com/3.0/lists/${
-          ENV_CONFIG.mailchimp.list
-        }/members/`,
+        uri: `https://us20.api.mailchimp.com/3.0/lists/${ENV_CONFIG.mailchimp.list}/members/`,
         auth: {
           user: 'username',
           pass: ENV_CONFIG.mailchimp.token

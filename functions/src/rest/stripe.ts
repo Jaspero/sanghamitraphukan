@@ -90,9 +90,7 @@ async function getItems(
          */
         if (!snapshots[i].inventory[lookUp]) {
           error.push({
-            message: `${
-              snapshots[i].name
-            } with these attributes no longer exists`,
+            message: `${snapshots[i].name} with these attributes no longer exists`,
             type: 'product_missing',
             data: {
               id: snapshots[i].id,
@@ -115,9 +113,7 @@ async function getItems(
         snapshots[i].quantity < orderItems[i].quantity
       ) {
         error.push({
-          message: `We currently don't have enough of ${
-            snapshots[i].name
-          } in inventory`,
+          message: `We currently don't have enough of ${snapshots[i].name} in inventory`,
           data: {
             id: snapshots[i].id,
             quantity: snapshots[i].quantity,
@@ -369,9 +365,12 @@ app.post('/webhook', async (req, res) => {
           ),
         parseEmail(
           STATIC_CONFIG.adminEamil,
-          'New Order Payed',
+          'Order Complete',
           'admin-order-notification',
-          emailData
+          {
+            order,
+            items
+          }
         )
       ];
 
@@ -476,12 +475,10 @@ app.post('/webhook', async (req, res) => {
           parseEmail(
             settings.errorNotificationEmail,
             'Error processing payment',
-            'admin-error',
+            'admin-checkout-failed-notification',
             {
-              title: 'Checkout Error',
-              description: 'There was an error during checkout',
-              additionalProperties: [{key: 'OrderId', value: order.id}],
               message,
+              stripeOrderId: order.id,
               firebaseDashboard:
                 'https://console.firebase.google.com/u/2/project/jaspero-sanghamitra/overview',
               adminDashboard: 'https://admin.sanghamitraphukan.com'
@@ -493,8 +490,8 @@ app.post('/webhook', async (req, res) => {
           exec.push(
             parseEmail(
               order.billing.email,
-              'Error processing order',
-              'customer-error',
+              'Error processing payment',
+              'checkout-error',
               {
                 website: 'https://fireshop.jaspero.co'
               }
