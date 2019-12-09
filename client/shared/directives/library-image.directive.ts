@@ -57,17 +57,7 @@ export class LibraryImageDirective {
       );
     }
 
-    this._http
-      .get(valToUse, {responseType: 'blob', withCredentials: false})
-      .subscribe(
-        res => {
-          const urlCreator = window.URL || window['webkitURL'];
-          this.setValue(urlCreator.createObjectURL(res));
-        },
-        () => {
-          this.setValue('/assets/images/missing-image.svg');
-        }
-      );
+    this.setValue(valToUse);
   }
 
   setValue(value: string) {
