@@ -6,6 +6,7 @@ import {LangSinglePageComponent} from '../../../../shared/components/lang-single
 import {URL_REGEX} from '../../../../shared/const/url-regex.const';
 import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 import {convertToSlug} from '../../../../shared/utils/string-to-slug';
+import {NEWS_GENERATED_IMAGES} from '../consts/news-generated-images.const';
 
 @Component({
   selector: 'jfsc-news-single-page',
@@ -41,7 +42,17 @@ export class NewsSinglePageComponent extends LangSinglePageComponent {
   }
 
   getSaveData(...args) {
-    return this.galleryUploadComponent.save().pipe(
+    let [id, item, lang] = args;
+
+    if (!id) {
+      id = this.createId();
+    }
+
+    return this.galleryUploadComponent.save(
+      `${FirestoreCollections.News}-${lang}`,
+      id,
+      NEWS_GENERATED_IMAGES
+    ).pipe(
       switchMap(() => {
         if (!args[0]) {
           args[0] = convertToSlug(args[1].title);

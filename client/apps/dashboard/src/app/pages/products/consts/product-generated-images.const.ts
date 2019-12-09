@@ -5,11 +5,13 @@ export const PRODUCT_GENERATED_IMAGES = [
   {
     filePrefix: 'thumb_m_',
     webpVersion: true,
-    width: 400
+    width: 600,
+    height: 900
   },
   {
     filePrefix: 'thumb_s_',
     webpVersion: true,
-    width: 200
+    width: 500,
+    height: 750
   }
 ];
