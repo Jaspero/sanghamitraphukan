@@ -5,7 +5,7 @@ import {parseEmail} from '../utils/parse-email';
 export const contactCreated = functions.firestore
   .document('contacts/{id}')
   .onCreate(async snap => {
-    const data = snap.data();
+    const data: any = snap.data();
     await Promise.all([
       parseEmail(
         STATIC_CONFIG.adminEamil,
@@ -14,7 +14,7 @@ export const contactCreated = functions.firestore
         data
       ),
       parseEmail(
-        data.email,
+        data.email as string,
         'Website Inquiry Received',
         'contact-created',
         data
