@@ -12,7 +12,7 @@
         <p class="ff-secondary ta-center p-a-xs bg-primary m-b-xs" *ngIf="data.product.preOrder"><b>Pre-orders available!</b></p>
         <div class="product-mobile-gallery">
           <div class="aspect-ratio product-img" data-ratio="2:3" *ngFor="let img of data.product.gallery; index as index;" (click)="openLightBox(data.product.gallery, index)">
-            <img class="aspect-item" src="assets/images/empty.svg" [jfsLibraryImage]="img" aria-hidden="true">
+            <img class="aspect-item" src="assets/images/empty.svg" [jfsLibraryImage]="img" aria-hidden="true" size="s">
           </div>
         </div>
       </div>

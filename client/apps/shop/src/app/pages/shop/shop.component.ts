@@ -157,7 +157,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
             if (actions.length < this.pageSize) {
               this.hasMore$.next(false);
             } else {
-              this.cursor = actions[actions.length - 2].payload.doc;
+              this.cursor = actions[actions.length - 1].payload.doc;
             }
             return actions.reduce((acc, cur, ind) => {
               if (ind < this.pageSize - 1) {

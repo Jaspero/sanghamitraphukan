@@ -8,7 +8,7 @@
         <p class="fs-small m-b-xs">{{new.createdOn | date}}</p>
         <p class="m-b-xs ff-secondary">{{new.title}}</p>
         <div class="aspect-ratio m-b-xs" data-ratio="1:1">
-          <img class="aspect-item" [src]="new.gallery" alt="Article featured image.">
+          <img class="aspect-item" [jfsLibraryImage]="new.gallery[0]" size="m" alt="Article featured image.">
         </div>
         <p class="ff-secondary m-b-xs">{{new.shortDescription}}</p>
         <p class="ff-secondary"><u>Read more</u></p>

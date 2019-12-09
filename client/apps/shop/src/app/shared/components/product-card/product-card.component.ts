@@ -31,7 +31,6 @@ export class ProductCardComponent implements OnInit {
     public cr: CurrencyRatesService
   ) {}
 
-  // TODO: @onChange is broken. Strangely it links all the product-cards together
   @OnChange(function() {
     this.connectProperties();
   })
