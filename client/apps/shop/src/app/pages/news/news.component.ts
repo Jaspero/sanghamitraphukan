@@ -21,15 +21,9 @@ export class NewsComponent implements OnInit {
       .collection<News>(
         `${FirestoreCollections.News}-${STATIC_CONFIG.lang}`,
         ref => {
-          return ref
-            .orderBy('createdOn', 'desc')
-            .limit(10);
+          return ref.orderBy('createdOn', 'desc').limit(10);
         }
       )
       .valueChanges({idField: 'id'});
-
-    this.news$.subscribe(value => {
-      console.log('value', value)
-    })
   }
 }
