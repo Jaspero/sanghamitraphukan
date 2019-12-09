@@ -5,8 +5,7 @@ export const LANDING_GENERATED_IMAGES = [
   {
     filePrefix: 'thumb_m_',
     webpVersion: true,
-    width: 600,
-    height: 900
+    width: 600
   },
 ];
 

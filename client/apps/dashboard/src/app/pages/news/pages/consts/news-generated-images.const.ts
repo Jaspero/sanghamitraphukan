@@ -5,7 +5,6 @@ export const NEWS_GENERATED_IMAGES = [
   {
     filePrefix: 'thumb_m_',
     webpVersion: true,
-    width: 600,
-    height: 600
+    width: 600
   },
 ];
