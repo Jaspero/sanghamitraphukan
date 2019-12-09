@@ -13,6 +13,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
 import {GalleryUploadComponent} from '../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-upload/image-upload.component';
+import {PRODUCT_GENERATED_IMAGES} from '../../products/consts/product-generated-images.const';
 
 @Component({
   selector: 'jfsc-single-landing-page',
@@ -28,7 +29,7 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
   @ViewChildren(ImageUploadComponent)
   imageUploadComponent: QueryList<ImageUploadComponent>;
 
-  collection = FirestoreCollections.landingPage;
+  collection = FirestoreCollections.LandingPage;
   categories$: Observable<Category[]>;
 
   ngOnInit() {
@@ -62,8 +63,18 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
   }
 
   getSaveData(...args) {
+    let [id, item, lang] = args;
+
+    if (!id) {
+      id = this.createId();
+    }
+
     return forkJoin([
-      this.galleryUploadComponent.save(),
+      this.galleryUploadComponent.save(
+        `${FirestoreCollections.LandingPage}-${lang}`,
+        id,
+        PRODUCT_GENERATED_IMAGES
+      ),
       ...this.imageUploadComponent.map(item => item.save())
     ]).pipe(
       switchMap(() => {

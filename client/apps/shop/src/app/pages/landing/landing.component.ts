@@ -45,7 +45,7 @@ export class LandingComponent implements OnInit {
     this.resize(BROWSER_CONFIG.screenWidth);
     this.product$ = this.afs
       .collection<Landing>(
-        `${FirestoreCollections.landingPage}-${STATIC_CONFIG.lang}`,
+        `${FirestoreCollections.LandingPage}-${STATIC_CONFIG.lang}`,
         ref =>
           ref
             .where('active', FirebaseOperator.Equal, true)

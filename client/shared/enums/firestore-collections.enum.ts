@@ -4,7 +4,7 @@ export enum FirestoreCollections {
   Customers = 'customers',
   Orders = 'orders',
   Settings = 'settings',
-  landingPage = 'landing-page',
+  LandingPage = 'landing-page',
   Discounts = 'discounts',
   Reviews = 'reviews',
   Newsletter = 'newsletter',

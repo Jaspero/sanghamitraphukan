@@ -12,7 +12,7 @@ import {SortDialogComponent} from '../../shared/components/sort-dialog/sort-dial
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingPageComponent extends LangListComponent<LandingPage> {
-  collection = FirestoreCollections.landingPage;
+  collection = FirestoreCollections.LandingPage;
   displayedColumns = [
     'checkBox',
     'id',

@@ -9,8 +9,8 @@ import {unpackGenerateImageString} from '../utils/unpack-generate-image-string';
 
 export const fileCreated = functions
   .runWith({
-    timeoutSeconds: 300,
-    memory: '2GB'
+    memory: '1GB',
+    timeoutSeconds: 300
   })
   .storage.object()
   .onFinalize(async ({bucket, name, contentType, metadata}: any) => {
