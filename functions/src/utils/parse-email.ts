@@ -13,6 +13,11 @@ export async function parseEmail(
   let layout: string;
   let dbTemplate: string;
 
+  if (!to) {
+    console.error('Missing receiver email');
+    return false;
+  }
+
   const toExec = [
     admin
       .firestore()
@@ -42,6 +47,7 @@ export async function parseEmail(
   }
 
   [layout, dbTemplate] = [layoutDoc, templateDoc].map(
+    // @ts-ignore
     item => item.data().value
   );
 

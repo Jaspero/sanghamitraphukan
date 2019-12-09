@@ -67,7 +67,7 @@ async function getItems(
     })
   );
 
-  const error = [];
+  const error: any[] = [];
 
   for (let i = 0; i < snapshots.length; i++) {
     if (snapshots[i].exists) {
@@ -253,7 +253,7 @@ app.post('/checkout', (req, res) => {
 app.post('/webhook', async (req, res) => {
   const sig = req.headers['stripe-signature'];
 
-  let event = null;
+  let event: any = null;
 
   try {
     event = si.webhooks.constructEvent(
@@ -264,7 +264,7 @@ app.post('/webhook', async (req, res) => {
   } catch (err) {
     console.error(err);
     // invalid signature
-    res.sendStatus(HttpStatus.Ok);
+    res.status(HttpStatus.BadRequest).end();
     return;
   }
 
@@ -315,8 +315,6 @@ app.post('/webhook', async (req, res) => {
     res.sendStatus(HttpStatus.Ok);
     return;
   }
-
-  console.log('order', JSON.stringify(order));
 
   /**
    * Join orderItems[] and orderItemsData[]

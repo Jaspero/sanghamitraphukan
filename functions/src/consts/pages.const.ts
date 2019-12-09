@@ -56,7 +56,7 @@ export async function loadItem(
     throw new Error('Item missing');
   }
 
-  const data = item.data();
+  const data = item.data() as any;
 
   if (additionalCriteria) {
     if (!additionalCriteria(item)) {

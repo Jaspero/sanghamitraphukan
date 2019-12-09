@@ -14,7 +14,12 @@ export const userDeleted = functions.auth.user().onDelete(async user => {
         .then(resolve)
         .catch(resolve)
     ),
-    parseEmail(user.email, 'Sorry to see you go', 'user-deleted-account', user),
+    parseEmail(
+      user.email as string,
+      'Sorry to see you go',
+      'user-deleted-account',
+      user
+    ),
     parseEmail(
       STATIC_CONFIG.adminEamil,
       'User Account Deleted',

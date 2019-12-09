@@ -22,7 +22,7 @@ export const userCreated = functions.auth.user().onCreate(async user => {
   } else {
     await Promise.all([
       parseEmail(
-        user.email,
+        user.email as string,
         'Welcome to Sanghamtira',
         'new-user-signed-up',
         user

@@ -25,6 +25,7 @@ import {environment} from '../../../../../environments/environment';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
 import {ProductSelectDialogComponent} from '../../../../shared/components/product-select-dialog/product-select-dialog.component';
 import {GalleryUploadComponent} from '../../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
+import {PRODUCT_GENERATED_IMAGES} from '../../consts/product-generated-images.const';
 
 interface Currency {
   code: string;
@@ -149,7 +150,11 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
     return this.categories$.pipe(
       take(1),
       switchMap(categories => {
-        const [id, item, lang] = args;
+        let [id, item, lang] = args;
+
+        if (!id) {
+          id = this.createId();
+        }
 
         DYNAMIC_CONFIG.currency.supportedCurrencies.forEach(code => {
           item.price[code] = toStripeFormat(item.price[code]);
@@ -194,7 +199,11 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
         }
 
         return forkJoin([
-          this.galleryUploadComponent.save(),
+          this.galleryUploadComponent.save(
+            `${FirestoreCollections.Products}-${lang}`,
+            id,
+            PRODUCT_GENERATED_IMAGES
+          ),
           this.metadataDoc(id, lang).set(this.metaForm.getRawValue(), {
             merge: true
           })

@@ -29,22 +29,17 @@ service cloud.firestore {
       allow write, delete: if write()
     }
 
-    match /products-en/{product} {
+    match /products-en/{product=**} {
   	  allow read: if readOrWrite() || resource.data.active == true;
   	  allow write, delete: if write()
     }
 
-    match /categories-en/{category} {
+    match /categories-en/{category=**} {
       allow read: if true
       allow write, delete: if write()
     }
 
-    match /news-en/{new} {
-      allow read: if true
-      allow write, delete: if write()
-    }
-
-    match /discounts-en/{discount} {
+    match /discounts-en/{discount=**} {
       allow read: if true
       allow write, delete: if write()
     }
@@ -55,7 +50,7 @@ service cloud.firestore {
       allow update, delete: if write() || resource.data.customerId == request.auth.uid;
     }
 
-    match /customers/{customer} {
+    match /customers/{customer=**} {
       allow read, create: if true;
       allow update, delete: if write() || resource.id == request.auth.uid;
     }
@@ -73,6 +68,12 @@ service cloud.firestore {
     match /landing-page-en/{page} {
       allow write, delete: if readOrWrite()
       allow read: if true
+    }
+
+
+    match /news-en/{new} {
+      allow read: if true
+      allow write, delete: if write()
     }
 
     match /contacts/{contact} {
