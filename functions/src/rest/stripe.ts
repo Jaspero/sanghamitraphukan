@@ -396,7 +396,7 @@ app.post('/webhook', async (req, res) => {
               const lookUp = getLookUp(current);
               const inventory = item.inventory[lookUp];
 
-              console.log({item, lookUp});
+              console.log({current});
 
               if (inventory) {
                 inventory.quantity -= current.quantity;
@@ -415,9 +415,9 @@ app.post('/webhook', async (req, res) => {
                * when out of quantity, loop over the inventory and check
                * if we should deactive the product
                */
-              if (settings.inactiveForQuantity) {
-                for (const inventoryItem of item.inventory) {
-                  if (inventoryItem.quantity) {
+              if (settings.inactiveForQuantity && item.inventory) {
+                for (const key in item.inventory) {
+                  if (item.inventory[key].quantity) {
                     hasQuantity = true;
                     break;
                   }
