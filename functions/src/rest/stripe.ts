@@ -217,7 +217,7 @@ app.post('/checkout', (req, res) => {
 
     const paymentIntent = await si.paymentIntents.create({
       amount,
-      currency: currency.primary,
+      currency: req.body.currency,
       metadata: {
         lang: req.body.lang
       },
@@ -396,13 +396,17 @@ app.post('/webhook', async (req, res) => {
               const lookUp = getLookUp(current);
               const inventory = item.inventory[lookUp];
 
-              item.inventory[lookUp].quantity -= current.quantity;
+              console.log({item, lookUp});
 
-              toUpdate.inventory = {
-                [inventory]: {
-                  quantity: item.inventory[lookUp].quantity
-                }
-              };
+              if (inventory) {
+                inventory.quantity -= current.quantity;
+
+                toUpdate.inventory = {
+                  [lookUp]: {
+                    quantity: inventory.quantity
+                  }
+                };
+              }
 
               let hasQuantity = false;
 
