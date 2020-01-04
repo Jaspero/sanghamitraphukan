@@ -1,6 +1,8 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnInit,
   TemplateRef,
   ViewChild
@@ -15,15 +17,8 @@ import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Product} from '@jf/interfaces/product.interface';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {
-  debounceTime,
-  map,
-  scan,
-  startWith,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, fromEvent, Observable} from 'rxjs';
+import {map, scan, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {CartService} from '../../shared/services/cart/cart.service';
 import {StateService} from '../../shared/services/state/state.service';
 
@@ -33,7 +28,7 @@ import {StateService} from '../../shared/services/state/state.service';
   styleUrls: ['./shop.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShopComponent extends RxDestroy implements OnInit {
+export class ShopComponent extends RxDestroy implements OnInit, AfterViewInit {
   constructor(
     public cart: CartService,
     public dialog: MatDialog,
@@ -52,6 +47,9 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   @ViewChild('welcomeDialog', {static: true})
   welcomeDialog: TemplateRef<any>;
+
+  @ViewChild('grid', {static: true})
+  gridEl: ElementRef<HTMLDivElement>;
 
   products$: Observable<Product[]>;
   loadMore$ = new BehaviorSubject(null);
@@ -99,15 +97,13 @@ export class ShopComponent extends RxDestroy implements OnInit {
         this.cursor = null;
 
         return this.loadMore$.pipe(
-          debounceTime(300),
-          tap(() => this.state.loading$.next(true)),
           switchMap(() =>
             this.afs
               .collection<Product>(
                 `${FirestoreCollections.Products}-${STATIC_CONFIG.lang}`,
                 ref => {
                   let final = ref
-                    .limit(this.pageSize)
+                    .limit(this.pageSize + 1)
                     .where('active', FirebaseOperator.Equal, true);
 
                   this.chipArray = [];
@@ -157,10 +153,10 @@ export class ShopComponent extends RxDestroy implements OnInit {
             if (actions.length < this.pageSize) {
               this.hasMore$.next(false);
             } else {
-              this.cursor = actions[actions.length - 1].payload.doc;
+              this.cursor = actions[actions.length - 2].payload.doc;
             }
             return actions.reduce((acc, cur, ind) => {
-              if (ind < this.pageSize - 1) {
+              if (ind < this.pageSize) {
                 acc.push({
                   id: cur.payload.doc.id,
                   ...cur.payload.doc.data()
@@ -174,13 +170,30 @@ export class ShopComponent extends RxDestroy implements OnInit {
       }),
       tap(() => {
         this.state.loading$.next(false);
-        setTimeout(() => {
-          if (this.hasMore$.value) {
-            this.loadMore$.next(true);
-          }
-        }, 10);
       })
     );
+  }
+
+  ngAfterViewInit() {
+    fromEvent(window, 'scroll')
+      .pipe(
+        switchMap(() => combineLatest([this.state.loading$, this.hasMore$])),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe(([loading, hasMore]) => {
+        if (!loading && hasMore) {
+          const trigger =
+            this.gridEl.nativeElement.getBoundingClientRect().height +
+            this.gridEl.nativeElement.offsetTop;
+          const wPos =
+            window.innerHeight + (window.scrollY || window.pageYOffset);
+
+          if (trigger <= wPos) {
+            this.state.loading$.next(true);
+            this.loadMore$.next(null);
+          }
+        }
+      });
   }
 
   openFilter() {
