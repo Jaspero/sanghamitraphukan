@@ -167,12 +167,14 @@ app.post('/checkout', (req, res) => {
        * Try to retrieve a customer if the
        * checkout is from a logged in user
        */
-      ...(req.body.customer ? [
-        si.customers.list({
-          email: req.body.customer.email,
-          limit: 1
-        })
-      ] : [])
+      ...(req.body.customer
+        ? [
+            si.customers.list({
+              email: req.body.customer.email,
+              limit: 1
+            })
+          ]
+        : [])
     ]);
 
     currency = currency.data();
@@ -268,6 +270,8 @@ app.post('/webhook', async (req, res) => {
     return;
   }
 
+  console.log('Stripe Event', JSON.stringify(event));
+
   const intent = event.data.object;
   const [order, settings, currency] = await Promise.all([
     admin
@@ -312,6 +316,7 @@ app.post('/webhook', async (req, res) => {
   ]);
 
   if (!order) {
+    console.error('Order not found', intent.id);
     res.sendStatus(HttpStatus.Ok);
     return;
   }
@@ -335,6 +340,7 @@ app.post('/webhook', async (req, res) => {
   switch (event['type']) {
     case 'payment_intent.succeeded':
       if (order.status === 'payed') {
+        console.error('Webhook for already payed order', order.id);
         res.sendStatus(HttpStatus.Ok);
         return;
       }
