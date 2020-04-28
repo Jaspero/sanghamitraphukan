@@ -118,15 +118,9 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
   elementType = ElementType;
   currencyCode: string;
 
-  code = new FormControl('', Validators.required);
+  code = new FormControl('');
   discount = 0;
   validCode$ = new BehaviorSubject<Discount>(null);
-
-  giftCardCode = new FormControl('', Validators.required);
-  giftCardValue = new FormControl(0);
-  validGiftCard$ = new BehaviorSubject(null);
-
-  giftCardSliderMax = 0;
 
   private shippingSubscription: Subscription;
 
@@ -183,10 +177,9 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       this.formData$,
       this.items$,
       this.currencyRatesService.current$.pipe(take(1)),
-      this.validCode$,
-      this.validGiftCard$
+      this.validCode$
     ]).pipe(
-      switchMap(([user, data, orderItems, currency, discount, giftCard]) =>
+      switchMap(([user, data, orderItems, currency, discount]) =>
         this.http.post<{clientSecret: string}>(
           `${environment.restApi}/stripe/checkout`,
           {
@@ -202,14 +195,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
                 id: user.authData.uid
               }
             }),
-            code: discount ? discount.id : null,
-            giftCard: giftCard
-              ? {
-                  code: giftCard.code,
-                  useValue: toStripeFormat(this.giftCardValue.value),
-                  currency: DYNAMIC_CONFIG.currency.primary
-                }
-              : null
+            code: discount ? discount.id : null
           }
         )
       ),
@@ -224,54 +210,40 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
         )
       ),
       this.shipping$,
-      this.validCode$,
-      this.validGiftCard$,
       this.currencyRatesService.current$.pipe(take(1)),
-      this.validCode$,
-      this.validGiftCard$
+      this.validCode$
     ]).pipe(
-      map(
-        ([cartTotal, country, shippingData, currency, discount, giftCard]) => {
-          const shippingItem = shippingData.find(it => it.code === country);
-          const shipping =
-            shippingItem && Number.isInteger(shippingItem.value)
-              ? shippingItem.value
-              : DYNAMIC_CONFIG.currency.shippingCost || 0;
-          let total = cartTotal[DYNAMIC_CONFIG.currency.primary] + shipping;
+      map(([cartTotal, country, shippingData, currency, discount]) => {
+        const shippingItem = shippingData.find(it => it.code === country);
+        const shipping =
+          shippingItem && Number.isInteger(shippingItem.value)
+            ? shippingItem.value
+            : DYNAMIC_CONFIG.currency.shippingCost || 0;
+        let total = cartTotal[DYNAMIC_CONFIG.currency.primary] + shipping;
 
-          if (discount) {
-            switch (discount.valueType) {
-              case DiscountValueType.Percentage:
-                const deduct = fromStripeFormat(total * (discount.value / 100));
-                this.discount = -deduct;
-                total -= deduct;
-                break;
-              case DiscountValueType.FixedAmount:
-                total = Math.max(
-                  0,
-                  total - discount.values[DYNAMIC_CONFIG.currency.primary]
-                );
-                this.discount = -discount.values[
-                  DYNAMIC_CONFIG.currency.primary
-                ];
-                break;
-            }
+        if (discount) {
+          switch (discount.valueType) {
+            case DiscountValueType.Percentage:
+              const deduct = fromStripeFormat(total * (discount.value / 100));
+              this.discount = -deduct;
+              total -= deduct;
+              break;
+            case DiscountValueType.FixedAmount:
+              total = Math.max(
+                0,
+                total - discount.values[DYNAMIC_CONFIG.currency.primary]
+              );
+              this.discount = -discount.values[DYNAMIC_CONFIG.currency.primary];
+              break;
           }
-
-          if (giftCard && this.giftCardValue.valid) {
-            if (total - toStripeFormat(this.giftCardValue.value) < 0) {
-              this.giftCardValue.setValue(fromStripeFormat(total));
-            }
-            total -= toStripeFormat(this.giftCardValue.value);
-          }
-
-          return {
-            total,
-            shipping,
-            subTotal: cartTotal[currency]
-          };
         }
-      )
+
+        return {
+          total,
+          shipping,
+          subTotal: cartTotal[currency]
+        };
+      })
     );
 
     this.elementConfig$ = combineLatest([
@@ -478,10 +450,6 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     this.validCode$.next(null);
   }
 
-  clearGiftCard() {
-    this.validGiftCard$.next(null);
-  }
-
   applyCode() {
     return () => {
       const code = this.code.value;
@@ -526,49 +494,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     };
   }
 
-  applyGiftCard() {
-    return () => {
-      const giftCardCode = this.giftCardCode.value;
-      this.validGiftCard$.next(null);
-
-      return this.afs
-        .collection(FirestoreCollections.GiftCardsInstances, ref =>
-          ref.where('code', '==', giftCardCode)
-        )
-        .get()
-        .pipe(
-          switchMap(data => {
-            const snap = data.docs;
-
-            if (snap.length === 0) {
-              return throwError('Gift Card is invalid');
-            }
-
-            const giftCard = snap[0].data();
-
-            this.giftCardSliderMax = fromStripeFormat(
-              giftCard.values[DYNAMIC_CONFIG.currency.primary]
-            );
-            this.giftCardValue.setValue(
-              fromStripeFormat(giftCard.values[DYNAMIC_CONFIG.currency.primary])
-            );
-            this.validGiftCard$.next({...giftCard});
-
-            return of();
-          }),
-          notify({
-            success: 'Gift Card applied',
-            error: 'Gift Card is invalid'
-          })
-        );
-    };
-  }
-
   formatLabel(value: number) {
     return new StripePipe().transform(toStripeFormat(value));
-  }
-
-  giftCardValueChange() {
-    this.validGiftCard$.next(this.validGiftCard$.value);
   }
 }
