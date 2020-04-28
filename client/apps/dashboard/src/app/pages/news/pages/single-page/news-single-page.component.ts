@@ -29,7 +29,8 @@ export class NewsSinglePageComponent extends LangSinglePageComponent {
       title: [data.title || '', Validators.required],
       gallery: [data.gallery || []],
       shortDescription: [data.shortDescription || '', Validators.required],
-      content: [data.content || '', Validators.required]
+      content: [data.content || '', Validators.required],
+      showPopup: [data.showPopup || false, Validators.required]
     });
   }
 

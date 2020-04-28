@@ -8,7 +8,7 @@ export const backup = functions
   .runWith({
     timeoutSeconds: 540
   })
-  .pubsub.schedule('40 13 * * *')
+  .pubsub.schedule('0 23 * * *')
   .timeZone('Europe/Zagreb')
   .onRun(async () => {
     const storage = admin.storage().bucket();
@@ -33,6 +33,12 @@ export const backup = functions
       {
         collection: 'settings'
       },
+      {
+        collection: 'contacts'
+      },
+      {
+        collection: 'newsletter'
+      },
       // Language dependant collections
       {
         collection: 'categories-en'
@@ -45,6 +51,15 @@ export const backup = functions
       },
       {
         collection: 'sales-en'
+      },
+      {
+        collection: 'discounts-en'
+      },
+      {
+        collection: 'news-en'
+      },
+      {
+        collection: 'landing-page-en'
       }
     ];
 
