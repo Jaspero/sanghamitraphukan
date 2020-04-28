@@ -6,7 +6,6 @@ import {
   AngularFirestoreModule
 } from '@angular/fire/firestore';
 import {AngularFireFunctionsModule} from '@angular/fire/functions';
-import {MatProgressBarModule} from '@angular/material';
 import {AngularFirePerformanceModule} from '@angular/fire/performance';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +24,7 @@ import {CurrencyRatesService} from './shared/services/currency/currency-rates.se
 import {NetworkService} from './shared/services/network/network.service';
 import {StateService} from './shared/services/state/state.service';
 import {SharedModule} from './shared/shared.module';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 export function init(injector: Injector) {
   return () => {
@@ -72,7 +72,6 @@ const ENTRY_COMPONENTS = [UpdateAvailableComponent];
       multi: true
     }
   ],
-  bootstrap: [AppComponent],
-  entryComponents: ENTRY_COMPONENTS
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

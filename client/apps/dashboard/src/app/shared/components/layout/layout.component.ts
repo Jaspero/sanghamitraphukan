@@ -6,12 +6,12 @@ import {
   ViewChild
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {LANGUAGES} from '@jf/consts/languages.const';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {StateService} from '../../services/state/state.service';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'jfsc-layout',
@@ -42,7 +42,8 @@ export class LayoutComponent implements OnInit {
     {label: 'Customers', icon: 'supervisor_account', value: '/customers'},
     {label: 'Reviews', icon: 'star_rate', value: '/reviews'},
     {label: 'Contacts', icon: 'contacts', value: '/contacts'},
-    {label: 'News', icon: 'collections_bookmark', value: '/news'}
+    {label: 'News', icon: 'collections_bookmark', value: '/news'},
+    {label: 'Gift cards', icon: 'card_giftcard', value: '/gift-cards'}
   ];
 
   ngOnInit() {

@@ -48,20 +48,18 @@ export class NewsSinglePageComponent extends LangSinglePageComponent {
       id = this.createId();
     }
 
-    return this.galleryUploadComponent.save(
-      `${FirestoreCollections.News}-${lang}`,
-      id,
-      NEWS_GENERATED_IMAGES
-    ).pipe(
-      switchMap(() => {
-        if (!args[0]) {
-          args[0] = convertToSlug(args[1].title);
-        }
+    return this.galleryUploadComponent
+      .save(`${FirestoreCollections.News}-${lang}`, id, NEWS_GENERATED_IMAGES)
+      .pipe(
+        switchMap(() => {
+          if (!args[0]) {
+            args[0] = convertToSlug(args[1].title);
+          }
 
-        args[1].gallery = this.form.get('gallery').value;
+          args[1].gallery = this.form.get('gallery').value;
 
-        return super.getSaveData(...args);
-      })
-    );
+          return super.getSaveData(...args);
+        })
+      );
   }
 }

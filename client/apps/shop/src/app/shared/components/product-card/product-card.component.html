@@ -1,19 +1,23 @@
-<div class="cs-pointer" [routerLink]="['/product', product.id]">
-  <div class="bg-primary relative">
-    <div class="aspect-ratio" data-ratio="2:3">
-      <img class="aspect-item" src="assets/images/empty.svg" [jfsLibraryImage]="product.gallery[0]" [alt]="product.name" size="m">
-    </div>
-    <div class="flex jc-between p-a-xs">
-      <p>{{product.name}}</p>
-      <p>{{product.price | cr | async}}</p>
-    </div>
-    <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center"><b>Pre-orders available!</b></p>
+<div class="cs-pointer jfs-product-card bg-primary relative" [routerLink]="['/product', product.id]">
+  <div class="aspect-ratio" data-ratio="2:3">
+    <img class="aspect-item" src="assets/images/empty.svg" [jfsLibraryImage]="product.gallery[0]"
+         [alt]="product.name" size="m">
+  </div>
+
+
+  <div class="flex jc-between p-a-xs">
+    <label>{{product.name}}</label>
+    <label>{{price | sp}}</label>
+  </div>
+  <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center"><b>Pre-orders available!</b></p>
+
+  <div class="flex fd-row-rev">
     <ng-container *ngIf="wishList$ | async as ws">
       <button
         [id]="'btn-wish-list-' + uniqueId"
-        class="jfs-product-card-wishlist-button"
-        mat-mini-fab
+        mat-icon-button
         color="primary"
+        class="jfs-product-card-wishlist-button"
         [matTooltip]="ws.label"
         [attr.aria-label]="ws.label"
         (jpStopPropagation)="wishList.toggle(product)">

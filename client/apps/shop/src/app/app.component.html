@@ -2,6 +2,7 @@
 <ng-container *ngIf="showLayout$ | async">
   <!--Header-->
   <header class="app-header">
+
     <nav class="hide-s">
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/about">About</a>
@@ -10,7 +11,8 @@
       <a mat-button [routerLink]="['/contact']">Contact</a>
     </nav>
 
-    <a routerLink="/"><img class="app-header-logo" src="assets/images/logo.svg" alt="Sanghamitra" width="60" height="60"></a>
+    <a routerLink="/"><img class="app-header-logo" src="assets/images/logo.svg" alt="Sanghamitra" width="60"
+                           height="60"></a>
 
     <div class="flex ai-center">
 
@@ -18,7 +20,8 @@
 
       <div class="hide-s">
         <ng-container *ngIf="state.user$ | async as user; else anonymous">
-          <button mat-button [matMenuTriggerFor]="shopCategories">{{user.customerData?.name || user.authData.displayName || user.authData.email}}</button>
+          <button mat-button
+                  [matMenuTriggerFor]="shopCategories">{{user.customerData?.name || user.authData.displayName || user.authData.email}}</button>
           <mat-menu #shopCategories="matMenu">
             <a mat-menu-item routerLink="/my-profile/settings">Settings</a>
             <a mat-menu-item routerLink="/my-profile/wish-list">Wish List</a>
@@ -47,7 +50,8 @@
         </ng-container>
       </button>
 
-      <button aria-label="Menu" class="app-header-menu" (click)="openMobileHeader()" [class.active]="toggleMobileHeader">
+      <button aria-label="Menu" class="app-header-menu" (click)="openMobileHeader()"
+              [class.active]="toggleMobileHeader">
         <span></span>
       </button>
     </div>
@@ -56,12 +60,15 @@
       <div class="flex f2">
         <a class="mobile-row-first link-home" (click)="openMobileHeader()" routerLink="/"><span>Home</span></a>
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
-        <a class="mobile-row-first link-contact" (click)="openMobileHeader()" routerLink="/contact"><span>Contact</span></a>
+        <a class="mobile-row-first link-contact" (click)="openMobileHeader()"
+           routerLink="/contact"><span>Contact</span></a>
         <a class="mobile-row-first link-news" (click)="openMobileHeader()" routerLink="/news"><span>News</span></a>
         <a class="mobile-row-first link-shop" (click)="openMobileHeader()" routerLink="/shop"><span>Shop</span></a>
       </div>
 
-      <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra" (click)="openMobileHeader()" routerLink="/">
+      <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra"
+           (click)="openMobileHeader()"
+           routerLink="/">
 
       <ng-container *ngIf="state.user$ | async as user; else anonymousMobile">
         <p class="app-header-mobile-username">{{user.authData.email}}</p>
@@ -103,7 +110,8 @@
           <ng-container matSuffix>
             <mat-spinner *ngIf="loading$ | async; else loaded;" [diameter]="24"></mat-spinner>
             <ng-template #loaded>
-              <button type="submit" [disabled]="email.invalid" mat-icon-button (click)="submitEmail()" aria-label="Submit">
+              <button type="submit" [disabled]="email.invalid" mat-icon-button (click)="submitEmail()"
+                      aria-label="Submit">
                 <mat-icon>arrow_forward</mat-icon>
               </button>
             </ng-template>
@@ -122,27 +130,34 @@
 
       <div class="col-3 col-s-12">
         <h2 class="m-t-xs m-b-s">Legal</h2>
-        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('shippingReturns')" id="shipping">Shipping & returns</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('termsService')" id="terms">Terms of service</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('shippingReturns')" id="shipping">Shipping &
+          returns</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('termsService')" id="terms">Terms of
+          service</a></p>
         <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('privacy')" id="privacy">Privacy policy</a></p>
         <p class="m-y-xs"><a class="link ws-nowrap" (click)="legalDialog('cookies')" id="cookies">Cookies policy</a></p>
       </div>
 
       <div class="col-3 col-s-12">
         <h2 class="m-t-xs m-b-s">Follow us</h2>
-        <p class="m-y-xs"><a class="link ws-nowrap social-instagram" target="_blank" rel="noopener" href="https://www.instagram.com/sanghamitraphukan/">Instagram</a></p>
-        <p class="m-y-xs"><a class="link ws-nowrap social-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap social-instagram" target="_blank" rel="noopener"
+                             href="https://www.instagram.com/sanghamitraphukan/">Instagram</a></p>
+        <p class="m-y-xs"><a class="link ws-nowrap social-facebook" target="_blank" rel="noopener"
+                             href="https://www.facebook.com/sanghamitrabijuphukan/">Facebook</a></p>
       </div>
 
       <div class="col-12">
-        <p class="p-t-m">© {{year}} Sanghamitra Phukan — By <a class="link" target="_blank" rel="noopener" href="https://jaspero.co">Jaspero</a></p>
+        <p class="p-t-m">© {{year}} Sanghamitra Phukan — By <a class="link" target="_blank" rel="noopener"
+                                                               href="https://jaspero.co">Jaspero</a></p>
       </div>
     </div>
   </footer>
 </ng-container>
 
 <jfs-cookie>
-  <p class="ff-secondary ta-center fs-small">To help personalize content and provide a safer experience, we use cookies. By clicking or navigating the site, you agree to our <a class="link" (click)="legalDialog('cookies')"><u>Cookies Policy</u></a>.</p>
+  <p class="ff-secondary ta-center fs-small">To help personalize content and provide a safer experience, we use cookies.
+    By clicking or navigating the site, you agree to our <a class="link" (click)="legalDialog('cookies')"><u>Cookies
+      Policy</u></a>.</p>
 </jfs-cookie>
 
 <!--Loading-->

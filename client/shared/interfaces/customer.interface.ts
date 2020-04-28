@@ -9,8 +9,9 @@ export interface Customer {
   id: string;
   createdOn: number;
   name?: string;
-  gender?: 'Male' | 'Female',
+  gender?: 'Male' | 'Female';
   bio?: string;
+  fullName?: string;
   profileImage?: string;
   billing?: Address;
   shippingInfo?: boolean;

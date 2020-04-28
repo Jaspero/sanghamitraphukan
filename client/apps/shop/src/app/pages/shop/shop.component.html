@@ -1,82 +1,88 @@
 <form class="p-t-l" [formGroup]="filters" #grid>
-  <div class="ta-center">
-    <h1 class="title starting-line">Shop</h1>
-  </div>
 
-  <div class="ta-center">
-    <div class="connecting-line p-b-s">
-      <!--Filters trigger-->
-      <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">
-        <mat-icon>filter_list</mat-icon>
-        <span>&nbsp;Filters&nbsp;</span>
-      </button>
+  <div class="jfs-shop-viewport">
+
+    <div class="ta-center">
+      <h1 class="title starting-line">Shop</h1>
     </div>
-  </div>
 
-  <div class="flex jc-center connecting-line p-b-s">
-    <!--Filters chips-->
-    <mat-chip-list *ngIf="chipArray.length">
-      <mat-chip *ngFor="let chip of chipArray">
-        <span>{{chip.filter}}: {{chip.value}}</span>
-        <mat-icon matChipRemove (click)="removeChip(chip)">cancel</mat-icon>
-      </mat-chip>
-    </mat-chip-list>
-  </div>
+    <div class="ta-center">
+      <div class="connecting-line p-b-s">
+        <!--Filters trigger-->
+        <button id="btn-filter" mat-flat-button color="primary" (click)="openFilter()">
+          <mat-icon>filter_list</mat-icon>
+          <span>&nbsp;Filters&nbsp;</span>
+        </button>
+      </div>
+    </div>
 
-  <div class="grid grid-shop jc-start connecting-line ending-line">
-    <!--Products-->
-    <ng-container *ngIf="(products$ | async) as prod">
-      <ng-container *ngIf="prod.length; else emptyList">
-        <div
-          class="col-6 col-xs-12"
-          *ngFor="let product of prod">
-          <jfs-product-card [product]="product"></jfs-product-card>
-        </div>
+    <div class="flex jc-center connecting-line p-b-s">
+      <!--Filters chips-->
+      <mat-chip-list *ngIf="chipArray.length">
+        <mat-chip *ngFor="let chip of chipArray">
+          <span>{{chip.filter}}: {{chip.value}}</span>
+          <mat-icon matChipRemove (click)="removeChip(chip)">cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+
+    <div class="grid grid-shop jc-start connecting-line ending-line">
+      <!--Products-->
+      <ng-container *ngIf="(products$ | async) as products">
+        <ng-container *ngIf="products.length; else emptyList">
+          <div
+            class="col-6 col-xs-12"
+            *ngFor="let product of products">
+            <jfs-product-card [product]="product"></jfs-product-card>
+          </div>
+        </ng-container>
       </ng-container>
-    </ng-container>
-    <!--Products empty-->
-    <ng-template #emptyList>
-      <div class="col-12">
-        <p class="p-y-s ta-center c-l-primary">There aren't any products here.</p>
+      <!--Products empty-->
+      <ng-template #emptyList>
+        <div class="col-12">
+          <p class="p-y-s ta-center c-l-primary">There aren't any products here.</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <!--Filters dialog-->
+    <ng-template #filterDialog>
+      <div mat-dialog-title>
+        <div class="flex ai-center jc-between">
+          <h6>Filters</h6>
+          <button
+            tabindex="-1"
+            mat-icon-button
+            aria-label="Close dialog"
+            mat-dialog-close>
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div mat-dialog-content>
+        <mat-form-field class="w-full m-b-xs">
+          <mat-select placeholder="Category" formControlName="category">
+            <mat-option
+              *ngFor="let category of categories$ | async"
+              [value]="category">
+              {{category.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div mat-dialog-actions>
+        <div class="ta-right w-full">
+          <button mat-button type="button" (click)="filters.reset()">Reset all</button>&nbsp;
+          <button id="btn-cont-shop" type="submit" mat-flat-button mat-dialog-close color="primary">
+            Continue shopping
+          </button>
+        </div>
       </div>
     </ng-template>
   </div>
-
-  <!--Filters dialog-->
-  <ng-template #filterDialog>
-    <div mat-dialog-title>
-      <div class="flex ai-center jc-between">
-        <h6>Filters</h6>
-        <button
-          tabindex="-1"
-          mat-icon-button
-          aria-label="Close dialog"
-          mat-dialog-close>
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </div>
-
-    <div mat-dialog-content>
-      <mat-form-field class="w-full m-b-xs">
-        <mat-select placeholder="Category" formControlName="category">
-          <mat-option *ngFor="let category of categories$ | async" [value]="category">
-            {{category.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div mat-dialog-actions>
-      <div class="ta-right w-full">
-        <button mat-button type="button" (click)="filters.reset()">Reset all</button>&nbsp;
-        <button id="btn-cont-shop" type="submit" mat-flat-button mat-dialog-close color="primary">
-          Continue shopping
-        </button>
-      </div>
-    </div>
-  </ng-template>
-
 </form>
 
 <ng-template #welcomeDialog>
@@ -85,8 +91,10 @@
       <img src="assets/images/logo-full.svg" alt="Sanghamitra." width="140">
     </div>
     <p class="ff-secondary m-b-s">Welcome to the Sanghamitra Store </p>
-    <p class="ff-secondary m-b-s ta-left">As all our garments are handcrafted in our workshops, we can process bespoke orders and aim to match production with demand as closely as possible, so to minimise waste</p>
-    <p class="ff-secondary m-b-s ta-left">If your size is not available or a garment has been sold out, please send us a message to inquiry about customised orders of the same, at no extra cost: </p>
+    <p class="ff-secondary m-b-s ta-left">As all our garments are handcrafted in our workshops, we can process bespoke
+      orders and aim to match production with demand as closely as possible, so to minimise waste</p>
+    <p class="ff-secondary m-b-s ta-left">If your size is not available or a garment has been sold out, please send us a
+      message to inquiry about customised orders of the same, at no extra cost: </p>
     <p class="m-b-xs"><a href="mailto:bespoke@sanghamitraphukan.com"><u>bespoke@sanghamitraphukan.com</u></a></p>
   </section>
 </ng-template>

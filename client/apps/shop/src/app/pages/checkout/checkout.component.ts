@@ -23,8 +23,17 @@ import {Customer} from '@jf/interfaces/customer.interface';
 import {OrderItem} from '@jf/interfaces/order.interface';
 import {Price} from '@jf/interfaces/product.interface';
 import {Shipping} from '@jf/interfaces/shipping.interface';
+import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format';
 import * as nanoid from 'nanoid';
-import {combineLatest, from, Observable, Subscription, throwError} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  from,
+  Observable,
+  of,
+  Subscription,
+  throwError
+} from 'rxjs';
 import {
   catchError,
   map,
@@ -46,6 +55,10 @@ import {StripeElementsComponent} from '../../shared/modules/stripe-elements/stri
 import {CartService} from '../../shared/services/cart/cart.service';
 import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
 import {StateService} from '../../shared/services/state/state.service';
+import {Discount} from '@jf/interfaces/discount.interface';
+import {notify} from '@jf/utils/notify.operator';
+import {DiscountValueType} from '../../../../../dashboard/src/app/pages/discounts/pages/single-page/discounts-single-page.component';
+import {StripePipe} from '@jf/pipes/stripe.pipe';
 
 interface Item extends OrderItem {
   id: string;
@@ -105,6 +118,16 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
   elementType = ElementType;
   currencyCode: string;
 
+  code = new FormControl('', Validators.required);
+  discount = 0;
+  validCode$ = new BehaviorSubject<Discount>(null);
+
+  giftCardCode = new FormControl('', Validators.required);
+  giftCardValue = new FormControl(0);
+  validGiftCard$ = new BehaviorSubject(null);
+
+  giftCardSliderMax = 0;
+
   private shippingSubscription: Subscription;
 
   ngOnInit() {
@@ -133,6 +156,15 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
 
     this.loggedOut$ = this.state.user$.pipe(map(user => !user));
 
+    this.form$ = this.state.user$.pipe(
+      map(user => this.buildForm(user ? user.customerData : {})),
+      shareReplay(1)
+    );
+
+    this.formData$ = this.form$.pipe(
+      switchMap(form => form.valueChanges.pipe(startWith(form.getRawValue())))
+    );
+
     this.items$ = this.cartService.items$.pipe(
       map(items =>
         items.map(val => ({
@@ -146,36 +178,38 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       )
     );
 
-    this.form$ = this.state.user$.pipe(
-      map(user => {
-        return this.buildForm(user ? user.customerData : {});
-      }),
-      shareReplay(1)
-    );
-
-    this.formData$ = this.form$.pipe(map(form => form.getRawValue()));
-
     this.clientSecret$ = combineLatest([
       this.state.user$.pipe(take(1)),
       this.formData$,
       this.items$,
-      this.currencyRatesService.current$.pipe(take(1))
+      this.currencyRatesService.current$.pipe(take(1)),
+      this.validCode$,
+      this.validGiftCard$
     ]).pipe(
-      switchMap(([user, data, orderItems, currency]) =>
+      switchMap(([user, data, orderItems, currency, discount, giftCard]) =>
         this.http.post<{clientSecret: string}>(
           `${environment.restApi}/stripe/checkout`,
           {
             orderItems,
-            currency,
+            // TODO: This could be dynamic in other implementations
+            currency: DYNAMIC_CONFIG.currency.primary,
             lang: STATIC_CONFIG.lang,
             form: data,
             ...(user && {
               customer: {
                 email: user.authData.email,
-                name: user.customerData.name,
+                name: user.customerData.fullName,
                 id: user.authData.uid
               }
-            })
+            }),
+            code: discount ? discount.id : null,
+            giftCard: giftCard
+              ? {
+                  code: giftCard.code,
+                  useValue: toStripeFormat(this.giftCardValue.value),
+                  currency: DYNAMIC_CONFIG.currency.primary
+                }
+              : null
           }
         )
       ),
@@ -184,31 +218,60 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
 
     this.price$ = combineLatest([
       this.cartService.totalPrice$.pipe(take(1)),
-      this.form$.pipe(
-        switchMap(form =>
-          form.valueChanges.pipe(startWith(form.getRawValue()))
-        ),
+      this.formData$.pipe(
         map(data =>
           data.shippingInfo ? data.billing.country : data.shipping.country
         )
       ),
       this.shipping$,
-      this.currencyRatesService.current$.pipe(take(1))
+      this.validCode$,
+      this.validGiftCard$,
+      this.currencyRatesService.current$.pipe(take(1)),
+      this.validCode$,
+      this.validGiftCard$
     ]).pipe(
-      map(([cartTotal, country, shippingData, currency]) => {
-        const shippingItem = shippingData.find(it => it.code === country);
-        const shipping =
-          shippingItem && Number.isInteger(shippingItem.value)
-            ? shippingItem.value
-            : DYNAMIC_CONFIG.currency.shippingCost || 0;
-        const total = cartTotal[currency] + shipping;
+      map(
+        ([cartTotal, country, shippingData, currency, discount, giftCard]) => {
+          const shippingItem = shippingData.find(it => it.code === country);
+          const shipping =
+            shippingItem && Number.isInteger(shippingItem.value)
+              ? shippingItem.value
+              : DYNAMIC_CONFIG.currency.shippingCost || 0;
+          let total = cartTotal[DYNAMIC_CONFIG.currency.primary] + shipping;
 
-        return {
-          total,
-          shipping,
-          subTotal: cartTotal[currency]
-        };
-      })
+          if (discount) {
+            switch (discount.valueType) {
+              case DiscountValueType.Percentage:
+                const deduct = fromStripeFormat(total * (discount.value / 100));
+                this.discount = -deduct;
+                total -= deduct;
+                break;
+              case DiscountValueType.FixedAmount:
+                total = Math.max(
+                  0,
+                  total - discount.values[DYNAMIC_CONFIG.currency.primary]
+                );
+                this.discount = -discount.values[
+                  DYNAMIC_CONFIG.currency.primary
+                ];
+                break;
+            }
+          }
+
+          if (giftCard && this.giftCardValue.valid) {
+            if (total - toStripeFormat(this.giftCardValue.value) < 0) {
+              this.giftCardValue.setValue(fromStripeFormat(total));
+            }
+            total -= toStripeFormat(this.giftCardValue.value);
+          }
+
+          return {
+            total,
+            shipping,
+            subTotal: cartTotal[currency]
+          };
+        }
+      )
     );
 
     this.elementConfig$ = combineLatest([
@@ -247,7 +310,6 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
   buildForm(value: Partial<Customer>) {
     const group = this.fb.group({
       billing: this.addressForm(value.billing ? value.billing : {}),
-      code: '',
       shippingInfo: value.shippingInfo || true,
       saveInfo: true
     });
@@ -334,12 +396,14 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
               paymentIntentId: paymentIntent.id,
               billing: data.billing,
               createdOn: Date.now(),
+              code: this.code.value,
+              lang: STATIC_CONFIG.lang,
 
               ...(data.shippingInfo ? {} : {shipping: data.shipping}),
               ...(user &&
                 user.authData && {
                   customerId: user.authData.uid,
-                  customerName: user.customerData.name,
+                  customerName: user.customerData.fullName,
                   email: user.authData.email
                 }),
 
@@ -408,5 +472,103 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
         view: logIn ? LoginSignUpView.LogIn : LoginSignUpView.SignUp
       }
     });
+  }
+
+  clearDiscount() {
+    this.validCode$.next(null);
+  }
+
+  clearGiftCard() {
+    this.validGiftCard$.next(null);
+  }
+
+  applyCode() {
+    return () => {
+      const code = this.code.value;
+
+      this.validCode$.next(null);
+
+      return this.afs
+        .collection<Discount>(
+          `${FirestoreCollections.Discounts}-${STATIC_CONFIG.lang}`
+        )
+        .doc(code)
+        .get()
+        .pipe(
+          switchMap(value => {
+            const discount = value.data();
+
+            if (
+              !value.exists ||
+              !discount.active ||
+              (discount.type === 'limited' && discount.limitedNumber <= 0) ||
+              !(
+                discount.startingDate.seconds <
+                Date.now() <
+                discount.endingDate.seconds
+              )
+            ) {
+              return throwError('Invalid discount');
+            }
+
+            this.validCode$.next({
+              ...value.data(),
+              id: value.id
+            } as any);
+
+            return of();
+          }),
+          notify({
+            success: 'Discount applied',
+            error: 'Discount is invalid'
+          })
+        );
+    };
+  }
+
+  applyGiftCard() {
+    return () => {
+      const giftCardCode = this.giftCardCode.value;
+      this.validGiftCard$.next(null);
+
+      return this.afs
+        .collection(FirestoreCollections.GiftCardsInstances, ref =>
+          ref.where('code', '==', giftCardCode)
+        )
+        .get()
+        .pipe(
+          switchMap(data => {
+            const snap = data.docs;
+
+            if (snap.length === 0) {
+              return throwError('Gift Card is invalid');
+            }
+
+            const giftCard = snap[0].data();
+
+            this.giftCardSliderMax = fromStripeFormat(
+              giftCard.values[DYNAMIC_CONFIG.currency.primary]
+            );
+            this.giftCardValue.setValue(
+              fromStripeFormat(giftCard.values[DYNAMIC_CONFIG.currency.primary])
+            );
+            this.validGiftCard$.next({...giftCard});
+
+            return of();
+          }),
+          notify({
+            success: 'Gift Card applied',
+            error: 'Gift Card is invalid'
+          })
+        );
+    };
+  }
+
+  formatLabel(value: number) {
+    return new StripePipe().transform(toStripeFormat(value));
+  }
+
+  giftCardValueChange() {
+    this.validGiftCard$.next(this.validGiftCard$.value);
   }
 }

@@ -8,9 +8,7 @@ export const newsletterCreated = functions.firestore
     try {
       await rp({
         method: 'POST',
-        uri: `https://us20.api.mailchimp.com/3.0/lists/${
-          ENV_CONFIG.mailchimp.list
-        }/members/`,
+        uri: `https://us20.api.mailchimp.com/3.0/lists/${ENV_CONFIG.mailchimp.list}/members/`,
         auth: {
           user: 'username',
           pass: ENV_CONFIG.mailchimp.token
