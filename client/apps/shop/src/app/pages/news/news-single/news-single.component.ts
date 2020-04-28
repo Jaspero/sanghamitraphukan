@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 import {News} from '@jf/interfaces/news.interface';
 import {from, Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {finalize, take, tap} from 'rxjs/operators';
 import {notify} from '@jf/utils/notify.operator';
 import {HttpClient} from '@angular/common/http';
@@ -41,7 +41,7 @@ export class NewsSingleComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      email: ['']
+      email: ['', [Validators.required, Validators.email]]
     });
 
     this.data$ = this.activatedRoute.data as Observable<{news: News}>;
