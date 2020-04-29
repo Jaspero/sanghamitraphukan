@@ -9,7 +9,6 @@ import {
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
@@ -26,6 +25,7 @@ import {StateService} from '../../shared/services/state/state.service';
 import {WishListService} from '../../shared/services/wish-list/wish-list.service';
 import {getProductFilters} from '../../shared/utils/get-product-filters';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'jfs-product',
@@ -68,8 +68,11 @@ export class ProductComponent extends RxDestroy implements OnInit {
   @ViewChild('reviewsDialog', {static: true}) reviewsDialog: TemplateRef<any>;
 
   ngOnInit() {
-    this.data$ = this.activatedRoute.data.pipe(
-      switchMap(data => {
+    this.data$ = combineLatest([
+      this.activatedRoute.data,
+      this.wishList.update$
+    ]).pipe(
+      switchMap(([data]) => {
         this.similar$ = this.http.get(
           `${environment.restApi}/similarProducts`,
           {
