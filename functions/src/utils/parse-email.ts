@@ -61,19 +61,22 @@ export async function parseEmail(
 
   sgMail.setApiKey(ENV_CONFIG.sendgrid.token);
 
-  sgMail
-    .send({
-      to,
-      from: {
-        name: 'Sanghamitra',
-        email: 'info@sanghamitraphukan.com'
-      },
-      subject,
-      text: 'Please use an HTML enabled client to view this email.',
-      html
-    })
-    .then()
-    .catch(error => console.error(error));
+
+  try {
+    await sgMail
+      .send({
+        to,
+        from: {
+          name: 'Sanghamitra',
+          email: 'info@sanghamitraphukan.com'
+        },
+        subject,
+        text: 'Please use an HTML enabled client to view this email.',
+        html
+      })
+  } catch (e) {
+    console.error('Error sending email', e.toString())
+  }
 
   return true;
 }

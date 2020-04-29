@@ -6,6 +6,15 @@ import {parseEmail} from '../utils/parse-email';
 export const newsletterCreated = functions.firestore
   .document('newsletter/{id}')
   .onCreate(async snap => {
+
+    const data: any = snap.data();
+
+    if (data.discount) {
+      await parseEmail(snap.id, 'Sanghamitra - Discount Code', 'receive-discount', {
+        code: 'MP1CZU'
+      });
+    }
+
     try {
       await rp({
         method: 'POST',
@@ -20,17 +29,7 @@ export const newsletterCreated = functions.firestore
         },
         json: true
       });
-    } catch (e) {
-      console.error(e);
-    }
-
-    const data: any = snap.data();
-
-    if (data.discount) {
-      await parseEmail(snap.id, 'Sanghamitra - Discount Code', 'receive-discount', {
-        code: 'MP1CZU'
-      });
-    }
+    } catch (e) {}
 
     return true;
   });
