@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as rp from 'request-promise-native';
 import {ENV_CONFIG} from '../consts/env-config.const';
+import {parseEmail} from '../utils/parse-email';
 
 export const newsletterCreated = functions.firestore
   .document('newsletter/{id}')
@@ -21,6 +22,14 @@ export const newsletterCreated = functions.firestore
       });
     } catch (e) {
       console.error(e);
+    }
+
+    const data: any = snap.data();
+
+    if (data.discount) {
+      await parseEmail(snap.id, 'Sanghamitra - Discount Code', 'receive-discount', {
+        code: 'MP1CZU'
+      });
     }
 
     return true;

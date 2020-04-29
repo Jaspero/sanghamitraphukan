@@ -25,7 +25,6 @@ export {importData} from './rest/import-data';
 export {similarProducts} from './rest/similar-products';
 export {stripe} from './rest/stripe';
 export {instagram} from './rest/instagram-authorization';
-export {sendDiscount} from './rest/send-discount';
 
 // Schedules
 export {backup} from './schedules/backup';

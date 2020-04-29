@@ -1,20 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {News} from '@jf/interfaces/news.interface';
 import {from, Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {finalize, take, tap} from 'rxjs/operators';
+import {take, tap} from 'rxjs/operators';
 import {notify} from '@jf/utils/notify.operator';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
-import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
@@ -28,7 +19,6 @@ export class NewsSingleComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private http: HttpClient,
     private afs: AngularFirestore
   ) {}
 
@@ -61,10 +51,11 @@ export class NewsSingleComponent implements OnInit {
     return () => {
       const email = this.form.get('email').value;
 
-      this.afs.doc(`newsletter/${email}`).set({});
-
-      return this.http
-        .post(`${environment.restApi}/sendDiscount`, {email})
+      return from(
+        this.afs.doc(`newsletter/${email}`).set({
+          discount: true
+        })
+      )
         .pipe(
           take(1),
           notify(),
