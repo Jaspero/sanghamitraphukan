@@ -15,10 +15,10 @@
         <div class="flex ai-center jc-between">
           <h5>{{form.get('title').value}}</h5>
           <div>
-            <button mat-icon-button aria-label="Previous category" matTooltip="Previous category" (click)="move(false, form)">
+            <button mat-icon-button aria-label="Previous category" matTooltip="Previous category"> <!-- (click)="move(false, form)" -->
               <mat-icon>arrow_back</mat-icon>
             </button>
-            <button mat-icon-button aria-label="Next category" matTooltip="Next category" (click)="move(true, form)">
+            <button mat-icon-button aria-label="Next category" matTooltip="Next category"> <!-- (click)="move(true, form)" -->
               <mat-icon>arrow_forward</mat-icon>
             </button>
           </div>
@@ -57,6 +57,11 @@
               <mat-form-field class="w-full" appearance="outline">
                 <mat-label>Short description</mat-label>
                 <textarea matInput formControlName="shortDescription"></textarea>
+              </mat-form-field>
+              <mat-form-field class="w-full popup" appearance="outline">
+                <mat-label>Show Popup</mat-label>
+                <mat-slide-toggle formControlName="showPopup"></mat-slide-toggle>
+                <textarea matInput hidden>&nbsp;</textarea>
               </mat-form-field>
               <div class="p-y-xs">
                 <jfsc-wysiwyg formControlName="content"></jfsc-wysiwyg>

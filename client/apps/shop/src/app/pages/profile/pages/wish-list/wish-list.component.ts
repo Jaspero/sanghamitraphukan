@@ -43,9 +43,7 @@ export class WishListComponent implements OnInit {
               user.customerData.wishList.map(id =>
                 this.afs
                   .doc(
-                    `${FirestoreCollections.Products}-${
-                      STATIC_CONFIG.lang
-                    }/${id}`
+                    `${FirestoreCollections.Products}-${STATIC_CONFIG.lang}/${id}`
                   )
                   .get()
                   .pipe(

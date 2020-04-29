@@ -15,7 +15,7 @@ const routes: Routes = [
     component: CheckoutComponent,
     data: {
       meta: {
-        title: 'Checkout',
+        title: 'Checkout'
       }
     }
   },
@@ -25,7 +25,7 @@ const routes: Routes = [
     canActivate: [CheckoutCompleteGuard],
     data: {
       meta: {
-        title: 'Checkout Error',
+        title: 'Checkout Error'
       }
     }
   },
@@ -35,7 +35,7 @@ const routes: Routes = [
     canActivate: [CheckoutCompleteGuard],
     data: {
       meta: {
-        title: 'Checkout Success',
+        title: 'Checkout Success'
       }
     }
   }

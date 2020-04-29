@@ -32,3 +32,33 @@
     text-decoration: underline;
   }
 }
+
+.spaced {
+  width: 60%;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+
+  padding: 15px;
+  border: 1px solid rgba(220, 220, 220, .8);
+  border-radius: 6px;
+}
+
+.link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width .3s;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.popup-close {
+  position: absolute;
+}

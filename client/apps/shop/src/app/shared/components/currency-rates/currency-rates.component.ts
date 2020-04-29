@@ -16,5 +16,6 @@ export class CurrencyRatesComponent {
 
   changeCurrent(value: string) {
     this.currencyRates.current$.next(value);
+    // DYNAMIC_CONFIG.currency.primary = value;
   }
 }

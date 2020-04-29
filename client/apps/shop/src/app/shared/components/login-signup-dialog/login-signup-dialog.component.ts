@@ -12,17 +12,12 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatSnackBar
-} from '@angular/material';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Customer} from '@jf/interfaces/customer.interface';
 import {notify} from '@jf/utils/notify.operator';
 import {auth, firestore, User} from 'firebase/app';
-import {from, throwError} from 'rxjs';
+import {from, of, throwError} from 'rxjs';
 import {
   catchError,
   filter,
@@ -35,6 +30,8 @@ import {
 import {environment} from '../../../../environments/environment';
 import {RepeatPasswordValidator} from '../../helpers/compare-passwords';
 import {StateService} from '../../services/state/state.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 export enum LoginSignUpView {
   LogIn,
@@ -112,7 +109,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
         };
 
         if (user.displayName) {
-          signUpData.name = user.displayName;
+          signUpData.fullName = user.displayName;
         }
 
         if (user.photoURL) {
@@ -185,6 +182,10 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
             data.email,
             data.pg.password
           );
+        }),
+        notify({
+          success: 'Your account is successfully created',
+          error: 'Your email is invalid or already in use'
         })
       );
     };
@@ -270,6 +271,14 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
           docRef = this.afs.doc(
             `${FirestoreCollections.Customers}/${user.uid}`
           );
+
+          if (this.currentView === LoginSignUpView.SignUp) {
+            return of({
+              doc: {},
+              user
+            });
+          }
+
           return docRef.get({source: 'server'}).pipe(map(doc => ({doc, user})));
         }),
         take(1)

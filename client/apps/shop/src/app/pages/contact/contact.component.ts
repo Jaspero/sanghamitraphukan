@@ -40,13 +40,12 @@ export class ContactComponent implements OnInit {
             ...this.form.getRawValue(),
             createdOn: Date.now()
           })
-      )
-        .pipe(
-          notify(),
-          tap(() => {
-            this.form.reset();
-          })
-        )
+      ).pipe(
+        notify(),
+        tap(() => {
+          this.form.reset();
+        })
+      );
     };
   }
 }

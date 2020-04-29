@@ -5,7 +5,6 @@ import {
   OnInit
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {SliderOptions} from '@jaspero/ng-slider';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
@@ -16,6 +15,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {Landing} from '../../shared/interfaces/landing.interface';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'jfs-landing',

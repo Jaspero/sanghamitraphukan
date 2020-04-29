@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 
 app.post('/', (req, res) => {
-  let collection = req.query.collection;
+  let collection: any = req.query.collection;
 
   if (collection.includes('-')) {
     collection = collection.substring(0, collection.length - 3);
@@ -49,7 +49,7 @@ app.post('/', (req, res) => {
             acc.created.push(
               admin
                 .firestore()
-                .collection(req.query.collection)
+                .collection(String(req.query.collection))
                 .doc(id || nanoid())
                 .set({
                   ...data,

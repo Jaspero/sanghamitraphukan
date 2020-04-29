@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 
 app.get('/', async (req, res) => {
-  let {category, id, num, lang, relatedProducts} = req.query;
+  let {category, id, num, lang, relatedProducts}: any = req.query;
 
   num = parseFloat(num);
 

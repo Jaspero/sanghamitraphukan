@@ -29,6 +29,7 @@ export class CurrencyRatesService {
 
     this.current$.subscribe(change => {
       localStorage.setItem(CurrencyRatesService.CURRENT_CODE, change);
+      DYNAMIC_CONFIG.currency.primary = change;
     });
 
     if (!currentCode && !countryCheck) {

@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {forkJoin, Observable} from 'rxjs';
@@ -6,7 +13,10 @@ import {map, switchMap} from 'rxjs/operators';
 import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
 import {GalleryUploadComponent} from '../../../shared/modules/file-upload/gallery-upload/gallery-upload.component';
 import {ImageUploadComponent} from '../../../shared/modules/file-upload/image-upload/image-upload.component';
-import {LANDING_GENERATED_FEATURED, LANDING_GENERATED_IMAGES} from '../consts/landing-page-generated-images.const';
+import {
+  LANDING_GENERATED_FEATURED,
+  LANDING_GENERATED_IMAGES
+} from '../consts/landing-page-generated-images.const';
 
 @Component({
   selector: 'jfsc-single-landing-page',
@@ -68,11 +78,13 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
         id,
         LANDING_GENERATED_IMAGES
       ),
-      ...this.imageUploadComponent.map(item => item.save(
-        `${FirestoreCollections.LandingPage}-${lang}`,
-        id,
-        LANDING_GENERATED_FEATURED
-      ))
+      ...this.imageUploadComponent.map(item =>
+        item.save(
+          `${FirestoreCollections.LandingPage}-${lang}`,
+          id,
+          LANDING_GENERATED_FEATURED
+        )
+      )
     ]).pipe(
       switchMap(() => {
         const {id, ...data} = this.form.getRawValue();

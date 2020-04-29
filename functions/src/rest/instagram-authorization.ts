@@ -60,7 +60,7 @@ app.get('/callback', async (req, res) => {
   });
 
   const results = await oauth2.authorizationCode.getToken({
-    code: req.query.code,
+    code: String(req.query.code),
     redirect_uri: `${req.protocol}://${req.get('host')}/instagram/callback`
   });
 

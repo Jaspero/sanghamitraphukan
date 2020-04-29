@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
 import {notify} from '@jf/utils/notify.operator';
 import {from, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {LoginSignupDialogComponent} from '../../../../shared/components/login-signup-dialog/login-signup-dialog.component';
 import {RepeatPasswordValidator} from '../../../../shared/helpers/compare-passwords';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'jfs-change-password',
@@ -36,29 +36,31 @@ export class ChangePasswordComponent implements OnInit {
         repeatPassword: ['', [Validators.required, Validators.minLength(6)]]
       },
       {validator: RepeatPasswordValidator('Passwords not matching')}
-    )
-
+    );
   }
 
   changePassword() {
     return () => {
       const pass = this.passwordForm.getRawValue();
 
-      return from(this.afAuth.auth.currentUser.updatePassword(pass.password))
-        .pipe(
-          notify({
-            error: 'For security reasons please re-login to update your password.'
-          }),
-
-          // TODO: If the error for invalid password shows up open a dialog here
-          catchError(err => {
+      return from(
+        this.afAuth.auth.currentUser.updatePassword(pass.pg.password)
+      ).pipe(
+        notify({
+          error:
+            'You must relogin to update you password because of the security reasons'
+        }),
+        catchError(err => {
+          if (err.code === 'auth/requires-recent-login') {
             this.dialog.open(LoginSignupDialogComponent);
-            return throwError(err);
-          }),
-          tap(() =>
-            this.passwordForm.reset()
-          )
-        )
+          }
+
+          return throwError(err);
+        }),
+        tap(() => {
+          this.passwordForm.reset();
+        })
+      );
     };
   }
 }

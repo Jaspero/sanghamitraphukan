@@ -5,4 +5,5 @@ export interface News {
   content: string;
   title: string;
   gallery: string[];
+  showPopup: boolean;
 }

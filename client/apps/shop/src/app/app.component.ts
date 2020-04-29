@@ -9,7 +9,6 @@ import {
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormControl, Validators} from '@angular/forms';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
@@ -25,6 +24,8 @@ import {SearchComponent} from './shared/components/search/search.component';
 import {UpdateAvailableComponent} from './shared/components/update-available/update-available.component';
 import {CartService} from './shared/services/cart/cart.service';
 import {StateService} from './shared/services/state/state.service';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jfs-root',
@@ -173,9 +174,11 @@ export class AppComponent implements OnInit {
      * If we're currently on a route marked private
      * navigate to the home screen
      */
-    if (data.private) {
-      this.router.navigate(['/']);
-    }
+    // if (data.private) {
+    //   this.router.navigate(['/']);
+    // }
+
+    this.router.navigate(['/']);
 
     this.afAuth.auth.signOut();
   }

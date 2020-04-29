@@ -11,6 +11,7 @@ import {SettingsComponent} from './pages/settings/settings.component';
 import {WishListComponent} from './pages/wish-list/wish-list.component';
 import {ProfileComponent} from './profile.component';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireFunctionsModule} from '@angular/fire/functions';
 
 const ENTRY_COMPONENTS = [DeleteUserComponent];
 
@@ -24,9 +25,9 @@ const ENTRY_COMPONENTS = [DeleteUserComponent];
     ReviewsComponent,
     ...ENTRY_COMPONENTS
   ],
-  entryComponents: ENTRY_COMPONENTS,
   imports: [
     AngularFireStorageModule,
+    AngularFireFunctionsModule,
     SharedModule,
     RouterModule.forChild([
       {

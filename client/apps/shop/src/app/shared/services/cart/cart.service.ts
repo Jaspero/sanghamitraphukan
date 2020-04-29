@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from '@angular/material/dialog';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
@@ -8,6 +7,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {OutOfStockInquiryComponent} from '../../components/out-of-stock-inquiry/out-of-stock-inquiry.component';
 import {CartItem} from '../../interfaces/cart-item.interface';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'

@@ -33,12 +33,17 @@ const routes: Routes = [
       },
       {
         path: 'landing-page',
-        loadChildren:
-          './pages/landing-page/landing-page.module#LandingPageModule'
+        loadChildren: () =>
+          import('./pages/landing-page/landing-page.module').then(
+            mod => mod.LandingPageModule
+          )
       },
       {
         path: 'newsletter',
-        loadChildren: './pages/newsletter/newsletter.module#NewsletterModule'
+        loadChildren: () =>
+          import('./pages/newsletter/newsletter.module').then(
+            mod => mod.NewsletterModule
+          )
       },
       {
         path: 'orders',
@@ -54,11 +59,15 @@ const routes: Routes = [
       },
       {
         path: 'contacts',
-        loadChildren: './pages/contacts/contacts.module#ContactsModule'
+        loadChildren: () =>
+          import('./pages/contacts/contacts.module').then(
+            mod => mod.ContactsModule
+          )
       },
       {
         path: 'news',
-        loadChildren: './pages/news/news.module#NewsModule'
+        loadChildren: () =>
+          import('./pages/news/news.module').then(mod => mod.NewsModule)
       },
       {
         path: 'discounts',
