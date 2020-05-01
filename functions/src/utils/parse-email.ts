@@ -42,13 +42,13 @@ export async function parseEmail(
   }
 
   if (templateDoc && !templateDoc.exists) {
-    console.log('Email not sent because document is undefined');
+    console.error('Email not sent because document is undefined');
     return false;
   }
 
   [layout, dbTemplate] = [layoutDoc, templateDoc].map(
     // @ts-ignore
-    item => item.data().value
+    item => (item ? item.data().value : null)
   );
 
   if (!loadTemplate) {
@@ -61,21 +61,19 @@ export async function parseEmail(
 
   sgMail.setApiKey(ENV_CONFIG.sendgrid.token);
 
-
   try {
-    await sgMail
-      .send({
-        to,
-        from: {
-          name: 'Sanghamitra',
-          email: 'info@sanghamitraphukan.com'
-        },
-        subject,
-        text: 'Please use an HTML enabled client to view this email.',
-        html
-      })
+    await sgMail.send({
+      to,
+      from: {
+        name: 'Sanghamitra',
+        email: 'info@sanghamitraphukan.com'
+      },
+      subject,
+      text: 'Please use an HTML enabled client to view this email.',
+      html
+    });
   } catch (e) {
-    console.error('Error sending email', e.toString())
+    console.error('Error sending email', e.toString());
   }
 
   return true;

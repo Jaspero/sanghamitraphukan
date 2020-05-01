@@ -6,12 +6,20 @@ import {parseEmail} from '../utils/parse-email';
 export const newsletterCreated = functions.firestore
   .document('newsletter/{id}')
   .onCreate(async snap => {
-
     const data: any = snap.data();
 
     if (data.discount) {
-      await parseEmail(snap.id, 'Sanghamitra - Discount Code', 'receive-discount', {
-        code: 'MP1CZU'
+      const sent = await parseEmail(
+        snap.id,
+        'Sanghamitra - Discount Code',
+        'receive-discount',
+        {
+          code: 'MP1CZU'
+        }
+      );
+      console.log({
+        sent,
+        email: snap.id
       });
     }
 
