@@ -12,18 +12,18 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';
+import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Product} from '@jf/interfaces/product.interface';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import * as firebase from 'firebase';
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, map, switchMap, tap} from 'rxjs/operators';
 import {CartService} from '../../shared/services/cart/cart.service';
-import {StateService} from '../../shared/services/state/state.service';
-import * as firebase from 'firebase';
-import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
+import {StateService} from '../../shared/services/state/state.service';
 import FieldPath = firebase.firestore.FieldPath;
 
 @Component({
@@ -33,6 +33,18 @@ import FieldPath = firebase.firestore.FieldPath;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShopComponent extends RxDestroy implements OnInit {
+  constructor(
+    public cart: CartService,
+    public dialog: MatDialog,
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private fb: FormBuilder,
+    private state: StateService,
+    private currencyRates: CurrencyRatesService
+  ) {
+    super();
+  }
+
   filters: FormGroup;
 
   @ViewChild('filterDialog', {static: true})
@@ -58,85 +70,31 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   // Whether there are still products to load from firestore
   productsLeft = true;
-  pageSize = 6;
-  limit = 6;
-  orderName = 'Name A - Z';
-  sortByList = [
-    {
-      name: 'Latest',
-      type: 'createdOn',
-      direction: 'desc'
-    },
-    {
-      name: 'Oldest',
-      type: 'createdOn',
-      direction: 'asc'
-    },
-    {
-      name: 'Price High - Low',
-      type: 'price',
-      direction: 'desc'
-    },
-    {
-      name: 'Price Low - High',
-      type: 'price',
-      direction: 'asc'
-    },
-    {
-      name: 'Name A - Z',
-      type: 'name',
-      direction: 'asc'
-    },
-    {
-      name: 'Name Z - A',
-      type: 'name',
-      direction: 'desc'
-    }
-  ];
+  limit = 9;
   chipArray = [];
-  priceLimit: number;
   categories$: Observable<Category[]>;
   primaryCurrency = DYNAMIC_CONFIG.currency.primary;
-
-  constructor(
-    public cart: CartService,
-    public dialog: MatDialog,
-    private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
-    private fb: FormBuilder,
-    private state: StateService,
-    private currencyRates: CurrencyRatesService
-  ) {
-    super();
-  }
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
     if (
       window.innerHeight + window.scrollY >=
       document.body.scrollHeight - this.loadOffset
+      && !this.state.loading$.getValue()
+      && this.productsLeft
     ) {
       this.loadMore$.next(true);
     }
   }
 
   initProducts() {
-    this.currencyRates.current$
+    combineLatest(
+      this.currencyRates.current$,
+      this.filters.valueChanges
+    )
       .pipe(
         debounceTime(300),
-        tap(filters => {
-          this.lastProduct = null;
-          this.productsLeft = true;
-          this.products$.next([]);
-          this.loadMore$.next(true);
-        })
-      )
-      .subscribe();
-
-    this.filters.valueChanges
-      .pipe(
-        debounceTime(300),
-        tap(filters => {
+        tap(() => {
           this.lastProduct = null;
           this.productsLeft = true;
           this.products$.next([]);
@@ -147,12 +105,15 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
     this.loadMore$
       .pipe(
-        switchMap(loadMore => {
+        switchMap(() => {
           if (!this.productsLeft) {
             return of([]);
           }
 
+          this.state.loading$.next(true);
+
           const filters = this.filters.getRawValue();
+
           return this.afs
             .collection<Product>(
               `${FirestoreCollections.Products}-${STATIC_CONFIG.lang}`,
@@ -201,6 +162,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
                 }
 
                 final = final.limit(this.limit);
+
                 if (this.lastProduct) {
                   if (filters.order.type === 'price') {
                     final = final.startAfter(
@@ -213,19 +175,28 @@ export class ShopComponent extends RxDestroy implements OnInit {
                     );
                   }
                 }
+
                 return final;
               }
             )
-            .snapshotChanges()
-            .pipe();
+            .get({
+              source: 'server'
+            })
+            .pipe(
+              tap(() =>
+                this.state.loading$.next(false)
+              )
+            );
         }),
-        map(actions => {
-          if (actions.length === 0) return [];
+        map((data: any) => {
+          if (data.docs.length === 0) {
+            return [];
+          }
 
-          const products = actions.reduce((acc, cur, ind) => {
+          const products = data.docs.reduce((acc, cur) => {
             acc.push({
-              id: cur.payload.doc.id,
-              ...cur.payload.doc.data()
+              id: cur.id,
+              ...cur.data()
             });
             return acc;
           }, []);
@@ -235,13 +206,17 @@ export class ShopComponent extends RxDestroy implements OnInit {
           return products;
         }),
         tap(data => {
-          if (data.length === 0) return;
+          if (data.length === 0) {
+            this.productsLeft = false;
+            return;
+          }
 
-          if (data.length < this.pageSize) {
+          if (data.length < this.limit) {
             this.productsLeft = false;
           }
 
           const newIds = new Set([]);
+
           data.map(product => {
             newIds.add(product.id);
           });
@@ -250,7 +225,11 @@ export class ShopComponent extends RxDestroy implements OnInit {
           const oldProducts = this.products$
             .getValue()
             .filter(product => !newIds.has(product.id));
-          this.products$.next([...oldProducts, ...data]);
+
+          this.products$.next([
+            ...oldProducts,
+            ...data
+          ]);
         })
       )
       .subscribe();
@@ -299,19 +278,5 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
   removeChip(chip) {
     this.filters.get(chip.filter).setValue('');
-  }
-
-  updateOrder(order) {
-    this.filters.get('order').setValue(order);
-    this.orderName = order.name;
-  }
-
-  formatRateLabel(value: number) {
-    this.priceLimit = value;
-    return value;
-  }
-
-  setCategory(id: string) {
-    this.filters.get('category').setValue(id);
   }
 }

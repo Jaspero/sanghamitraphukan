@@ -60,9 +60,11 @@ export class LandingComponent implements OnInit {
       }
 
       if (!welcomeDialogDate || welcomeDialogDate <= showDialogOn) {
-        this.state.shopDialogShown = true;
-        localStorage.setItem('landing-dialog', Date.now().toString());
-        this.dialog.open(this.popup, {width: '500px', autoFocus: false});
+        setTimeout(() => {
+          this.state.shopDialogShown = true;
+          localStorage.setItem('landing-dialog', Date.now().toString());
+          this.dialog.open(this.popup, {width: '500px', autoFocus: false});
+        }, 3000)
       }
     }
 
