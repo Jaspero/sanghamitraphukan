@@ -12,22 +12,3 @@
     </div>
   </div>
 </section>
-
-<ng-template #popup>
-  <button class="popup-close" mat-icon-button mat-dialog-close>
-    <mat-icon>close</mat-icon>
-  </button>
-  <section class="ta-center" [formGroup]="form">
-    <div class="p-y-xs">
-      <img src="assets/images/logo-full.svg" alt="Sanghamitra." width="140">
-    </div>
-    <p class="ff-secondary m-b-xxs">Enter your email to download our Care guide for handloom and hand woven garments + receive a 15%
-      discount</p>
-    <mat-form-field class="spaced">
-      <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email" name="email">
-    </mat-form-field>
-    <br/>
-    <a download="Sanghamitra HVC CARE" target="_blank" href="assets/pdf/Sanghamitra HVC CARE.pdf" mat-raised-button color="primary" [jpLoadClick]="subscribe()" [disabled]="form.invalid">Subscribe & Download</a>
-  </section>
-</ng-template>

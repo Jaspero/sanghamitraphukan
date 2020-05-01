@@ -8,7 +8,8 @@ export async function parseEmail(
   subject: string,
   template: string,
   context: any,
-  loadTemplate = true
+  loadTemplate = true,
+  added?: any
 ) {
   let layout: string;
   let dbTemplate: string;
@@ -70,7 +71,8 @@ export async function parseEmail(
       },
       subject,
       text: 'Please use an HTML enabled client to view this email.',
-      html
+      html,
+      ...added
     });
   } catch (e) {
     console.error('Error sending email', e.toString());

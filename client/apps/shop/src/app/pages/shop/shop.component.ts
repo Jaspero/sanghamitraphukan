@@ -17,15 +17,14 @@ import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Product} from '@jf/interfaces/product.interface';
-import {BehaviorSubject, combineLatest, fromEvent, Observable, of} from 'rxjs';
-import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {debounceTime, map, switchMap, tap} from 'rxjs/operators';
 import {CartService} from '../../shared/services/cart/cart.service';
 import {StateService} from '../../shared/services/state/state.service';
-
 import * as firebase from 'firebase';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
-import FieldPath = firebase.firestore.FieldPath;
 import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
+import FieldPath = firebase.firestore.FieldPath;
 
 @Component({
   selector: 'jfs-products',

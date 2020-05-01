@@ -1,21 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {SliderOptions} from '@jaspero/ng-slider';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {notify} from '@jf/utils/notify.operator';
+import {from, Observable} from 'rxjs';
+import {map, take, tap} from 'rxjs/operators';
 import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {Landing} from '../../shared/interfaces/landing.interface';
-import {MatDialog} from '@angular/material/dialog';
+import {StateService} from '../../shared/services/state/state.service';
 
 @Component({
   selector: 'jfs-landing',
@@ -27,7 +25,9 @@ export class LandingComponent implements OnInit {
   constructor(
     private afs: AngularFirestore,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private state: StateService,
+    private fb: FormBuilder
   ) {}
 
   product$: Observable<Landing[]>;
@@ -35,6 +35,10 @@ export class LandingComponent implements OnInit {
     blocksPerView: 5,
     loop: false
   };
+  form: FormGroup;
+
+  @ViewChild('popup', {static: true})
+  popup: TemplateRef<any>;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -42,6 +46,26 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+
+    if (!this.state.landingDialogShown) {
+      const showDialogOn = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      let welcomeDialogDate: any = localStorage.getItem('landing-dialog');
+
+      if (welcomeDialogDate) {
+        welcomeDialogDate = parseInt(welcomeDialogDate);
+      }
+
+      if (!welcomeDialogDate || welcomeDialogDate <= showDialogOn) {
+        this.state.shopDialogShown = true;
+        localStorage.setItem('landing-dialog', Date.now().toString());
+        this.dialog.open(this.popup, {width: '500px', autoFocus: false});
+      }
+    }
+
     this.resize(BROWSER_CONFIG.screenWidth);
     this.product$ = this.afs
       .collection<Landing>(
@@ -102,6 +126,28 @@ export class LandingComponent implements OnInit {
     this.sliderOption = {
       blocksPerView: num,
       loop: false
+    };
+  }
+
+  subscribe() {
+    return () => {
+      const email = this.form.get('email').value;
+
+      return from(
+        this.afs.doc(`newsletter/${email}`).set({
+          discount: true
+        })
+      )
+        .pipe(
+          take(1),
+          notify({
+            success: 'An email has been sent to your inbox.'
+          }),
+          tap(() => {
+            this.dialog.closeAll();
+            this.router.navigate(['/news/letitrain']);
+          })
+        );
     };
   }
 }

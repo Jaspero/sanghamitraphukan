@@ -1,12 +1,7 @@
-import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {News} from '@jf/interfaces/news.interface';
-import {from, Observable} from 'rxjs';
-import {MatDialog} from '@angular/material/dialog';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {take, tap} from 'rxjs/operators';
-import {notify} from '@jf/utils/notify.operator';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'jfs-news-single',
@@ -16,53 +11,12 @@ import {AngularFirestore} from '@angular/fire/firestore';
 })
 export class NewsSingleComponent implements OnInit {
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private afs: AngularFirestore
+    private activatedRoute: ActivatedRoute
   ) {}
 
   data$: Observable<{news: News}>;
 
-  @ViewChild('popup', {static: true})
-  popup: TemplateRef<any>;
-
-  form: FormGroup;
-
   ngOnInit() {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
-    });
-
     this.data$ = this.activatedRoute.data as Observable<{news: News}>;
-
-    this.data$.subscribe(data => {
-      if (data.news.showPopup) {
-        setTimeout(() => this.showPopup(), 1500);
-      }
-    });
-  }
-
-  showPopup() {
-    this.dialog.open(this.popup, {width: '500px', autoFocus: false});
-  }
-
-  subscribe() {
-    return () => {
-      const email = this.form.get('email').value;
-
-      return from(
-        this.afs.doc(`newsletter/${email}`).set({
-          discount: true
-        })
-      )
-        .pipe(
-          take(1),
-          notify(),
-          tap(() => {
-            this.dialog.closeAll();
-          })
-        );
-    };
   }
 }
