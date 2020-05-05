@@ -79,19 +79,16 @@ export class ShopComponent extends RxDestroy implements OnInit {
   onScroll() {
     if (
       window.innerHeight + window.scrollY >=
-      document.body.scrollHeight - this.loadOffset
-      && !this.state.loading$.getValue()
-      && this.productsLeft
+        document.body.scrollHeight - this.loadOffset &&
+      !this.state.loading$.getValue() &&
+      this.productsLeft
     ) {
       this.loadMore$.next(true);
     }
   }
 
   initProducts() {
-    combineLatest(
-      this.currencyRates.current$,
-      this.filters.valueChanges
-    )
+    combineLatest(this.currencyRates.current$, this.filters.valueChanges)
       .pipe(
         debounceTime(300),
         tap(() => {
@@ -114,8 +111,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
           const filters = this.filters.getRawValue();
 
-          console.log(filters);
-
           return this.afs
             .collection<Product>(
               `${FirestoreCollections.Products}-${STATIC_CONFIG.lang}`,
@@ -130,8 +125,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
                       ? filters.order.type
                       : new FieldPath('price', this.primaryCurrency);
 
-                  final = final
-                    .orderBy(type, filters.order.direction);
+                  final = final.orderBy(type, filters.order.direction);
 
                   if (filters.order.type === 'price') {
                     final = final.orderBy('name');
@@ -185,11 +179,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
             .get({
               source: 'server'
             })
-            .pipe(
-              tap(() =>
-                this.state.loading$.next(false)
-              )
-            );
+            .pipe(tap(() => this.state.loading$.next(false)));
         }),
         map((data: any) => {
           if (data.docs.length === 0) {
@@ -229,10 +219,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
             .getValue()
             .filter(product => !newIds.has(product.id));
 
-          this.products$.next([
-            ...oldProducts,
-            ...data
-          ]);
+          this.products$.next([...oldProducts, ...data]);
         })
       )
       .subscribe();
