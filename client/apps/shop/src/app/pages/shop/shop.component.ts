@@ -114,6 +114,8 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
           const filters = this.filters.getRawValue();
 
+          console.log(filters);
+
           return this.afs
             .collection<Product>(
               `${FirestoreCollections.Products}-${STATIC_CONFIG.lang}`,
@@ -128,7 +130,8 @@ export class ShopComponent extends RxDestroy implements OnInit {
                       ? filters.order.type
                       : new FieldPath('price', this.primaryCurrency);
 
-                  final = final.orderBy(type, filters.order.direction);
+                  final = final
+                    .orderBy(type, filters.order.direction);
 
                   if (filters.order.type === 'price') {
                     final = final.orderBy('name');
@@ -262,7 +265,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
       category: '',
       order: {
         name: 'Name A - Z',
-        type: 'name',
+        type: 'order',
         direction: 'asc'
       },
       price: null
