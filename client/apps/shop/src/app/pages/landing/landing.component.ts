@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, Component, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
@@ -46,7 +53,6 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -61,10 +67,10 @@ export class LandingComponent implements OnInit {
 
       if (!welcomeDialogDate || welcomeDialogDate <= showDialogOn) {
         setTimeout(() => {
-          this.state.shopDialogShown = true;
+          this.state.landingDialogShown = true;
           localStorage.setItem('landing-dialog', Date.now().toString());
           this.dialog.open(this.popup, {width: '500px', autoFocus: false});
-        }, 3000)
+        }, 3000);
       }
     }
 
@@ -139,17 +145,16 @@ export class LandingComponent implements OnInit {
         this.afs.doc(`newsletter/${email}`).set({
           discount: true
         })
-      )
-        .pipe(
-          take(1),
-          notify({
-            success: 'An email has been sent to your inbox.'
-          }),
-          tap(() => {
-            this.dialog.closeAll();
-            this.router.navigate(['/news/letitrain']);
-          })
-        );
+      ).pipe(
+        take(1),
+        notify({
+          success: 'An email has been sent to your inbox.'
+        }),
+        tap(() => {
+          this.dialog.closeAll();
+          this.router.navigate(['/news/letitrain']);
+        })
+      );
     };
   }
 }
