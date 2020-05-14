@@ -7,7 +7,7 @@
 
   <div class="flex jc-between p-a-xs">
     <label>{{product.name}}</label>
-    <label>{{price | sp}}</label>
+    <label>{{price | cr | async}}</label>
   </div>
   <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center"><b>Pre-orders available!</b></p>
 

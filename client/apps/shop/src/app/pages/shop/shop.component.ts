@@ -19,8 +19,8 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Product} from '@jf/interfaces/product.interface';
 import * as firebase from 'firebase';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
-import {debounceTime, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {CartService} from '../../shared/services/cart/cart.service';
 import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
 import {StateService} from '../../shared/services/state/state.service';
@@ -88,17 +88,17 @@ export class ShopComponent extends RxDestroy implements OnInit {
   }
 
   initProducts() {
-    combineLatest(this.currencyRates.current$, this.filters.valueChanges)
+    this.filters.valueChanges
       .pipe(
         debounceTime(300),
-        tap(() => {
-          this.lastProduct = null;
-          this.productsLeft = true;
-          this.products$.next([]);
-          this.loadMore$.next(true);
-        })
+        takeUntil(this.destroyed$)
       )
-      .subscribe();
+      .subscribe(() => {
+        this.lastProduct = null;
+        this.productsLeft = true;
+        this.products$.next([]);
+        this.loadMore$.next(true);
+      });
 
     this.loadMore$
       .pipe(
@@ -257,6 +257,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
       },
       price: null
     });
+
     this.initProducts();
   }
 
