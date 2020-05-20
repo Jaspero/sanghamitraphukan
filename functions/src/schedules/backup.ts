@@ -11,7 +11,7 @@ export const backup = functions
   .pubsub.schedule('0 23 * * *')
   .timeZone('Europe/Zagreb')
   .onRun(async () => {
-    const storage = admin.storage().bucket();
+    const storage = admin.storage().bucket('jaspero-sanghamitra.appspot.com');
     const fs = admin.firestore();
 
     const data = [

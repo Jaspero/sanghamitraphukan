@@ -8,7 +8,7 @@ export const documentDeleted = functions.firestore
   .document('{moduleId}/{documentId}')
   .onDelete(async (snap, context) => {
     console.log('test');
-    const storage = new Storage().bucket('jaspero-site.appspot.com');
+    const storage = new Storage().bucket('jaspero-sanghamitra.appspot.com');
     const firestore = admin.firestore();
     const {moduleId, documentId} = context.params;
 
