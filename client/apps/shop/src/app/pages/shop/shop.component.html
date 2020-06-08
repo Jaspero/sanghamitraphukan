@@ -1,4 +1,4 @@
-<form class="p-t-l" [formGroup]="filters" #grid>
+<form class="p-y-l" [formGroup]="filters" #grid>
 
   <div class="jfs-shop-viewport">
 
@@ -32,7 +32,7 @@
       <ng-container *ngIf="(products$ | async) as products">
         <ng-container *ngIf="products.length; else emptyList">
           <div
-            class="col-6 col-xs-12"
+            class="col-3 col-m-4 col-s-6 col-xs-12"
             *ngFor="let product of products">
             <jfs-product-card [product]="product"></jfs-product-card>
           </div>

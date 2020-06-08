@@ -1,12 +1,11 @@
-<div class="cs-pointer jfs-product-card bg-primary relative" [routerLink]="['/product', product.id]">
+<div class="cs-pointer jfs-product-card bg-primary relative h-full" [routerLink]="['/product', product.id]">
   <div class="aspect-ratio" data-ratio="2:3">
-    <img class="aspect-item" src="assets/images/empty.svg" [jfsLibraryImage]="product.gallery[0]"
-         [alt]="product.name" size="m">
+    <img class="aspect-item" src="assets/images/empty.svg" [jfsLibraryImage]="product.gallery[0]" [alt]="product.name" size="m">
   </div>
 
 
-  <div class="flex jc-between p-a-xs">
-    <label>{{product.name}}</label>
+  <div class="flex fw-nowrap jc-between p-a-xs">
+    <label class="p-r-s">{{product.name}}</label>
     <label>{{price | cr | async}}</label>
   </div>
   <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center"><b>Pre-orders available!</b></p>
