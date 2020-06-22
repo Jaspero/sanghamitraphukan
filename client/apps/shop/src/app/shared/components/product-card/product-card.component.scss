@@ -3,3 +3,18 @@
   top: 10px;
   right: 10px;
 }
+
+.jfs-product-card {
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.jfs-product-card-description {
+  @media (max-width: 600px) {
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+  }
+}
