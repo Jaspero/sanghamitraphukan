@@ -32,7 +32,7 @@
       <ng-container *ngIf="(products$ | async) as products">
         <ng-container *ngIf="products.length; else emptyList">
           <div
-            class="col-3 col-m-4 col-s-6 col-xs-12"
+            class="col-4 col-s-6"
             *ngFor="let product of products">
             <jfs-product-card [product]="product"></jfs-product-card>
           </div>
