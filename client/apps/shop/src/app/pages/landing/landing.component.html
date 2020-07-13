@@ -1,4 +1,4 @@
-<div class="featured" *ngFor="let product of product$ | async">
+<!--<div class="featured" *ngFor="let product of product$ | async">
   <div class="featured-hero">
     <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
     <img
@@ -29,7 +29,35 @@
   <div class="ta-center" [ngClass]="product.gallery.length ? 'm-b-l' : ['m-b-m', 'p-t-m', 'connecting-line']">
     <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
   </div>
-</div>
+</div>-->
+
+<section class="p-y-l">
+  <div class="ta-center">
+    <h1 class="title starting-line">Sanghamitra Collections</h1>
+  </div>
+
+  <div class="grid connecting-line">
+    <div class="col-12">
+      <div class="cs-pointer bg-primary relative h-full">
+        <div class="aspect-ratio" data-ratio="16:9"><img class="aspect-item" src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=5100&q=80"></div>
+        <div class="ta-center p-a-xs">Featured collection name</div>
+      </div>
+    </div>
+    <div class="col-4 col-s-6 col-xs-12" *ngFor="let number of [0,1,2,3,4,5]">
+      <div class="cs-pointer bg-primary relative h-full">
+        <div class="aspect-ratio" data-ratio="16:9"><img class="aspect-item" src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=5100&q=80"></div>
+        <div class="ta-center p-a-xs">Collection name</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connecting-line ending-line">
+    <div class="ta-center p-y-m">
+      <a class="title ff-primary fs-20 link" routerLink="/shop">Browse all products</a>
+    </div>
+  </div>
+</section>
+
 
 <ng-template #popup>
   <button class="popup-close" mat-icon-button mat-dialog-close>
