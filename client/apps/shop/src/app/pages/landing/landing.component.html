@@ -1,46 +1,35 @@
-<section class="p-y-l">
-  <div class="ta-center">
-    <h1 class="title starting-line">Sanghamitra Collections</h1>
+<div class="featured" *ngFor="let product of product$ | async">
+  <div class="featured-hero">
+    <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
+    <img
+      class="featured-hero-img"
+      src="assets/images/empty.svg"
+      [jfsLibraryImage]="product.featuredImage"
+      [style.object-position]="'50% ' + (product.objectYPosition || '50') + '%'"
+      [alt]="product.title">
   </div>
 
-  <div class="grid connecting-line">
-
-    <ng-container *ngFor="let collection of collections$ | async; first as first">
-      <div *ngIf="first; else notFirst;" class="col-12" (click)="goToSingle(collection.id)">
-        <div class="cs-pointer bg-primary relative h-full">
-          <div class="aspect-ratio" data-ratio="16:9">
-            <img
-              class="aspect-item"
-              src="assets/images/empty.svg"
-              [jfsLibraryImage]="collection.image">
-          </div>
-          <div class="ta-center p-a-xs">{{collection.name}}</div>
-        </div>
-      </div>
-
-      <ng-template #notFirst>
-        <div class="col-4 col-s-6 col-xs-12" (click)="goToSingle(collection.id)">
-          <div class="cs-pointer bg-primary relative h-full">
-            <div class="aspect-ratio" data-ratio="16:9">
-              <img
-                class="aspect-item"
-                src="assets/images/empty.svg"
-                [jfsLibraryImage]="collection.image">
-            </div>
-            <div class="ta-center p-a-xs">{{collection.name}}</div>
-          </div>
-        </div>
-      </ng-template>
-    </ng-container>
+  <div *ngIf="product.gallery.length;" class="featured-gallery p-y-l connecting-line">
+    <jp-slider [options]="sliderOption">
+      <jp-slides>
+        <jp-slide *ngFor="let prod of product.gallery; index as index">
+          <img
+            draggable="false"
+            src="assets/images/empty.svg"
+            aria-hidden="true"
+            class="slider-img cs-pointer"
+            size="m"
+            [jfsLibraryImage]="prod"
+            (click)="openLightBox(product, index)">
+        </jp-slide>
+      </jp-slides>
+    </jp-slider>
   </div>
 
-  <div class="connecting-line ending-line">
-    <div class="ta-center p-y-m">
-      <a class="title ff-primary fs-20 link" routerLink="/shop">Browse all products</a>
-    </div>
+  <div class="ta-center" [ngClass]="product.gallery.length ? 'm-b-l' : ['m-b-m', 'p-t-m', 'connecting-line']">
+    <a class="title ff-primary fs-20 link" routerLink="/shop">Shop</a>
   </div>
-</section>
-
+</div>
 
 <ng-template #popup>
   <button class="popup-close" mat-icon-button mat-dialog-close>
