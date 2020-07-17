@@ -11,18 +11,19 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
+import {Collection} from '@jf/interfaces/collection.interface';
 import {Product} from '@jf/interfaces/product.interface';
 import * as firebase from 'firebase';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {CartService} from '../../shared/services/cart/cart.service';
-import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
 import {StateService} from '../../shared/services/state/state.service';
 import FieldPath = firebase.firestore.FieldPath;
 
@@ -40,7 +41,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
     private afs: AngularFirestore,
     private fb: FormBuilder,
     private state: StateService,
-    private currencyRates: CurrencyRatesService
+    private activatedRoute: ActivatedRoute
   ) {
     super();
   }
@@ -73,6 +74,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
   limit = 9;
   chipArray = [];
   categories$: Observable<Category[]>;
+  collections$: Observable<Collection[]>;
   primaryCurrency = DYNAMIC_CONFIG.currency.primary;
 
   @HostListener('window:scroll', ['$event'])
@@ -144,6 +146,20 @@ export class ShopComponent extends RxDestroy implements OnInit {
                     filters.category.id
                   );
                 }
+
+                if (filters.collection) {
+                  this.chipArray.push({
+                    filter: 'collection',
+                    value: typeof filters.collection === 'string' ? filters.collection : filters.collection.name
+                  });
+
+                  final = final.where(
+                    'collection',
+                    FirebaseOperator.Equal,
+                    typeof filters.collection === 'string' ? filters.collection : filters.collection.id
+                  );
+                }
+
 
                 if (filters.price) {
                   this.chipArray.push({
@@ -248,8 +264,18 @@ export class ShopComponent extends RxDestroy implements OnInit {
       )
       .valueChanges({idField: 'id'});
 
+    this.collections$ = this.afs
+      .collection<Collection>(
+        `${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`,
+        ref => ref.orderBy('order', 'asc')
+      )
+      .valueChanges({idField: 'id'});
+
+    const query = this.activatedRoute.snapshot.queryParams;
+
     this.filters = this.fb.group({
-      category: '',
+      category: query.category || '',
+      collection: query.collection || '',
       order: {
         name: 'Name A - Z',
         type: 'order',

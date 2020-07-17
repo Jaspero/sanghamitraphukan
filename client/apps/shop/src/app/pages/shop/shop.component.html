@@ -63,6 +63,15 @@
 
       <div mat-dialog-content>
         <mat-form-field class="w-full m-b-xs">
+          <mat-select placeholder="Collection" formControlName="collection">
+            <mat-option
+              *ngFor="let collection of collections$ | async"
+              [value]="collection">
+              {{collection.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full m-b-xs">
           <mat-select placeholder="Category" formControlName="category">
             <mat-option
               *ngFor="let category of categories$ | async"

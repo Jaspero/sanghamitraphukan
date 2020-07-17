@@ -1,25 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {SliderOptions} from '@jaspero/ng-slider';
-import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
-import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
+import {Collection} from '@jf/interfaces/collection.interface';
 import {notify} from '@jf/utils/notify.operator';
 import {from, Observable} from 'rxjs';
-import {map, take, tap} from 'rxjs/operators';
-import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
-import {Landing} from '../../shared/interfaces/landing.interface';
+import {take, tap} from 'rxjs/operators';
 import {StateService} from '../../shared/services/state/state.service';
 
 @Component({
@@ -37,20 +26,11 @@ export class LandingComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  product$: Observable<Landing[]>;
-  sliderOption: Partial<SliderOptions> = {
-    blocksPerView: 5,
-    loop: false
-  };
+  collections$: Observable<Collection[]>;
   form: FormGroup;
 
   @ViewChild('popup', {static: true})
   popup: TemplateRef<any>;
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.resize(event.target.innerWidth);
-  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -74,67 +54,23 @@ export class LandingComponent implements OnInit {
       }
     }
 
-    this.resize(BROWSER_CONFIG.screenWidth);
-    this.product$ = this.afs
-      .collection<Landing>(
-        `${FirestoreCollections.LandingPage}-${STATIC_CONFIG.lang}`,
+    this.collections$ = this.afs
+      .collection<Collection>(
+        `${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`,
         ref =>
           ref
-            .where('active', FirebaseOperator.Equal, true)
             .orderBy('order', 'asc')
       )
-      .valueChanges()
-      .pipe(
-        map(actions =>
-          actions.map(action => {
-            if (!BROWSER_CONFIG.isMobileDevice) {
-              action.featuredImage = action.featuredImageDesktop;
-              action.objectYPosition = action.objectYPositionDesktop;
-            }
-
-            action.gallery = action.gallery || [];
-
-            return action;
-          })
-        )
-      );
+      .valueChanges({idField: 'id'})
+      .pipe();
   }
 
-  goToSingle(category: string) {
+  goToSingle(collection: string) {
     this.router.navigate(['/shop'], {
       queryParams: {
-        category
+        collection
       }
     });
-  }
-
-  openLightBox(landing: Landing, initialSlide: number) {
-    this.dialog.open(LightboxComponent, {
-      data: {images: landing.gallery, initialSlide},
-      panelClass: 'mat-dialog-of-visible'
-    });
-  }
-
-  resize(size) {
-    let num = this.sliderOption.blocksPerView;
-    switch (true) {
-      case size < 900:
-        num = 2;
-        break;
-      case size < 1200:
-        num = 3;
-        break;
-      case size < 1800:
-        num = 4;
-        break;
-      case size >= 1800:
-        num = 5;
-        break;
-    }
-    this.sliderOption = {
-      blocksPerView: num,
-      loop: false
-    };
   }
 
   subscribe() {

@@ -288,6 +288,18 @@
                 </mat-form-field>
               </div>
               <div class="p-y-xs">
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Collection</mat-label>
+                  <mat-select formControlName="collection">
+                    <mat-option
+                      *ngFor="let collection of collections$ | async"
+                      [value]="collection.id">
+                      {{collection.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="p-y-xs">
                 <mat-divider></mat-divider>
               </div>
               <div class="p-y-xs">

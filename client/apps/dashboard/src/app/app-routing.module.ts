@@ -25,6 +25,13 @@ const routes: Routes = [
           )
       },
       {
+        path: 'collections',
+        loadChildren: () =>
+          import('./pages/collections/collections.module').then(
+            mod => mod.CollectionsModule
+          )
+      },
+      {
         path: 'categories',
         loadChildren: () =>
           import('./pages/categories/categories.module').then(

@@ -34,6 +34,7 @@ export class LayoutComponent implements OnInit {
   links = [
     {label: 'Dashboard', icon: 'dashboard', value: '/dashboard'},
     {label: 'Products', icon: 'shopping_cart', value: '/products'},
+    {label: 'Collections', icon: 'dynamic_feed', value: '/collections'},
     {label: 'Categories', icon: 'category', value: '/categories'},
     {label: 'Landing Page', icon: 'view_carousel', value: '/landing-page'},
     {label: 'Newsletter', icon: 'email', value: '/newsletter'},

@@ -9,6 +9,7 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
+import {Collection} from '@jf/interfaces/collection.interface';
 import {ProductMetadata} from '@jf/interfaces/product-metadata.interface';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format.ts';
 import {combineLatest, forkJoin, Observable, of} from 'rxjs';
@@ -48,6 +49,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   galleryUploadComponent: GalleryUploadComponent;
 
   categories$: Observable<Category[]>;
+  collections$: Observable<Collection[]>;
   collection = FirestoreCollections.Products;
   currencies: Currency[];
   inventoryKeys: string[] = [];
@@ -71,6 +73,18 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       switchMap(lang =>
         this.afs
           .collection<Category>(`${FirestoreCollections.Categories}-${lang}`)
+          .valueChanges({idField: 'id'})
+      ),
+      shareReplay(1)
+    );
+
+    this.collections$ = this.state.language$.pipe(
+      switchMap(lang =>
+        this.afs
+          .collection<Collection>(
+            `${FirestoreCollections.Collections}-${lang}`,
+            ref => ref.orderBy('order', 'asc')
+          )
           .valueChanges({idField: 'id'})
       ),
       shareReplay(1)
@@ -236,6 +250,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       gallery: [data.gallery || []],
       quantity: [data.quantity || 0, Validators.min(0)],
       category: [data.category || []],
+      collection: [data.collection || ''],
       order: data.order || 0,
       showingQuantity: data.hasOwnProperty('showingQuantity')
         ? data.showingQuantity
