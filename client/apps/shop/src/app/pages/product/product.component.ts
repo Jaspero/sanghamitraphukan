@@ -1,23 +1,21 @@
+import {parseJsonSchemaToCommandDescription} from '@angular/cli/utilities/json-schema';
 import {HttpClient} from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {Meta} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
+import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Product} from '@jf/interfaces/product.interface';
 import {Review} from '@jf/interfaces/review.interface';
 import {combineLatest, Observable} from 'rxjs';
-import {map, startWith, switchMap} from 'rxjs/operators';
+import {map, startWith, switchMap, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {CartItem} from '../../shared/interfaces/cart-item.interface';
@@ -25,8 +23,6 @@ import {CartService} from '../../shared/services/cart/cart.service';
 import {StateService} from '../../shared/services/state/state.service';
 import {WishListService} from '../../shared/services/wish-list/wish-list.service';
 import {getProductFilters} from '../../shared/utils/get-product-filters';
-import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
-import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'jfs-product',
@@ -35,20 +31,6 @@ import {MatDialog} from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent extends RxDestroy implements OnInit {
-  constructor(
-    public afAuth: AngularFireAuth,
-    public cart: CartService,
-    public wishList: WishListService,
-    public dialog: MatDialog,
-    private afs: AngularFirestore,
-    private state: StateService,
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient,
-    private fb: FormBuilder
-  ) {
-    super();
-  }
-
   rews$: Observable<[Review[], number]>;
   data$: Observable<{
     product: Product;
@@ -64,8 +46,22 @@ export class ProductComponent extends RxDestroy implements OnInit {
   }>;
   similar$: Observable<any>;
   filters: FormGroup;
-
   @ViewChild('reviewsDialog', {static: true}) reviewsDialog: TemplateRef<any>;
+
+  constructor(
+    public afAuth: AngularFireAuth,
+    public cart: CartService,
+    public wishList: WishListService,
+    public dialog: MatDialog,
+    private afs: AngularFirestore,
+    private state: StateService,
+    private activatedRoute: ActivatedRoute,
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private meta: Meta
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.data$ = combineLatest([
@@ -147,15 +143,15 @@ export class ProductComponent extends RxDestroy implements OnInit {
               product: data.product as Product,
               wishList: inWishList
                 ? {
-                    label: 'Already on wishlist',
-                    tooltip: 'Remove from wishlist',
-                    icon: 'favorite'
-                  }
+                  label: 'Already on wishlist',
+                  tooltip: 'Remove from wishlist',
+                  icon: 'favorite'
+                }
                 : {
-                    label: 'Add to wishlist',
-                    tooltip: 'Add to wishlist',
-                    icon: 'favorite_bordered'
-                  }
+                  label: 'Add to wishlist',
+                  tooltip: 'Add to wishlist',
+                  icon: 'favorite_bordered'
+                }
             };
           })
         );

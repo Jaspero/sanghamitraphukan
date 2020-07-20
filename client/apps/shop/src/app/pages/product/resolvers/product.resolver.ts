@@ -51,7 +51,11 @@ export class ProductResolver implements Resolve<Observable<Product>> {
             data: {
               meta: {
                 title: prod.name,
-                description: prod.shortDescription
+                'og:title': prod.name,
+                description: prod.shortDescription,
+                'og:description': prod.shortDescription,
+                image: prod.gallery[0],
+                'og:image': prod.gallery[0]
               }
             }
           });
