@@ -26,7 +26,7 @@ export class MetaResolver implements Resolve<boolean> {
      */
     for (const name in valuesToSet) {
       if (valuesToSet.hasOwnProperty(name)) {
-        this.meta.updateTag({name, content: valuesToSet[name]});
+        this.meta.updateTag({property: name, content: valuesToSet[name]});
       }
     }
 

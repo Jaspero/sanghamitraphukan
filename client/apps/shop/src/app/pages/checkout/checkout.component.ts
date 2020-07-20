@@ -132,7 +132,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     this.countries$ = from(
       this.aff.functions.httpsCallable('countries')()
     ).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       shareReplay(1)
     );
 
