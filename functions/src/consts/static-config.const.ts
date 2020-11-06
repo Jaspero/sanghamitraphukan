@@ -1,3 +1,3 @@
 export const STATIC_CONFIG = {
-  adminEmail: 'info@sanghamitraphukan.com'
+  adminEamil: 'info@sanghamitraphukan.com'
 };
