@@ -23,29 +23,29 @@
   </div>
 
   <div class="grid connecting-line ending-line ta-center">
-    <form class="col-4 col-m-5 col-s-6 col-xs-10">
+    <form class="col-4 col-m-5 col-s-6 col-xs-10" [formGroup]="form">
       <mat-form-field class="w-full">
-        <input matInput placeholder="Name">
+        <input formControlName="name" matInput placeholder="Name">
       </mat-form-field>
       <mat-form-field class="w-full">
-        <input matInput placeholder="Phone number">
+        <input formControlName="phone" matInput placeholder="Phone number">
       </mat-form-field>
       <mat-form-field class="w-full">
-        <input matInput placeholder="Email">
+        <input formControlName="email" type="email" matInput placeholder="Email">
       </mat-form-field>
       <mat-form-field class="w-full">
-        <input matInput placeholder="Height">
+        <input formControlName="height" matInput placeholder="Height">
       </mat-form-field>
       <mat-form-field class="w-full">
-        <input matInput placeholder="Shoes size">
+        <input formControlName="shoesSize" matInput placeholder="Shoes size">
       </mat-form-field>
       <mat-form-field class="w-full">
-        <input matInput placeholder="Dress size">
+        <input formControlName="dressSize" matInput placeholder="Dress size">
       </mat-form-field>
       <mat-form-field class="w-full">
-        <textarea matInput placeholder="Previous experience"></textarea>
+        <textarea formControlName="experience" matInput placeholder="Previous experience"></textarea>
       </mat-form-field>
-      <button type="submit" mat-flat-button>Send</button>
+      <button type="submit" mat-flat-button [disabled]="form.invalid" [jpLoadClick]="save()">Send</button>
     </form>
   </div>
 </section>

@@ -18,6 +18,7 @@ export {newsletterCreated} from './triggers/newsletter-created';
 export {customerDeleted} from './triggers/customer-deleted';
 export {documentDeleted} from './triggers/document-deleted';
 export {giftCardCreated} from './triggers/gift-card-created';
+export {modelApplicationCreated} from './triggers/model-application-created';
 
 // Rest
 export {exportData} from './rest/export-data';

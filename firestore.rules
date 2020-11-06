@@ -102,5 +102,11 @@ service cloud.firestore {
       allow read: if readOrWrite();
       allow write, delete: if write();
     }
+
+    match /model-applications/{contact} {
+      allow create: if true;
+      allow read: if readOrWrite();
+      allow write, delete: if write();
+    }
   }
 }
