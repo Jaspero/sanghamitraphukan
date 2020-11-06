@@ -1,7 +1,6 @@
 image: flauc/firebase
 
 stages:
-  - lint
   - deploy
 
 cache:
@@ -16,14 +15,6 @@ before_script:
   - npm ci
   - npm --prefix client ci
   - npm --prefix functions ci
-
-Lint Codebase:
-  stage: lint
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-lint/
-  script:
-    - npm run lint
 
 deploy-prod:
   stage: deploy
