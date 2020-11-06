@@ -24,6 +24,13 @@ const routes: Routes = [
       import('./pages/contact/contact.module').then(mod => mod.ContactModule)
   },
   {
+    path: 'silk-road',
+    loadChildren: () =>
+      import('./pages/silk-road/silk-road.module').then(
+        mod => mod.SilkRoadModule
+      )
+  },
+  {
     path: 'shop',
     loadChildren: () =>
       import('./pages/shop/shop.module').then(mod => mod.ShopModule)

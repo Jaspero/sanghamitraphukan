@@ -5,6 +5,7 @@
 
     <nav class="hide-s">
       <a mat-button routerLink="/">Home</a>
+      <a mat-button [routerLink]="['/silk-road']">Silk Road</a>
       <a mat-button routerLink="/about">About</a>
       <a mat-button [routerLink]="['/news']">News</a>
       <a mat-button [routerLink]="['/shop']">Shop</a>
@@ -59,6 +60,7 @@
     <nav class="app-header-mobile" [class.active]="toggleMobileHeader">
       <div class="flex f2">
         <a class="mobile-row-first link-home" (click)="openMobileHeader()" routerLink="/"><span>Home</span></a>
+        <a class="mobile-row-first link-silk" (click)="openMobileHeader()" routerLink="/silk-road"><span>Silk Road</span></a>
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
         <a class="mobile-row-first link-contact" (click)="openMobileHeader()"
            routerLink="/contact"><span>Contact</span></a>

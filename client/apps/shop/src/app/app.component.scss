@@ -14,7 +14,7 @@
   height: 100px;
   padding: 0 24px;
 
-  @media (max-width: $screen-s) {
+  @media (max-width: 1150px) {
     height: 80px;
   }
 }
@@ -24,7 +24,7 @@
   top: 20px;
   left: calc(50% - 30px);
 
-  @media (max-width: $screen-s) {
+  @media (max-width: 1150px) {
     position: static;
     height: 60px;
   }
@@ -47,7 +47,7 @@
   cursor: pointer;
   border-radius: 50%;
 
-  @media (max-width: $screen-s) {
+  @media (max-width: 1150px) {
     display: inline-block;
   }
 
@@ -129,26 +129,31 @@
   }
 
   .mobile-row-first:nth-child(1) {
-    transition-delay: 0.7s;
+    transition-delay: 0.8s;
   }
   .mobile-row-first:nth-child(2) {
-    transition-delay: 0.6s;
+    transition-delay: 0.7s;
     border-left: 1px solid $fg-tertiary;
   }
   .mobile-row-first:nth-child(3) {
-    transition-delay: 0.5s;
+    transition-delay: 0.6s;
     border-left: 1px solid $fg-tertiary;
   }
   .mobile-row-first:nth-child(4) {
-    transition-delay: 0.4s;
+    transition-delay: 0.5s;
     border-left: 1px solid $fg-tertiary;
   }
   .mobile-row-first:nth-child(5) {
+    transition-delay: 0.4s;
+    border-left: 1px solid $fg-tertiary;
+  }
+  .mobile-row-first:nth-child(6) {
     transition-delay: 0.3s;
     border-left: 1px solid $fg-tertiary;
   }
 
   .link-home,
+  .link-silk,
   .link-about,
   .link-shop,
   .link-contact,
@@ -178,6 +183,12 @@
 
   .link-home::after {
     background-image: url('/assets/images/menu-home.jpg');
+    background-size: cover;
+    opacity: 0.25;
+  }
+
+  .link-silk::after {
+    background-image: url('/assets/images/silk-road.jpeg');
     background-size: cover;
     opacity: 0.25;
   }
