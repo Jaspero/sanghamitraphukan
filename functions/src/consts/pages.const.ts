@@ -126,6 +126,23 @@ export const PAGES: PageData[] = [
     }
   },
   {
+    name: 'Silk Road',
+    match: /^\/silk-road\/?$/i,
+    meta: {
+      description: 'Sanghamitra Silk Road - New Face Hunt'
+    },
+    metaProperties: {
+      'og:url': 'https://sanghamitraphukan.com/silk-road',
+      'og:title': 'Silk Road',
+      'og:description':
+        'Sanghamitra Silk Road - New Face Hunt',
+      'twitter:url': 'https://sanghamitraphukan.com/silk-road',
+      'twitter:title': 'Silk Road',
+      'twitter:description':
+        'Sanghamitra Silk Road - New Face Hunt'
+    }
+  },
+  {
     name: 'News',
     match: /^\/news\/?$/i,
     meta: {
