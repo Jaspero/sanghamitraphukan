@@ -14,8 +14,8 @@
     <div class="col-6 col-m-8 col-s-10 col-xs-12">
       <p>We are launching our latest collection - SANGHAMITRA Silk Road - in occasion of the third annual SANGHAMITRA Fashion Show & Gala, to be hosted on Sunday the 29th of November at Ramsa Hills. Click the button below to explore our previous collections:</p>
       <br>
-      <button mat-flat-button color="primary" (click)="openDialog()">Explore</button>
-      <div class="p-b-m"></div>
+      <a mat-flat-button color="primary" routerLink="/shop">Explore</a>
+        <div class="p-b-m"></div>
     </div>
   </div>
 
@@ -43,18 +43,3 @@
     </div>
   </div>
 </section>
-
-<ng-template #newsletter>
-  <h4 mat-dialog-title>GUEST LIST RSVP</h4>
-  <form [formGroup]="form">
-    <mat-dialog-content>
-      <mat-form-field class="w-full">
-        <input matInput formControlName="email" placeholder="Email">
-      </mat-form-field>
-    </mat-dialog-content>
-
-    <mat-dialog-actions class="jc-center">
-      <button mat-flat-button color="primary" [jpLoadClick]="save()">Submit</button>
-    </mat-dialog-actions>
-  </form>
-</ng-template>
