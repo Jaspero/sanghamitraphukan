@@ -1,19 +1,19 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SilkRoadComponent} from './silk-road.component';
+import {OneHornComponent} from './one-horn.component';
 
-describe('SilkRoadComponent', () => {
-  let component: SilkRoadComponent;
-  let fixture: ComponentFixture<SilkRoadComponent>;
+describe('OneHornComponent', () => {
+  let component: OneHornComponent;
+  let fixture: ComponentFixture<OneHornComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SilkRoadComponent]
+      declarations: [OneHornComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SilkRoadComponent);
+    fixture = TestBed.createComponent(OneHornComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

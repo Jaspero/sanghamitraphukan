@@ -1,21 +1,21 @@
 import {NgModule} from '@angular/core';
 import {MetaResolver} from '../../shared/resolvers/meta.resolver';
-import {SilkRoadComponent} from './silk-road.component';
+import {OneHornComponent} from './one-horn.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 
 @NgModule({
-  declarations: [SilkRoadComponent],
+  declarations: [OneHornComponent],
   imports: [
     SharedModule,
     RouterModule.forChild([
       {
         path: '',
-        component: SilkRoadComponent,
+        component: OneHornComponent,
         data: {
           meta: {
-            title: 'SilkRoad',
-            description: 'Sanghamitra Silk Road - New Face Hunt'
+            title: 'One Horn',
+            description: 'Sanghamitra & One Horn Rhino Foundation'
           }
         },
         resolve: {
@@ -25,4 +25,4 @@ import {RouterModule} from '@angular/router';
     ])
   ]
 })
-export class SilkRoadModule {}
+export class OneHornModule {}

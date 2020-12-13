@@ -153,7 +153,7 @@
   }
 
   .link-home,
-  .link-silk,
+  .link-horn,
   .link-about,
   .link-shop,
   .link-contact,
@@ -187,8 +187,8 @@
     opacity: 0.25;
   }
 
-  .link-silk::after {
-    background-image: url('/assets/images/silk-road.jpeg');
+  .link-horn::after {
+    background-image: url('/assets/images/one-horn.jpg');
     background-size: cover;
     opacity: 0.25;
   }

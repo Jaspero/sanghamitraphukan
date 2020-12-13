@@ -24,11 +24,9 @@ const routes: Routes = [
       import('./pages/contact/contact.module').then(mod => mod.ContactModule)
   },
   {
-    path: 'silk-road',
+    path: 'one-horn',
     loadChildren: () =>
-      import('./pages/silk-road/silk-road.module').then(
-        mod => mod.SilkRoadModule
-      )
+      import('./pages/one-horn/one-horn.module').then(mod => mod.OneHornModule)
   },
   {
     path: 'shop',
