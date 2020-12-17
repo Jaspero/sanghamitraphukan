@@ -30,7 +30,7 @@
     "@angular/service-worker": "9.0.4",
     "@jaspero/ng-helpers": "3.0.0",
     "@jaspero/ng-image-preload": "1.1.1",
-    "@jaspero/ng-slider": "2.2.0",
+    "@jaspero/ng-slider": "2.3.0",
     "@ngx-lite/json-ld": "0.6.2",
     "file-saver": "2.0.2",
     "firebase": "6.3.1",

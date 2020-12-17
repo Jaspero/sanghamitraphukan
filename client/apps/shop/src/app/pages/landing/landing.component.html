@@ -23,6 +23,14 @@
             (click)="openLightBox(product, index)">
         </jp-slide>
       </jp-slides>
+      <div class="slider-buttons" *ngIf="product.gallery.length > 4">
+        <button jpSlideArrow="left" mat-raised-button>
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button jpSlideArrow="right" mat-raised-button>
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
     </jp-slider>
   </div>
 

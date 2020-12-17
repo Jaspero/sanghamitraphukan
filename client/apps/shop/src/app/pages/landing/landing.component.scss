@@ -33,3 +33,26 @@
     object-fit: cover;
   }
 }
+
+jp-slider {
+  position: relative;
+  display: block;
+}
+
+jp-slider:hover .slider-buttons {
+  opacity: 1;
+}
+
+.slider-buttons {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  top: 50%;
+  opacity: 0;
+  transition: .2s;
+}
+
+@media (max-width: $screen-s) {
+  .slider-buttons {opacity: 1}
+}
