@@ -240,7 +240,7 @@ app.post('/checkout', (req, res) => {
     if (discount) {
       switch (discount.valueType) {
         case 'percentage':
-          amount -= Math.round(amount * (discount.value / 100));
+          amount -= Math.round(amount * (discount.value / 10000));
           break;
         case 'fixedAmount':
           amount = Math.max(0, amount - discount.value);
@@ -293,6 +293,7 @@ app.post('/checkout', (req, res) => {
   exec()
     .then(data => res.json(data))
     .catch(error => {
+      console.error(error);
       if (error instanceof CheckoutError) {
         res.status(HttpStatus.BadRequest).send(error.data);
       } else {
@@ -443,7 +444,7 @@ app.post('/webhook', async (req, res) => {
         switch (discount.valueType) {
           case 'percentage':
             discountValue = Math.round(
-              emailData.order.total * (discount.value / 100)
+              emailData.order.total * (discount.value / 10000)
             );
             emailData.order.total -= discountValue;
             break;
@@ -506,8 +507,6 @@ app.post('/webhook', async (req, res) => {
             if (current.id !== current.identifier) {
               const lookUp = getLookUp(current);
               const inventory = item.inventory[lookUp];
-
-              console.log({current});
 
               if (inventory) {
                 inventory.quantity -= current.quantity;

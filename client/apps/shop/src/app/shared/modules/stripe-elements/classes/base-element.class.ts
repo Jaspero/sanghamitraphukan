@@ -1,6 +1,6 @@
 import {EventEmitter} from '@angular/core';
 import {BehaviorSubject, from, Observable, of, throwError} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, take} from 'rxjs/operators';
 import {ElementType} from '../enums/element-type.enum';
 
 export class BaseElement {
@@ -31,6 +31,7 @@ export class BaseElement {
 
   triggerPayment(): Observable<any> {
     return this.clientSecret$.pipe(
+      take(1),
       switchMap(({clientSecret}) =>
         from(
           this.stripe.handleCardPayment(

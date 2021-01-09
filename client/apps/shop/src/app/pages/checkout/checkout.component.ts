@@ -179,13 +179,18 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       this.currencyRatesService.current$.pipe(take(1)),
       this.validCode$
     ]).pipe(
-      switchMap(([user, data, orderItems, currency, discount]) =>
-        this.http.post<{clientSecret: string}>(
+      switchMap(([user, data, orderItems, currency, discount]) => {
+
+        if (!orderItems.length) {
+          return of({clientSecret: ''});
+        }
+
+        return this.http.post<{clientSecret: string}>(
           `${environment.restApi}/stripe/checkout`,
           {
             orderItems,
             // TODO: This could be dynamic in other implementations
-            currency: DYNAMIC_CONFIG.currency.primary,
+            currency,
             lang: STATIC_CONFIG.lang,
             form: data,
             ...(user && {
@@ -197,8 +202,8 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
             }),
             code: discount ? discount.id : null
           }
-        )
-      ),
+        );
+      }),
       shareReplay(1)
     );
 
@@ -325,7 +330,9 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     return () =>
       this.stripeElementsComponent.activeElement
         .triggerPayment()
-        .pipe(switchMap(paymentIntent => this.triggerPayment(paymentIntent)));
+        .pipe(
+          switchMap(paymentIntent => this.triggerPayment(paymentIntent))
+        );
   }
 
   /**
@@ -348,6 +355,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       this.items$,
       this.currencyRatesService.current$.pipe(take(1))
     ]).pipe(
+      take(1),
       switchMap(([data, user, price, items, currency]) => {
         if (this.afAuth.auth.currentUser && data.saveInfo) {
           this.afs

@@ -12,8 +12,9 @@
       <a mat-button [routerLink]="['/contact']">Contact</a>
     </nav>
 
-    <a routerLink="/"><img class="app-header-logo" src="assets/images/logo.svg" alt="Sanghamitra" width="60"
-                           height="60"></a>
+    <a routerLink="/">
+      <img class="app-header-logo" src="assets/images/logo.svg" alt="Sanghamitra" width="60" height="60">
+    </a>
 
     <div class="flex ai-center">
 
@@ -21,8 +22,9 @@
 
       <div class="hide-s">
         <ng-container *ngIf="state.user$ | async as user; else anonymous">
-          <button mat-button
-                  [matMenuTriggerFor]="shopCategories">{{user.customerData?.name || user.authData.displayName || user.authData.email}}</button>
+          <button mat-button [matMenuTriggerFor]="shopCategories">
+            {{user.customerData?.name || user.authData.displayName || user.authData.email}}
+          </button>
           <mat-menu #shopCategories="matMenu">
             <a mat-menu-item routerLink="/my-profile/settings">Settings</a>
             <a mat-menu-item routerLink="/my-profile/wish-list">Wish List</a>
@@ -60,12 +62,11 @@
     <nav class="app-header-mobile" [class.active]="toggleMobileHeader">
       <div class="flex f2">
         <a class="mobile-row-first link-home" (click)="openMobileHeader()" routerLink="/"><span>Home</span></a>
-        <a class="mobile-row-first link-horn" (click)="openMobileHeader()" routerLink="/one-horn"><span>One Horn</span></a>
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
-        <a class="mobile-row-first link-contact" (click)="openMobileHeader()"
-           routerLink="/contact"><span>Contact</span></a>
+        <a class="mobile-row-first link-contact" (click)="openMobileHeader()" routerLink="/contact"><span>Contact</span></a>
         <a class="mobile-row-first link-news" (click)="openMobileHeader()" routerLink="/news"><span>News</span></a>
         <a class="mobile-row-first link-shop" (click)="openMobileHeader()" routerLink="/shop"><span>Shop</span></a>
+        <a class="mobile-row-first link-horn" (click)="openMobileHeader()" routerLink="/one-horn"><span>One Horn</span></a>
       </div>
 
       <img class="mobile-row-logo f1" src="/assets/images/logo-full.svg" alt="Sanghamitra"
