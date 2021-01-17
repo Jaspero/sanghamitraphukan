@@ -1,12 +1,10 @@
-import {parseJsonSchemaToCommandDescription} from '@angular/cli/utilities/json-schema';
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
-import {Meta} from '@angular/platform-browser';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
@@ -15,7 +13,7 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Product} from '@jf/interfaces/product.interface';
 import {Review} from '@jf/interfaces/review.interface';
 import {combineLatest, Observable} from 'rxjs';
-import {map, startWith, switchMap, tap} from 'rxjs/operators';
+import {map, startWith, switchMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {LightboxComponent} from '../../shared/components/lightbox/lightbox.component';
 import {CartItem} from '../../shared/interfaces/cart-item.interface';
@@ -31,6 +29,21 @@ import {getProductFilters} from '../../shared/utils/get-product-filters';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent extends RxDestroy implements OnInit {
+  constructor(
+    public afAuth: AngularFireAuth,
+    public cart: CartService,
+    public wishList: WishListService,
+    public dialog: MatDialog,
+    private afs: AngularFirestore,
+    private state: StateService,
+    private activatedRoute: ActivatedRoute,
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
+    super();
+  }
+
   rews$: Observable<[Review[], number]>;
   data$: Observable<{
     product: Product;
@@ -47,21 +60,6 @@ export class ProductComponent extends RxDestroy implements OnInit {
   similar$: Observable<any>;
   filters: FormGroup;
   @ViewChild('reviewsDialog', {static: true}) reviewsDialog: TemplateRef<any>;
-
-  constructor(
-    public afAuth: AngularFireAuth,
-    public cart: CartService,
-    public wishList: WishListService,
-    public dialog: MatDialog,
-    private afs: AngularFirestore,
-    private state: StateService,
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient,
-    private fb: FormBuilder,
-    private meta: Meta
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this.data$ = combineLatest([
@@ -226,5 +224,10 @@ export class ProductComponent extends RxDestroy implements OnInit {
 
   emailShare(data) {
     window.location.href = `mailto:test@example.com?subject=${data.product.name}&body=${environment.websiteUrl}/product/${data.product.id}`;
+  }
+
+  checkout(data) {
+    this.cart.add(data.product, this.filters ? this.filters.getRawValue() : {});
+    this.router.navigate(['/checkout'])
   }
 }

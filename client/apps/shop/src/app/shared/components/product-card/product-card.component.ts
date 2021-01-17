@@ -1,20 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Input,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {OnChange} from '@jaspero/ng-helpers';
 import {Price, Product} from '@jf/interfaces/product.interface';
 import {UNIQUE_ID, UNIQUE_ID_PROVIDER} from '@jf/utils/id.provider';
 import {Observable, of} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {CartService} from '../../services/cart/cart.service';
-import {CurrencyRatesService} from '../../services/currency/currency-rates.service';
 import {WishListService} from '../../services/wish-list/wish-list.service';
 import {getProductFilters} from '../../utils/get-product-filters';
-import {OnChange} from '@jaspero/ng-helpers';
-import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 
 @Component({
   selector: 'jfs-product-card',
@@ -24,6 +17,14 @@ import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
   providers: [UNIQUE_ID_PROVIDER]
 })
 export class ProductCardComponent implements OnInit {
+  constructor(
+    @Inject(UNIQUE_ID)
+    public uniqueId: string,
+    public cart: CartService,
+    public wishList: WishListService,
+    private router: Router
+  ) {}
+
   @OnChange(function() {
     this.connectProperties();
   })
@@ -50,14 +51,6 @@ export class ProductCardComponent implements OnInit {
       icon: 'favorite_bordered'
     }
   };
-
-  constructor(
-    @Inject(UNIQUE_ID)
-    public uniqueId: string,
-    public cart: CartService,
-    public wishList: WishListService,
-    private currencyRates: CurrencyRatesService
-  ) {}
 
   ngOnInit() {
     this.wishList$ = this.wishList.includes(this.product.id).pipe(
@@ -112,5 +105,10 @@ export class ProductCardComponent implements OnInit {
         }
       })
     );
+  }
+
+  checkout() {
+    this.cart.add(this.product, {});
+    this.router.navigate(['/checkout'])
   }
 }

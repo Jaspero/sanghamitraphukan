@@ -8,7 +8,7 @@
     <label class="p-r-s">{{product.name}}</label>
     <label>{{price | cr | async}}</label>
   </div>
-  <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center"><b>Pre-orders available!</b></p>
+  <p *ngIf="product.preOrder" class="ff-secondary p-b-xs ta-center cs-pointer" (jpStopPropagation)="checkout()"><b>Pre-orders available!</b></p>
 
   <div class="flex fd-row-rev">
     <ng-container *ngIf="wishList$ | async as ws">
