@@ -287,7 +287,7 @@ app.post('/checkout', (req, res) => {
         : {})
     });
 
-    return {clientSecret: paymentIntent.client_secret};
+    return {clientSecret: paymentIntent.client_secret, id: paymentIntent.id};
   }
 
   exec()
@@ -324,6 +324,8 @@ app.post('/webhook', async (req, res) => {
   }
 
   console.log('Stripe Event', JSON.stringify(event));
+
+  res.sendStatus(HttpStatus.Ok);
 
   const intent = event.data.object;
 
@@ -373,7 +375,6 @@ app.post('/webhook', async (req, res) => {
 
   if (!order) {
     console.error('Order not found', intent.id);
-    res.sendStatus(HttpStatus.Ok);
     return;
   }
 
@@ -409,8 +410,7 @@ app.post('/webhook', async (req, res) => {
   switch (event['type']) {
     case 'payment_intent.succeeded':
       if (order.status === 'paid') {
-        console.error('Webhook for already payed order', order.id);
-        res.sendStatus(HttpStatus.Ok);
+        console.error('Webhook for already paid order', order.id);
         return;
       }
 
@@ -616,8 +616,6 @@ app.post('/webhook', async (req, res) => {
 
       break;
   }
-
-  res.sendStatus(HttpStatus.Ok);
 });
 
 export const stripe = functions.https.onRequest(app);

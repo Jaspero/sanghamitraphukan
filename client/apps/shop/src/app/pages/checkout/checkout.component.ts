@@ -1,11 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireFunctions} from '@angular/fire/functions';
@@ -20,30 +14,16 @@ import {FirestoreStaticDocuments} from '@jf/enums/firestore-static-documents.enu
 import {OrderStatus} from '@jf/enums/order-status.enum';
 import {Country} from '@jf/interfaces/country.interface';
 import {Customer} from '@jf/interfaces/customer.interface';
+import {Discount} from '@jf/interfaces/discount.interface';
 import {OrderItem} from '@jf/interfaces/order.interface';
 import {Price} from '@jf/interfaces/product.interface';
 import {Shipping} from '@jf/interfaces/shipping.interface';
+import {StripePipe} from '@jf/pipes/stripe.pipe';
+import {notify} from '@jf/utils/notify.operator';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format';
-import * as nanoid from 'nanoid';
-import {
-  BehaviorSubject,
-  combineLatest,
-  from,
-  Observable,
-  of,
-  Subscription,
-  throwError
-} from 'rxjs';
-import {
-  catchError,
-  map,
-  shareReplay,
-  startWith,
-  switchMap,
-  take,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, from, Observable, of, Subscription, throwError} from 'rxjs';
+import {catchError, map, shareReplay, startWith, switchMap, take, takeUntil, tap} from 'rxjs/operators';
+import {DiscountValueType} from '../../../../../dashboard/src/app/pages/discounts/pages/single-page/discounts-single-page.component';
 import {environment} from '../../../environments/environment';
 import {
   LoginSignupDialogComponent,
@@ -55,10 +35,6 @@ import {StripeElementsComponent} from '../../shared/modules/stripe-elements/stri
 import {CartService} from '../../shared/services/cart/cart.service';
 import {CurrencyRatesService} from '../../shared/services/currency/currency-rates.service';
 import {StateService} from '../../shared/services/state/state.service';
-import {Discount} from '@jf/interfaces/discount.interface';
-import {notify} from '@jf/utils/notify.operator';
-import {DiscountValueType} from '../../../../../dashboard/src/app/pages/discounts/pages/single-page/discounts-single-page.component';
-import {StripePipe} from '@jf/pipes/stripe.pipe';
 
 interface Item extends OrderItem {
   id: string;
@@ -99,7 +75,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
   @ViewChild(StripeElementsComponent, {static: false})
   stripeElementsComponent: StripeElementsComponent;
 
-  clientSecret$: Observable<{clientSecret: string}>;
+  clientSecret$: Observable<{clientSecret: string, id: string}>;
   countries$: Observable<Country[]>;
   form$: Observable<FormGroup>;
   loggedIn$: Observable<boolean>;
@@ -117,6 +93,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
   termsControl = new FormControl(false);
   elementType = ElementType;
   currencyCode: string;
+  orderId: string;
 
   code = new FormControl('');
   discount = 0;
@@ -182,14 +159,13 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       switchMap(([user, data, orderItems, currency, discount]) => {
 
         if (!orderItems.length) {
-          return of({clientSecret: ''});
+          return of({clientSecret: '', id: ''});
         }
 
-        return this.http.post<{clientSecret: string}>(
+        return this.http.post<{clientSecret: string, id: string}>(
           `${environment.restApi}/stripe/checkout`,
           {
             orderItems,
-            // TODO: This could be dynamic in other implementations
             currency,
             lang: STATIC_CONFIG.lang,
             form: data,
@@ -282,6 +258,8 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
         }
       ])
     );
+
+    this.orderId = this.afs.createId();
   }
 
   buildForm(value: Partial<Customer>) {
@@ -328,11 +306,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
    */
   checkOut() {
     return () =>
-      this.stripeElementsComponent.activeElement
-        .triggerPayment()
-        .pipe(
-          switchMap(paymentIntent => this.triggerPayment(paymentIntent))
-        );
+      this.triggerPayment()
   }
 
   /**
@@ -347,33 +321,35 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     }
   }
 
-  triggerPayment(paymentIntent) {
+  triggerPayment(paymentIntent?: {id: string}) {
     return combineLatest([
       this.formData$,
       this.state.user$,
       this.price$,
       this.items$,
-      this.currencyRatesService.current$.pipe(take(1))
+      this.currencyRatesService.current$.pipe(take(1)),
+      this.clientSecret$.pipe(take(1))
     ]).pipe(
       take(1),
-      switchMap(([data, user, price, items, currency]) => {
+      switchMap(([data, user, price, items, currency, {id}]) => {
         if (this.afAuth.auth.currentUser && data.saveInfo) {
           this.afs
             .doc(
               `${FirestoreCollections.Customers}/${this.afAuth.auth.currentUser.uid}`
             )
-            .update(data);
+            .update(data)
+            .catch(console.error);
         }
 
         return from(
           this.afs
             .collection(FirestoreCollections.Orders)
-            .doc(nanoid())
+            .doc(this.orderId)
             .set({
               price,
               currency,
               status: OrderStatus.Ordered,
-              paymentIntentId: paymentIntent.id,
+              paymentIntentId: paymentIntent ? paymentIntent.id : id,
               billing: data.billing,
               createdOn: Date.now(),
               code: this.code.value,
@@ -410,24 +386,33 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
                 }
               )
             })
-        ).pipe(
-          tap(() => {
-            localStorage.setItem(
-              'result',
-              JSON.stringify({
-                orderItems: items,
-                price: price,
-                billing: data.billing,
-                ...(data.shippingInfo ? {} : {shipping: data.shipping.email})
-              })
-            );
-            this.router.navigate(['checkout/success']);
-          }),
-          catchError(error => {
-            this.router.navigate(['checkout/error']);
-            return throwError(error);
-          })
-        );
+        )
+          .pipe(
+            switchMap(() => {
+              if (paymentIntent) {
+                return of(true);
+              } else {
+                return this.stripeElementsComponent.activeElement
+                  .triggerPayment()
+              }
+            }),
+            tap(() => {
+              localStorage.setItem(
+                'result',
+                JSON.stringify({
+                  orderItems: items,
+                  price: price,
+                  billing: data.billing,
+                  ...(data.shippingInfo ? {} : {shipping: data.shipping.email})
+                })
+              );
+              this.router.navigate(['checkout/success']);
+            }),
+            catchError(error => {
+              this.router.navigate(['checkout/error']);
+              return throwError(error);
+            })
+          );
       })
     );
   }

@@ -66,7 +66,10 @@ export class OrdersSinglePageComponent extends SinglePageComponent
     if (data.orderItemsData) {
       this.orderItems = data.orderItemsData.map((val, ind) => ({
         data: val,
-        id: data.orderItems[ind]
+        id: data.orderItems[ind],
+        ...val.attributes && Object.keys(val.attributes).length && {
+          attributes: `(${Object.values(val.attributes).join(' | ')})`
+        }
       }));
     }
 
@@ -153,12 +156,13 @@ export class OrdersSinglePageComponent extends SinglePageComponent
         Validators.required
       ]
     });
-    product
-      ? this.search.setValue(product.data.name)
-      : this.search.setValue('');
+
+    this.search.setValue(product ? product.data.name : '');
+
     this.dialog
       .open(this.addProduct, {
-        width: '400px'
+        width: '400px',
+        autoFocus: false
       })
       .afterClosed()
       .pipe(filter(val => !!val))
