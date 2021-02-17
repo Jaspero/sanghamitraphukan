@@ -372,7 +372,8 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
 
   openFilter() {
     this.dialog.open(this.filterDialog, {
-      width: '400px'
+      width: '400px',
+      autoFocus: false
     });
   }
 

@@ -12,6 +12,7 @@ export interface Customer {
   gender?: 'Male' | 'Female';
   bio?: string;
   fullName?: string;
+  email?: string;
   profileImage?: string;
   billing?: Address;
   shippingInfo?: boolean;
