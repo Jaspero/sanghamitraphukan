@@ -284,7 +284,12 @@ app.post('/checkout', (req, res) => {
         ? {
             customer: stripeCustomer.id
           }
-        : {})
+        : {
+          ...req.body.form && req.body.form.billing && req.body.form.billing.email ? {
+            receipt_email: req.body.form.billing.email
+          } : {}
+        }
+      )
     });
 
     return {clientSecret: paymentIntent.client_secret, id: paymentIntent.id};
@@ -417,7 +422,7 @@ app.post('/webhook', async (req, res) => {
       const emailData: any = {
         order: {
           ...order,
-          orderItemsData: order.orderItemsData.map(item => {
+          orderItemsData: order.orderItemsData.map((item, index) => {
             item.price = currencyFormat(item.price, order.currency);
             return item;
           }),
@@ -472,26 +477,25 @@ app.post('/webhook', async (req, res) => {
               status: 'paid'
             },
             {merge: true}
-          ),
-        parseEmail(
-          STATIC_CONFIG.adminEamil,
-          'Order Complete',
-          'admin-order-notification',
-          {
-            order,
-            items
-          }
-        )
+          )
       ];
 
+      await parseEmail(
+        STATIC_CONFIG.adminEamil,
+        'Order Complete',
+        'admin-order-notification',
+        {
+          order,
+          items
+        }
+      );
+
       if (order.billing.email) {
-        exec.push(
-          parseEmail(
-            order.billing.email,
-            'Order Complete',
-            'order-complete',
-            emailData
-          )
+        await parseEmail(
+          order.billing.email,
+          'Order Complete',
+          'order-complete',
+          emailData
         );
       }
 
@@ -504,7 +508,7 @@ app.post('/webhook', async (req, res) => {
             /**
              * Product has attributes
              */
-            if (current.id !== current.identifier) {
+            if (item.id !== current.identifier) {
               const lookUp = getLookUp(current);
               const inventory = item.inventory[lookUp];
 
