@@ -422,7 +422,7 @@ app.post('/webhook', async (req, res) => {
       const emailData: any = {
         order: {
           ...order,
-          orderItemsData: order.orderItemsData.map((item, index) => {
+          orderItemsData: order.orderItemsData.map(item => {
             item.price = currencyFormat(item.price, order.currency);
             return item;
           }),
@@ -484,10 +484,7 @@ app.post('/webhook', async (req, res) => {
         STATIC_CONFIG.adminEamil,
         'Order Complete',
         'admin-order-notification',
-        {
-          order,
-          items
-        }
+        emailData
       );
 
       if (order.billing.email) {
