@@ -106,9 +106,11 @@ export class CartService {
   remove(identifier: string) {
     this.items$.pipe(take(1)).subscribe(current => {
       const index = current.findIndex(cur => cur.identifier === identifier);
-      current.splice(index, 1);
-      localStorage.setItem('cartItem', JSON.stringify(current));
-      this.items$.next(current);
+      if (index !== -1) {
+        current.splice(index, 1);
+        localStorage.setItem('cartItem', JSON.stringify(current));
+        this.items$.next(current);
+      }
     });
   }
 
