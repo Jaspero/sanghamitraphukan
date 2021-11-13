@@ -29,6 +29,13 @@ const routes: Routes = [
       import('./pages/one-horn/one-horn.module').then(mod => mod.OneHornModule)
   },
   {
+    path: 'collections',
+    loadChildren: () =>
+      import('./pages/collections/collections.module').then(
+        mod => mod.CollectionsModule
+      )
+  },
+  {
     path: 'shop',
     loadChildren: () =>
       import('./pages/shop/shop.module').then(mod => mod.ShopModule)

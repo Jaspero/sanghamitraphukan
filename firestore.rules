@@ -87,9 +87,9 @@ service cloud.firestore {
       allow read: if true
     }
 
-    match /collections-en/{page} {
-      allow write, delete: if readOrWrite()
+    match /collections-en/{collection=**} {
       allow read: if true
+      allow write, delete: if write()
     }
 
     match /news-en/{new} {

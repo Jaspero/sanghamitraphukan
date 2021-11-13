@@ -346,5 +346,8 @@
       }
     }
   },
-  "defaultProject": "shop"
+  "defaultProject": "shop",
+  "cli": {
+    "analytics": "2dc2a4dc-2da7-4618-9b05-f450dc7ab79a"
+  }
 }
