@@ -4,4 +4,5 @@ export interface Collection {
   image: string;
   createdOn: string;
   order: number;
+  featured: boolean;
 }
