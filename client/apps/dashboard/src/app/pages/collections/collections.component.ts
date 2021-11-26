@@ -1,7 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {MatCheckboxChange} from '@angular/material/checkbox';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
+import {from} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {LangListComponent} from '../../shared/components/lang-list/lang-list.component';
 import {SortDialogComponent} from '../../shared/components/sort-dialog/sort-dialog.component';
 
@@ -18,6 +21,7 @@ export class CollectionsComponent extends LangListComponent<Category> {
     'id',
     'createdOn',
     'name',
+    'featured',
     'actions'
   ];
 
@@ -29,5 +33,20 @@ export class CollectionsComponent extends LangListComponent<Category> {
         collection: `${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`
       }
     });
+  }
+
+  toggleFeatured(event: MatCheckboxChange, id: string) {
+    this.state.language$
+      .pipe(
+        switchMap(lang =>
+          from(
+            this.afs
+              .collection(`${FirestoreCollections.Collections}-${lang}`)
+              .doc(id)
+              .set({featured: event.checked}, {merge: true})
+          )
+        )
+      )
+      .subscribe();
   }
 }
