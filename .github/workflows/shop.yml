@@ -1,0 +1,38 @@
+name: Deploy Shop
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'client/**/*'
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: Install Dependencies
+        run: |
+          npm --prefix client ci
+          npm --prefix functions ci
+      - name: Add ENV_CONFIG
+        run: echo export const ENV_CONFIG=$PUBLIC_CONFIG > client/shared/consts/env-config.const.ts    
+        env:
+         PUBLIC_CONFIG: ${{ secrets.PUBLIC_CONFIG }}
+      - name: Build
+        run: |
+          npm --prefix client run build:shop
+          npm --prefix functions run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:shop,functions:ssr
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: jaspero-sanghamitra

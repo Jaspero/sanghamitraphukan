@@ -1,0 +1,22 @@
+name: Deploy Firestore Indexes
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'firestore.indexes.json'
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only firestore:indexes --force
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: jaspero-sanghamitra

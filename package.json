@@ -1,17 +1,14 @@
 {
-  "name": "@jaspero/fireshop",
+  "name": "@jaspero/sanghamitraphukan",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "target-setup": "firebase target:apply hosting shop jaspero-sanghamitra && firebase target:apply hosting admin sanghamitra-cms",
     "build-indexes": "node build-indexes.js",
-    "build": "npm --prefix client run build:all && npm --prefix functions run build",
     "lint:client": "npm --prefix client run lint",
     "lint:functions": "npm --prefix functions run lint",
     "lint": "npm run lint:client && npm run lint:functions",
-    "deploy": "firebase deploy",
     "write:indexes": "firebase firestore:indexes > firestore.indexes.json",
-    "start:shop": "npm --prefix client run start",
+    "start:shop": "npm --prefix client run start:shop",
     "start:dashboard": "npm --prefix client run start:dashboard"
   },
   "author": {
@@ -27,11 +24,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaspero/fireshop"
+    "url": "https://github.com/jaspero/sanghamitraphukan"
   },
   "bugs": {
-    "url": "https://github.com/jaspero/fireshop/issues"
+    "url": "https://github.com/jaspero/sanghamitraphukan/issues"
   },
-  "homepage": "https://jaspero-fireshop.firebaseapp.com",
+  "homepage": "https://sanghamitraphukan.com",
   "dependencies": {}
 }

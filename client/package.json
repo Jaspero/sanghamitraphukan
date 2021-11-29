@@ -3,16 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start:shop": "ng serve",
     "start:dashboard": "ng serve --project=dashboard",
-    "build": "ng run shop:build:production",
-    "build:dashboard": "ng run dashboard:build:production",
-    "build:all": "npm run build && npm run build:dashboard",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "compodoc:build": "npx compodoc -p src/tsconfig.app.json",
-    "compodoc:serve": "compodoc -s -p src/tsconfig.app.json"
+    "build:shop": "ng run shop:build:production",
+    "build:dashboard": "ng run dashboard:build:production"
   },
   "private": true,
   "dependencies": {
