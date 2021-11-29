@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="col-4 col-s-6 col-xs-12" *ngFor="let collection of collections$ | async">
-      <div class="cs-pointer bg-primary relative h-full" (click)="goToSingle(collection.name)">
+      <div class="cs-pointer bg-primary relative h-full" (click)="goToSingle(collection.id)">
         <div class="aspect-ratio" data-ratio="16:9"><img class="aspect-item" [src]="collection.image || 'assets/images/profile-placeholder.svg'"></div>
         <div class="ta-center p-a-xs">{{collection.name}}</div>
       </div>

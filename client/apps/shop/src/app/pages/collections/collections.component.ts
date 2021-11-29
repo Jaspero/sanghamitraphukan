@@ -6,7 +6,6 @@ import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Customer} from '@jf/interfaces/customer.interface';
 
 @Component({
   selector: 'jfs-collections',

@@ -133,7 +133,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
                     final = final.orderBy('name');
                   }
                 }
-
                 if (filters.category) {
                   this.chipArray.push({
                     filter: 'category',
@@ -142,11 +141,10 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
                   final = final.where(
                     'category',
-                    FirebaseOperator.ArrayContains,
+                    FirebaseOperator.Equal,
                     filters.category.id
                   );
                 }
-
                 if (filters.collection) {
                   this.chipArray.push({
                     filter: 'collection',
@@ -159,8 +157,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
                     typeof filters.collection === 'string' ? filters.collection : filters.collection.id
                   );
                 }
-
-
                 if (filters.price) {
                   this.chipArray.push({
                     filter: 'price',
