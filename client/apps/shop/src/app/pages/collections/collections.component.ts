@@ -18,26 +18,6 @@ export class CollectionsComponent implements OnInit {
 
   collections$: Observable<Collection[]>;
   featuredCollections$ = new Subject();
-  collections = [
-    {
-      createdOn: 1613602155095,
-      image: '',
-      name: 'Leopard Stripes',
-      order: 0
-    },
-    {
-      createdOn: 1613602155095,
-      image: '',
-      name: 'white Stripes',
-      order: 0
-    },
-    {
-      createdOn: 1613602155095,
-      image: '',
-      name: 'Drew Carey',
-      order: 0
-    }
-  ];
 
   ngOnInit() {
     this.collections$ = this.afs
