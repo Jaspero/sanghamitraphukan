@@ -5,11 +5,11 @@
 
     <nav class="hide-s">
       <a mat-button routerLink="/">Home</a>
-      <a mat-button [routerLink]="['/one-horn']">One Horn</a>
+      <a mat-button routerLink="/one-horn">One Horn</a>
       <a mat-button routerLink="/about">About</a>
-      <a mat-button [routerLink]="['/news']">News</a>
-      <a mat-button [routerLink]="['/collections']">Shop</a>
-      <a mat-button [routerLink]="['/contact']">Contact</a>
+      <a mat-button routerLink="/news">News</a>
+      <a mat-button routerLink="/collections">Shop</a>
+      <a mat-button routerLink="/contact">Contact</a>
     </nav>
 
     <a routerLink="/">
@@ -65,7 +65,7 @@
         <a class="mobile-row-first link-about" (click)="openMobileHeader()" routerLink="/about"><span>About</span></a>
         <a class="mobile-row-first link-contact" (click)="openMobileHeader()" routerLink="/contact"><span>Contact</span></a>
         <a class="mobile-row-first link-news" (click)="openMobileHeader()" routerLink="/news"><span>News</span></a>
-        <a class="mobile-row-first link-shop" (click)="openMobileHeader()" routerLink="/shop"><span>Shop</span></a>
+        <a class="mobile-row-first link-shop" (click)="openMobileHeader()" routerLink="/collections"><span>Shop</span></a>
         <a class="mobile-row-first link-horn" (click)="openMobileHeader()" routerLink="/one-horn"><span>One Horn</span></a>
       </div>
 
