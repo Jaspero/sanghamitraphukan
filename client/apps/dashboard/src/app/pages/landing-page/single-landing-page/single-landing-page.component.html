@@ -78,10 +78,10 @@
                 <input matInput formControlName="title">
               </mat-form-field>
               <mat-form-field class="w-full" appearance="outline">
-                <mat-label>Category</mat-label>
-                <mat-select formControlName="category">
-                  <mat-option *ngFor="let category of categories$ | async" [value]="category.id">
-                    {{category.name}}
+                <mat-label>Collection</mat-label>
+                <mat-select formControlName="collection">
+                  <mat-option *ngFor="let item of collections$ | async" [value]="item.id">
+                    {{item.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

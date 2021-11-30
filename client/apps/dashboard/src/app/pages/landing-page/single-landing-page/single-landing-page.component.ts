@@ -7,7 +7,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
-import {Category} from '@jf/interfaces/category.interface';
+import {Collection} from '@jf/interfaces/collection.interface';
 import {forkJoin, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {LangSinglePageComponent} from '../../../shared/components/lang-single-page/lang-single-page.component';
@@ -33,19 +33,19 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
   imageUploadComponent: QueryList<ImageUploadComponent>;
 
   collection = FirestoreCollections.LandingPage;
-  categories$: Observable<Category[]>;
+  collections$: Observable<Collection[]>;
 
   ngOnInit() {
     super.ngOnInit();
 
-    this.categories$ = this.state.language$.pipe(
+    this.collections$ = this.state.language$.pipe(
       switchMap(lang =>
-        this.afs.collection(`${FirestoreCollections.Categories}-${lang}`).get()
+        this.afs.collection(`${FirestoreCollections.Collections}-${lang}`).get()
       ),
       map(snapshots =>
         snapshots.docs.map(action => ({
           id: action.id,
-          ...(action.data() as Category)
+          ...(action.data() as Collection)
         }))
       )
     );
@@ -60,7 +60,7 @@ export class SingleLandingPageComponent extends LangSinglePageComponent
       objectYPosition: data.objectYPosition || 50,
       objectYPositionDesktop: data.objectYPositionDesktop || 50,
       gallery: data.gallery ? [data.gallery] : [[]],
-      category: data.category || '',
+      collection: data.collection || '',
       active: data.active || false
     });
   }

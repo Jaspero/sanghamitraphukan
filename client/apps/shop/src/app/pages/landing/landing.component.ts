@@ -100,11 +100,9 @@ export class LandingComponent implements OnInit {
       );
   }
 
-  goToSingle(category: string) {
+  goToSingle(collection: string) {
     this.router.navigate(['/shop'], {
-      queryParams: {
-        // category
-      }
+      queryParams: {collection}
     });
   }
 
