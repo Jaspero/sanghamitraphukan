@@ -238,6 +238,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
   }
 
   ngOnInit() {
+    this.filters = this.fb.group({});
     if (!this.state.shopDialogShown) {
       const showDialogOn = Date.now() - 7 * 24 * 60 * 60 * 1000;
       let welcomeDialogDate: any = localStorage.getItem('welcome-dialog');
@@ -269,18 +270,42 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
     const query = this.activatedRoute.snapshot.queryParams;
 
-    this.filters = this.fb.group({
-      category: query.category || '',
-      collection: query.collection || '',
-      order: {
-        name: 'Name A - Z',
-        type: 'order',
-        direction: 'asc'
-      },
-      price: null
-    });
+    if (query.collection) {
+      this.afs
+        .collection(`${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`)
+        .doc(query.collection)
+        .valueChanges().subscribe((val: any) => {
+        this.filters = this.fb.group({
+          category: query.category || '',
+          collection: val ? {
+            name: val.name,
+            id: query.collection,
+          } : '',
+          order: {
+            name: 'Name A - Z',
+            type: 'order',
+            direction: 'asc'
+          },
+          price: null
+        });
 
-    this.initProducts();
+        this.initProducts();
+        })
+    } else {
+      this.filters = this.fb.group({
+        category: query.category || '',
+        collection: query.collection || '',
+        order: {
+          name: 'Name A - Z',
+          type: 'order',
+          direction: 'asc'
+        },
+        price: null
+      });
+
+      this.initProducts();
+    }
+
   }
 
   openFilter() {
