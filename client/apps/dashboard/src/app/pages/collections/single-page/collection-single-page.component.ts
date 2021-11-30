@@ -26,6 +26,7 @@ export class CollectionSinglePageComponent extends LangSinglePageComponent {
         [Validators.required, Validators.pattern(URL_REGEX)]
       ],
       image: data.image || '',
+      featured: data.featured || false,
       name: [data.name || '', Validators.required],
       order: data.order || 0
     });
