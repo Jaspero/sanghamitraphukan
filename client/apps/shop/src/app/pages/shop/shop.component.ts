@@ -141,7 +141,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
                   final = final.where(
                     'category',
-                    FirebaseOperator.Equal,
+                    FirebaseOperator.ArrayContains,
                     filters.category.id
                   );
                 }
