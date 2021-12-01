@@ -103,7 +103,7 @@ export class LandingComponent implements OnInit {
   goToSingle(category: string) {
     this.router.navigate(['/shop'], {
       queryParams: {
-        // category
+        category
       }
     });
   }
