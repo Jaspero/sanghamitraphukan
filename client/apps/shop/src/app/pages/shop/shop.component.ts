@@ -141,7 +141,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
 
                   final = final.where(
                     'category',
-                    FirebaseOperator.Equal,
+                    FirebaseOperator.ArrayContains,
                     filters.category.id
                   );
                 }
@@ -312,6 +312,10 @@ export class ShopComponent extends RxDestroy implements OnInit {
     this.dialog.open(this.filterDialog, {
       width: '400px'
     });
+  }
+
+  resetFilters() {
+    this.filters.reset();
   }
 
   removeChip(chip) {

@@ -93,7 +93,6 @@ export class LandingComponent implements OnInit {
             }
 
             action.gallery = action.gallery || [];
-
             return action;
           })
         )
