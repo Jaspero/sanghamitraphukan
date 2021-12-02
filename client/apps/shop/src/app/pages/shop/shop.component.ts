@@ -314,6 +314,10 @@ export class ShopComponent extends RxDestroy implements OnInit {
     });
   }
 
+  resetFilters() {
+    this.filters.reset();
+  }
+
   removeChip(chip) {
     this.filters.get(chip.filter).setValue('');
   }
