@@ -1,6 +1,6 @@
 <div class="featured" *ngFor="let product of product$ | async">
   <div class="featured-hero">
-    <h1 class="featured-hero-title link" (click)="goToSingle(product.category)">{{product.title}}</h1>
+    <h1 class="featured-hero-title link" (click)="goToSingle(product.collection)">{{product.title}}</h1>
     <img
       class="featured-hero-img"
       src="assets/images/empty.svg"

@@ -93,17 +93,16 @@ export class LandingComponent implements OnInit {
             }
 
             action.gallery = action.gallery || [];
-
             return action;
           })
         )
       );
   }
 
-  goToSingle(category: string) {
+  goToSingle(collection: string) {
     this.router.navigate(['/shop'], {
       queryParams: {
-        category
+        collection
       }
     });
   }
