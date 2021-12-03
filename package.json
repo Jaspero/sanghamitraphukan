@@ -9,7 +9,8 @@
     "lint": "npm run lint:client && npm run lint:functions",
     "write:indexes": "firebase firestore:indexes > firestore.indexes.json",
     "start:shop": "npm --prefix client run start:shop",
-    "start:dashboard": "npm --prefix client run start:dashboard"
+    "start:dashboard": "npm --prefix client run start:dashboard",
+    "firebase": "firebase"
   },
   "author": {
     "name": "Jaspero Ltd",
