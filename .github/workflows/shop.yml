@@ -27,12 +27,10 @@ jobs:
          PUBLIC_CONFIG: ${{ secrets.PUBLIC_CONFIG }}
       - name: Build
         run: |
+          npm i firebase-tools
           npm --prefix client run build:shop
           npm --prefix functions run build
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting:shop,functions:ssr
+      - name: Deploy
+        run: npm run firebase -- deploy --only hosting:shop,functions:ssr --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_ID: jaspero-sanghamitra

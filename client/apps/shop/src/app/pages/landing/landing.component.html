@@ -8,7 +8,6 @@
       [style.object-position]="'50% ' + (product.objectYPosition || '50') + '%'"
       [alt]="product.title">
   </div>
-
   <div *ngIf="product.gallery.length;" class="featured-gallery p-y-l connecting-line">
     <jp-slider [options]="sliderOption">
       <jp-slides>
