@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Use Node.js 12.4
+      - name: Use Node.js 10.23.3
         uses: actions/setup-node@v1
         with:
-          node-version: 12.4
+          node-version: 10.23.3
       - name: Install Dependencies
         run: |
           npm --prefix client ci

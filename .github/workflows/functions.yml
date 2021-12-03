@@ -10,13 +10,13 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
       - name: Install GitHub Utils Dependencies
         run: |
           npm ci --prefix .github/utils
@@ -29,8 +29,7 @@ jobs:
       - name: Install Dependencies
         if: ${{ steps.changes.outputs.CHANGES }}
         run: |
-          npm ci
-          npm install firebase-tools
+          npm i firebase-tools
           npm --prefix functions ci
           npm --prefix functions run build
       - name: Set project
