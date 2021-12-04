@@ -230,6 +230,25 @@ export const PAGES: PageData[] = [
     }
   },
   {
+    name: 'Collections',
+    match: /^\/collections\/?$/i,
+    meta: {
+      description:
+        'Browse through our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics'
+    },
+    metaProperties: {
+      'og:url': 'https://sanghamitraphukan.com/collections',
+      'og:title': 'Collections',
+      'og:description':
+        'Browse through our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics',
+
+      'twitter:url': 'https://sanghamitraphukan.com/collections',
+      'twitter:title': 'Collections',
+      'twitter:description':
+        'Browse through our collections of handmade garments, produced through traditional techniques using exclusively natural fabrics'
+    }
+  },
+  {
     name: 'Product',
     match: /^\/product\/(?:([^\/]+?))\/?$/i,
     operation: (capture, document) => {
