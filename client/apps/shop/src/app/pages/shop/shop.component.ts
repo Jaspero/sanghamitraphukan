@@ -7,24 +7,24 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
-import {ActivatedRoute} from '@angular/router';
-import {RxDestroy} from '@jaspero/ng-helpers';
-import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
-import {STATIC_CONFIG} from '@jf/consts/static-config.const';
-import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
-import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
-import {Category} from '@jf/interfaces/category.interface';
-import {Collection} from '@jf/interfaces/collection.interface';
-import {Product} from '@jf/interfaces/product.interface';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { RxDestroy } from '@jaspero/ng-helpers';
+import { DYNAMIC_CONFIG } from '@jf/consts/dynamic-config.const';
+import { STATIC_CONFIG } from '@jf/consts/static-config.const';
+import { FirebaseOperator } from '@jf/enums/firebase-operator.enum';
+import { FirestoreCollections } from '@jf/enums/firestore-collections.enum';
+import { Category } from '@jf/interfaces/category.interface';
+import { Collection } from '@jf/interfaces/collection.interface';
+import { Product } from '@jf/interfaces/product.interface';
 import * as firebase from 'firebase';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {CartService} from '../../shared/services/cart/cart.service';
-import {StateService} from '../../shared/services/state/state.service';
+import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { CartService } from '../../shared/services/cart/cart.service';
+import { StateService } from '../../shared/services/state/state.service';
 import FieldPath = firebase.firestore.FieldPath;
 
 @Component({
@@ -73,15 +73,15 @@ export class ShopComponent extends RxDestroy implements OnInit {
   productsLeft = true;
   limit = 9;
   chipArray = [];
-  categories$: Observable<Category[]>;
-  collections$: Observable<Collection[]>;
+  categories: Category[];
+  collections: Collection[];
   primaryCurrency = DYNAMIC_CONFIG.currency.primary;
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
     if (
       window.innerHeight + window.scrollY >=
-        document.body.scrollHeight - this.loadOffset &&
+      document.body.scrollHeight - this.loadOffset &&
       !this.state.loading$.getValue() &&
       this.productsLeft
     ) {
@@ -112,7 +112,6 @@ export class ShopComponent extends RxDestroy implements OnInit {
           this.state.loading$.next(true);
 
           const filters = this.filters.getRawValue();
-
           return this.afs
             .collection<Product>(
               `${FirestoreCollections.Products}-${STATIC_CONFIG.lang}`,
@@ -133,28 +132,31 @@ export class ShopComponent extends RxDestroy implements OnInit {
                     final = final.orderBy('name');
                   }
                 }
+
                 if (filters.category) {
+                  const cat = this.categories.find(x => x.id === filters.category)
                   this.chipArray.push({
                     filter: 'category',
-                    value: filters.category.name
+                    value: cat.name
                   });
 
                   final = final.where(
                     'category',
                     FirebaseOperator.ArrayContains,
-                    filters.category.id
+                    cat.id
                   );
                 }
                 if (filters.collection) {
+                  const coll = this.collections.find(x => x.id === filters.collection)
                   this.chipArray.push({
                     filter: 'collection',
-                    value: typeof filters.collection === 'string' ? filters.collection : filters.collection.name
+                    value: coll.name
                   });
 
                   final = final.where(
                     'collection',
                     FirebaseOperator.Equal,
-                    typeof filters.collection === 'string' ? filters.collection : filters.collection.id
+                    coll.id
                   );
                 }
                 if (filters.price) {
@@ -254,44 +256,29 @@ export class ShopComponent extends RxDestroy implements OnInit {
       }
     }
 
-    this.categories$ = this.afs
-      .collection<Category>(
-        `${FirestoreCollections.Categories}-${STATIC_CONFIG.lang}`,
-        ref => ref.orderBy('order', 'asc')
-      )
-      .valueChanges({idField: 'id'});
-
-    this.collections$ = this.afs
-      .collection<Collection>(
-        `${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`,
-        ref => ref.orderBy('order', 'asc')
-      )
-      .valueChanges({idField: 'id'});
-
-    const query = this.activatedRoute.snapshot.queryParams;
-
-    if (query.collection) {
+    forkJoin(
       this.afs
-        .collection(`${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`)
-        .doc(query.collection)
-        .valueChanges().subscribe((val: any) => {
-        this.filters = this.fb.group({
-          category: query.category || '',
-          collection: val ? {
-            name: val.name,
-            id: query.collection,
-          } : '',
-          order: {
-            name: 'Name A - Z',
-            type: 'order',
-            direction: 'asc'
-          },
-          price: null
-        });
-
-        this.initProducts();
-        })
-    } else {
+        .collection<Category>(
+          `${FirestoreCollections.Categories}-${STATIC_CONFIG.lang}`,
+          ref => ref.orderBy('order', 'asc')
+        )
+        .valueChanges({idField: 'id'})
+        .pipe(take(1),
+          tap(cat => {
+          this.categories = cat;
+        })),
+      this.afs
+        .collection<Collection>(
+          `${FirestoreCollections.Collections}-${STATIC_CONFIG.lang}`,
+          ref => ref.orderBy('order', 'asc')
+        )
+        .valueChanges({idField: 'id'})
+        .pipe(take(1),
+          tap(col => {
+          this.collections = col;
+        }))
+    ).pipe().subscribe(res => {
+      const query = this.activatedRoute.snapshot.queryParams;
       this.filters = this.fb.group({
         category: query.category || '',
         collection: query.collection || '',
@@ -304,7 +291,7 @@ export class ShopComponent extends RxDestroy implements OnInit {
       });
 
       this.initProducts();
-    }
+    });
 
   }
 
