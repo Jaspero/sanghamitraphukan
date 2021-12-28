@@ -65,8 +65,8 @@
         <mat-form-field class="w-full m-b-xs">
           <mat-select placeholder="Collection" formControlName="collection">
             <mat-option
-              *ngFor="let collection of collections$ | async"
-              [value]="collection">
+              *ngFor="let collection of collections"
+              [value]="collection.id">
               {{collection.name}}
             </mat-option>
           </mat-select>
@@ -74,8 +74,8 @@
         <mat-form-field class="w-full m-b-xs">
           <mat-select placeholder="Category" formControlName="category">
             <mat-option
-              *ngFor="let category of categories$ | async"
-              [value]="category">
+              *ngFor="let category of categories"
+              [value]="category.id">
               {{category.name}}
             </mat-option>
           </mat-select>
