@@ -27,7 +27,7 @@ jobs:
          PUBLIC_CONFIG: ${{ secrets.PUBLIC_CONFIG }}
       - name: Build
         run: |
-          npm i firebase-tools
+          npm i firebase-tools@9.23.1
           npm --prefix client run build:shop
           npm --prefix functions run build
       - name: Deploy

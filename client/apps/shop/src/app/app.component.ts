@@ -65,7 +65,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.email = new FormControl('', [Validators.required, Validators.email]);
-
     this.webpClass = BROWSER_CONFIG.webpSupported ? 'webp' : 'no-webp';
     this.cartBadge$ = this.cart.numOfItems$.pipe(
       map(inCart => (inCart ? inCart : ''))
