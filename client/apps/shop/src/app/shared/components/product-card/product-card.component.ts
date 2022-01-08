@@ -6,6 +6,7 @@ import {UNIQUE_ID, UNIQUE_ID_PROVIDER} from '@jf/utils/id.provider';
 import {Observable, of} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {CartService} from '../../services/cart/cart.service';
+import { StateService } from '../../services/state/state.service';
 import {WishListService} from '../../services/wish-list/wish-list.service';
 import {getProductFilters} from '../../utils/get-product-filters';
 
@@ -22,6 +23,7 @@ export class ProductCardComponent implements OnInit {
     public uniqueId: string,
     public cart: CartService,
     public wishList: WishListService,
+    private state: StateService,
     private router: Router
   ) {}
 
@@ -110,5 +112,10 @@ export class ProductCardComponent implements OnInit {
   checkout() {
     this.cart.add(this.product, {});
     this.router.navigate(['/checkout'])
+  }
+
+  goToSingle(id) {
+    this.state.shopOffset = window.pageYOffset
+    this.router.navigate(['/product', id]);
   }
 }
