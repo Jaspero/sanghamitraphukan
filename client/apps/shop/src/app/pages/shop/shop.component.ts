@@ -234,6 +234,13 @@ export class ShopComponent extends RxDestroy implements OnInit {
             .filter(product => !newIds.has(product.id));
 
           this.products$.next([...oldProducts, ...data]);
+
+          if (this.state.shopOffset) {
+            setTimeout(() => {
+              window.scrollTo(0, this.state.shopOffset)
+              this.state.shopOffset = 0;
+            }, 10);
+          }
         })
       )
       .subscribe();

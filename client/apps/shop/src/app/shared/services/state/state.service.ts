@@ -51,6 +51,7 @@ export class StateService {
   checkoutResult: Array<Errors> | Partial<Order>;
   shopDialogShown = false;
   landingDialogShown = false;
+  shopOffset = 0;
 
   currentRoute$ = new BehaviorSubject<{data: any; url: string}>({
     data: {},
