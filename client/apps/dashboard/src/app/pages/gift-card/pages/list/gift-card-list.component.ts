@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {GiftCard} from '@jf/interfaces/gift-card.interface';
 import {ListComponent} from '../../../../shared/components/list/list.component';
-import {CURRENCIES} from '../../../../shared/const/currency.const';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 
 @Component({
