@@ -38,9 +38,10 @@
               "apps/shop/src/assets",
               "apps/shop/src/manifest.json"
             ],
-            "styles": ["apps/shop/src/styles.scss"],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "styles": [
+              "apps/shop/src/styles.scss"
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {

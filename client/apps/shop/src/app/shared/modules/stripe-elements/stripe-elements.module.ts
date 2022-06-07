@@ -10,7 +10,7 @@ const COMPONENTS = [StripeElementsComponent];
   imports: [CommonModule]
 })
 export class StripeElementsModule {
-  static config(publicKey: string): ModuleWithProviders {
+  static config(publicKey: string): ModuleWithProviders<StripeElementsModule> {
     return {
       ngModule: StripeElementsModule,
       providers: [

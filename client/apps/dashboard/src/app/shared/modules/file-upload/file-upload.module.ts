@@ -39,7 +39,7 @@ const PIPES = [SanitizeUrlPipe];
   exports: [...COMPONENTS]
 })
 export class FileUploadModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FileUploadModule> {
     return {
       ngModule: FileUploadModule
     };
