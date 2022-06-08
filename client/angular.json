@@ -59,7 +59,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -113,16 +112,6 @@
               "apps/shop/src/manifest.json"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/shop/src/tsconfig.app.json",
-              "apps/shop/src/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -141,13 +130,6 @@
             "production": {
               "devServerTarget": "shop:serve:production"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/shop/e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
           }
         },
         "server": {
@@ -245,7 +227,6 @@
               ],
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -300,16 +281,6 @@
               "apps/dashboard/src/manifest.json"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/dashboard/src/tsconfig.app.json",
-              "apps/dashboard/src/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -328,13 +299,6 @@
             "production": {
               "devServerTarget": "dashboard:serve:production"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/dashboard/e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
           }
         },
         "server": {
