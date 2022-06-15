@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
 import * as nanoid from 'nanoid';
@@ -14,9 +14,9 @@ import {tap} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactComponent implements OnInit {
-  constructor(private fb: FormBuilder, private afs: AngularFirestore) {}
+  constructor(private fb: UntypedFormBuilder, private afs: AngularFirestore) {}
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   ngOnInit() {
     this.buildForm();

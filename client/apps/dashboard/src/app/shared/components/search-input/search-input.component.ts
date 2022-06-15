@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
@@ -33,13 +33,13 @@ export class SearchInputComponent
   @Input()
   debounceTime = 400;
 
-  search: FormControl;
+  search: UntypedFormControl;
   onTouch: Function;
   onModelChange: Function;
   isDisabled: boolean;
 
   ngOnInit() {
-    this.search = new FormControl('');
+    this.search = new UntypedFormControl('');
   }
 
   ngAfterViewInit() {

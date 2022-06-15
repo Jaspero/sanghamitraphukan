@@ -10,7 +10,7 @@ import {
 import {AngularFireStorage} from '@angular/fire/storage';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import {from, of} from 'rxjs';
@@ -44,7 +44,7 @@ export class ImageUploadComponent implements ControlValueAccessor {
   placeholder = 'Image URL';
 
   value: File;
-  imageUrl = new FormControl('');
+  imageUrl = new UntypedFormControl('');
   disInput = false;
 
   onChange: any = () => {};

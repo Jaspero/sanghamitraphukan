@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
@@ -23,12 +23,12 @@ export class SearchComponent implements OnInit {
     private dialogRef: MatDialogRef<SearchComponent>
   ) {}
 
-  search: FormControl;
+  search: UntypedFormControl;
   products$: Observable<Product[]>;
   loading$ = new BehaviorSubject(false);
 
   ngOnInit() {
-    this.search = new FormControl('');
+    this.search = new UntypedFormControl('');
 
     this.search.valueChanges.subscribe(data =>
       this.loading$.next(data.trim() !== '')

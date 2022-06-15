@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
@@ -39,7 +39,7 @@ export class ProductSelectDialogComponent extends RxDestroy implements OnInit {
   title = 'Product Selection';
   selected: Product[] = [];
   loading = true;
-  search = new FormControl('');
+  search = new UntypedFormControl('');
 
   ngOnInit() {
     if (this.data.title) {

@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {notify} from '@jf/utils/notify.operator';
 import {auth} from 'firebase/app';
@@ -26,14 +26,14 @@ export class LoginComponent implements OnInit {
   constructor(
     public router: Router,
     public afAuth: AngularFireAuth,
-    public fb: FormBuilder,
+    public fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private state: StateService
   ) {}
 
   @ViewChild('password', {static: true}) passwordField: ElementRef;
 
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
   ngOnInit() {
     this.afAuth.user

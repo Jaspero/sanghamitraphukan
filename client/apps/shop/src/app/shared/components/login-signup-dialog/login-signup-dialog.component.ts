@@ -11,7 +11,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Customer} from '@jf/interfaces/customer.interface';
@@ -51,7 +51,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<LoginSignupDialogComponent>,
     private afs: AngularFirestore,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private state: StateService,
     @Inject(MAT_DIALOG_DATA)
     private options: {view: LoginSignUpView}
@@ -61,9 +61,9 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
 
   @ViewChild('password', {static: true}) passwordField: ElementRef;
 
-  logInForm: FormGroup;
-  resetPasswordControl: FormControl;
-  signUpForm: FormGroup;
+  logInForm: UntypedFormGroup;
+  resetPasswordControl: UntypedFormControl;
+  signUpForm: UntypedFormGroup;
   view = LoginSignUpView;
   currentView: LoginSignUpView = LoginSignUpView.LogIn;
 

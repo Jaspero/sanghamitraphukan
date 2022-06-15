@@ -1,27 +1,14 @@
 import {getCurrencySymbol} from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Collection} from '@jf/interfaces/collection.interface';
 import {ProductMetadata} from '@jf/interfaces/product-metadata.interface';
-import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format.ts';
+import { toStripeFormat } from '@jf/utils/stripe-format';
 import {combineLatest, forkJoin, Observable, of} from 'rxjs';
-import {
-  filter,
-  map,
-  shareReplay,
-  startWith,
-  switchMap,
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import {filter, map, shareReplay, startWith, switchMap, take, takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
 import {ProductSelectDialogComponent} from '../../../../shared/components/product-select-dialog/product-select-dialog.component';
@@ -34,7 +21,7 @@ interface Currency {
 }
 
 interface SelectedCurrency extends Currency {
-  control: FormControl;
+  control: UntypedFormControl;
 }
 
 @Component({
@@ -56,8 +43,8 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   colors = ['c-warm', 'c-primary', 'c-accent', 'c-primary'];
 
   selectedCurrency: SelectedCurrency;
-  currencyControl: FormControl;
-  metaForm: FormGroup;
+  currencyControl: UntypedFormControl;
+  metaForm: UntypedFormGroup;
 
   moduleId = `${FirestoreCollections.Products}-en`;
 
@@ -121,7 +108,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   }
 
   get attributesForms() {
-    return this.form.get('attributes') as FormArray;
+    return this.form.get('attributes') as UntypedFormArray;
   }
 
   // TODO: I think this can be done in a better way
@@ -282,7 +269,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       default: data.default || ''
     });
 
-    this.currencyControl = new FormControl(DYNAMIC_CONFIG.currency.primary);
+    this.currencyControl = new UntypedFormControl(DYNAMIC_CONFIG.currency.primary);
 
     this.currencyControl.valueChanges
       .pipe(
@@ -292,7 +279,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       .subscribe(code => {
         this.selectedCurrency = {
           code,
-          control: this.form.get(`price.${code}`) as FormControl,
+          control: this.form.get(`price.${code}`) as UntypedFormControl,
           symbol: getCurrencySymbol(code, 'narrow')
         };
         this.cdr.markForCheck();
@@ -459,7 +446,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
       DYNAMIC_CONFIG.currency.supportedCurrencies.reduce((acc, currency) => {
         const value = price && price[currency] ? price[currency] : 0;
 
-        acc[currency] = new FormControl(
+        acc[currency] = new UntypedFormControl(
           adjustPrice ? fromStripeFormat(value) : value,
           Validators.min(0)
         );

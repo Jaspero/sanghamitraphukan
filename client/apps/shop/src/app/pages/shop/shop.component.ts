@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RxDestroy } from '@jaspero/ng-helpers';
@@ -39,14 +39,14 @@ export class ShopComponent extends RxDestroy implements OnInit {
     public dialog: MatDialog,
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private state: StateService,
     private activatedRoute: ActivatedRoute
   ) {
     super();
   }
 
-  filters: FormGroup;
+  filters: UntypedFormGroup;
 
   @ViewChild('filterDialog', {static: true})
   filterDialog: TemplateRef<any>;

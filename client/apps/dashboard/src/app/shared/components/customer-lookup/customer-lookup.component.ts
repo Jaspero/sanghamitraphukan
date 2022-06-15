@@ -7,7 +7,7 @@ import {
 import {AngularFirestore} from '@angular/fire/firestore';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
@@ -34,7 +34,7 @@ export class CustomerLookupComponent implements OnInit, ControlValueAccessor {
 
   onTouch: Function;
   onModelChange: Function;
-  search = new FormControl('');
+  search = new UntypedFormControl('');
   customers$: Observable<Customer[]>;
   filteredCustomers$: Observable<Customer[]>;
 

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
@@ -30,7 +30,7 @@ export class GiftCardsComponent implements OnInit {
     private afs: AngularFirestore,
     public aff: AngularFireFunctions,
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private afAuth: AngularFireAuth
   ) {}
 
@@ -42,8 +42,8 @@ export class GiftCardsComponent implements OnInit {
 
   giftCards$: Observable<any>;
   giftCardsInstances$: Observable<any>;
-  form: FormGroup;
-  code: FormControl;
+  form: UntypedFormGroup;
+  code: UntypedFormControl;
 
   dynamicConfig = DYNAMIC_CONFIG;
 
@@ -86,7 +86,7 @@ export class GiftCardsComponent implements OnInit {
       creditCard: ['', Validators.required]
     });
 
-    this.code = new FormControl('');
+    this.code = new UntypedFormControl('');
   }
 
   dialogBuyOpen() {

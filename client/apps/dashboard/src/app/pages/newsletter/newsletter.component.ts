@@ -4,7 +4,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {UntypedFormControl, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Newsletter} from '@jf/interfaces/newsletter.interface';
 import {notify} from '@jf/utils/notify.operator';
@@ -30,10 +30,10 @@ export class NewsletterComponent extends ListComponent<Newsletter> {
 
   @ViewChild('addDialog', {static: true})
   addDialog: TemplateRef<any>;
-  emailControl: FormControl;
+  emailControl: UntypedFormControl;
 
   addEmail(items: Newsletter[]) {
-    this.emailControl = new FormControl('', Validators.required);
+    this.emailControl = new UntypedFormControl('', Validators.required);
 
     this.dialog
       .open(this.addDialog)

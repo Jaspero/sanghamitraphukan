@@ -9,7 +9,7 @@ import {
   TemplateRef
 } from '@angular/core';
 import {AngularFirestoreCollection} from '@angular/fire/firestore';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {debounceTime, map, startWith, switchMap, tap} from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class AfAutocompleteComponent implements OnInit {
   @Output()
   optionSelected = new EventEmitter();
 
-  search = new FormControl('');
+  search = new UntypedFormControl('');
   results$: Observable<any[]>;
   loading$ = new BehaviorSubject(false);
 

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {notify} from '@jf/utils/notify.operator';
 import {from, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
@@ -17,13 +17,13 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class ChangePasswordComponent implements OnInit {
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private dialog: MatDialog
   ) {}
 
-  passwordForm: FormGroup;
+  passwordForm: UntypedFormGroup;
 
   ngOnInit() {
     this.buildForm();

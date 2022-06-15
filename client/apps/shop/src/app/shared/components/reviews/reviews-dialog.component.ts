@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Review} from '@jf/interfaces/review.interface';
 import {notify} from '@jf/utils/notify.operator';
@@ -22,7 +22,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewsDialogComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -30,7 +30,7 @@ export class ReviewsDialogComponent implements OnInit {
     private dialog: MatDialogRef<any>,
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit() {

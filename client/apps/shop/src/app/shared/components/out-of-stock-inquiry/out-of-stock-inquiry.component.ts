@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Product} from '@jf/interfaces/product.interface';
@@ -19,11 +19,11 @@ export class OutOfStockInquiryComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public product: Product,
     private dialogRef: MatDialogRef<OutOfStockInquiryComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private afs: AngularFirestore
   ) {}
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   ngOnInit() {
     this.buildForm();

@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
@@ -38,7 +38,7 @@ export class ProductComponent extends RxDestroy implements OnInit {
     private state: StateService,
     private activatedRoute: ActivatedRoute,
     private http: HttpClient,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router
   ) {
     super();
@@ -58,7 +58,7 @@ export class ProductComponent extends RxDestroy implements OnInit {
     isDisabled: boolean;
   }>;
   similar$: Observable<any>;
-  filters: FormGroup;
+  filters: UntypedFormGroup;
   @ViewChild('reviewsDialog', {static: true}) reviewsDialog: TemplateRef<any>;
 
   ngOnInit() {

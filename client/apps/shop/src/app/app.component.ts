@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormControl, Validators} from '@angular/forms';
+import {UntypedFormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
@@ -58,13 +58,13 @@ export class AppComponent implements OnInit {
   showLayout$: Observable<boolean>;
   cartBadge$: Observable<number | string>;
   loading$ = new BehaviorSubject(false);
-  email: FormControl;
+  email: UntypedFormControl;
   toggleMobileHeader: boolean;
   year = new Date().getFullYear();
   dialogContent = [];
 
   ngOnInit() {
-    this.email = new FormControl('', [Validators.required, Validators.email]);
+    this.email = new UntypedFormControl('', [Validators.required, Validators.email]);
     this.webpClass = BROWSER_CONFIG.webpSupported ? 'webp' : 'no-webp';
     this.cartBadge$ = this.cart.numOfItems$.pipe(
       map(inCart => (inCart ? inCart : ''))

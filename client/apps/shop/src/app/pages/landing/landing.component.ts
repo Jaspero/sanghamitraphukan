@@ -7,7 +7,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {SliderOptions} from '@jaspero/ng-slider';
@@ -34,7 +34,7 @@ export class LandingComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private state: StateService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   product$: Observable<Landing[]>;
@@ -42,7 +42,7 @@ export class LandingComponent implements OnInit {
     blocksPerView: 5,
     loop: false
   };
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @ViewChild('popup', {static: true})
   popup: TemplateRef<any>;

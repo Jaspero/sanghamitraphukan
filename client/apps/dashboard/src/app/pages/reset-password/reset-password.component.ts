@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {from} from 'rxjs';
 import {notify} from '@jf/utils/notify.operator';
@@ -15,10 +15,10 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     public afAuth: AngularFireAuth,
     public router: Router,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
-  resetControl: FormControl;
+  resetControl: UntypedFormControl;
 
   ngOnInit() {
     this.resetControl = this.fb.control('', [

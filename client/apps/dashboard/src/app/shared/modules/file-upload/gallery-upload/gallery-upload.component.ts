@@ -14,7 +14,7 @@ import {
 import {AngularFireStorage} from '@angular/fire/storage';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import {RxDestroy} from '@jaspero/ng-helpers';
@@ -51,7 +51,7 @@ export class GalleryUploadComponent extends RxDestroy
   urlUploadDialog: TemplateRef<any>;
   @ViewChild('file', {static: true})
   fileEl: ElementRef<HTMLInputElement>;
-  urlControl = new FormControl('');
+  urlControl = new UntypedFormControl('');
   lastFrom: number;
   lastTo: number;
   values = [];

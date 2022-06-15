@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
@@ -19,14 +19,14 @@ import {MatDialog} from '@angular/material/dialog';
 export class SettingsComponent extends RxDestroy implements OnInit {
   constructor(
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore
   ) {
     super();
   }
 
-  form$: Observable<FormGroup>;
+  form$: Observable<UntypedFormGroup>;
 
   private shippingSubscription: Subscription;
 

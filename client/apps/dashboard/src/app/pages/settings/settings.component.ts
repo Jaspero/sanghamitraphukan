@@ -10,10 +10,10 @@ import {
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireFunctions} from '@angular/fire/functions';
 import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators
 } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
@@ -49,7 +49,7 @@ interface UserRole {
 export class SettingsComponent extends RxDestroy implements OnInit {
   constructor(
     private afs: AngularFirestore,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private aff: AngularFireFunctions
@@ -67,7 +67,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   shippingDialog: TemplateRef<any>;
 
   currencies$: Observable<Currency[]>;
-  form: FormGroup;
+  form: UntypedFormGroup;
   groups = [
     {
       collection: FirestoreStaticDocuments.UserSettings,
@@ -138,9 +138,9 @@ export class SettingsComponent extends RxDestroy implements OnInit {
     };
   } = {};
   selectedTemplate: EmailTemplate;
-  selectedTemplateController: FormControl;
+  selectedTemplateController: UntypedFormControl;
   shipping: Shipping[];
-  shippingControl: FormArray;
+  shippingControl: UntypedFormArray;
   countries: Country[];
 
   private _snapshot: any;
@@ -158,7 +158,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   }
 
   get roles() {
-    return this.form.get('user.roles') as FormArray;
+    return this.form.get('user.roles') as UntypedFormArray;
   }
 
   get currencySymbol() {
@@ -208,8 +208,8 @@ export class SettingsComponent extends RxDestroy implements OnInit {
   }
 
   uniqueEmails() {
-    return (control: FormGroup) => {
-      const users = (control.get('roles') as FormArray).getRawValue();
+    return (control: UntypedFormGroup) => {
+      const users = (control.get('roles') as UntypedFormArray).getRawValue();
       return hasDuplicates(users.map(user => user.email))
         ? {duplicates: true}
         : null;
@@ -230,7 +230,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
         this.groups.map(group => {
           const data = (this.form.get(
             group.collection
-          ) as FormGroup).getRawValue();
+          ) as UntypedFormGroup).getRawValue();
 
           Object.keys(data).forEach(key => {
             data[key] = SettingsComponent.getFieldValue(group, key, data[key]);
@@ -277,7 +277,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
 
       return this.loadTemplate(template).pipe(
         tap(res => {
-          this.selectedTemplateController = new FormControl(
+          this.selectedTemplateController = new UntypedFormControl(
             res,
             Validators.required
           );
@@ -313,7 +313,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
           }
 
           this.emailTemplateCache[template.id].exampleData = res;
-          this.selectedTemplateController = new FormControl(
+          this.selectedTemplateController = new UntypedFormControl(
             res,
             Validators.required
           );
@@ -324,7 +324,7 @@ export class SettingsComponent extends RxDestroy implements OnInit {
     };
   }
 
-  sendExampleEmail(temp: EmailTemplate, control?: FormControl) {
+  sendExampleEmail(temp: EmailTemplate, control?: UntypedFormControl) {
     return () => {
       const exec = (template: string) => {
         const func = this.aff.functions.httpsCallable('exampleEmail');
@@ -429,11 +429,11 @@ export class SettingsComponent extends RxDestroy implements OnInit {
         switchMap((value: any) => {
           this.countries = value.data;
 
-          this.shippingControl = new FormArray(
+          this.shippingControl = new UntypedFormArray(
             this.countries.map(country => {
               const setValue = shipping.find(it => it.code === country.code);
 
-              return new FormControl(
+              return new UntypedFormControl(
                 setValue ? fromStripeFormat(setValue.value) : 0
               );
             })

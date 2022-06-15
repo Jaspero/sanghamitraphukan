@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireFunctions} from '@angular/fire/functions';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
@@ -58,7 +58,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     public aff: AngularFireFunctions,
     private http: HttpClient,
     private afs: AngularFirestore,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private state: StateService,
     private dialog: MatDialog,
@@ -77,7 +77,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
 
   clientSecret$: Observable<{clientSecret: string, id: string}>;
   countries$: Observable<Country[]>;
-  form$: Observable<FormGroup>;
+  form$: Observable<UntypedFormGroup>;
   loggedIn$: Observable<boolean>;
   loggedOut$: Observable<boolean>;
   items$: Observable<Item[]>;
@@ -90,12 +90,12 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
   }>;
   elementConfig$: Observable<[ElementConfig, ElementConfig]>;
 
-  termsControl = new FormControl(false);
+  termsControl = new UntypedFormControl(false);
   elementType = ElementType;
   currencyCode: string;
   orderId: string;
 
-  code = new FormControl('');
+  code = new UntypedFormControl('');
   discount = 0;
   validCode$ = new BehaviorSubject<Discount>(null);
 

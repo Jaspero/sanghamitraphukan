@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {OrderStatus} from '@jf/enums/order-status.enum';
 import {Product} from '@jf/interfaces/product.interface';
@@ -25,11 +25,11 @@ export class OrdersSinglePageComponent extends SinglePageComponent
   collection = FirestoreCollections.Orders;
   deliveryStatus = OrderStatus;
   product$: Observable<Product[]>;
-  search = new FormControl('');
+  search = new UntypedFormControl('');
   filteredProducts$: Observable<Product[]>;
   @ViewChild('addProduct', {static: true})
   addProduct: TemplateRef<any>;
-  productForm: FormGroup;
+  productForm: UntypedFormGroup;
   orderItems = [];
 
   ngOnInit() {

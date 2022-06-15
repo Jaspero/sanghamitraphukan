@@ -1,7 +1,7 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Router} from '@angular/router';
 import {MatDialogRef} from '@angular/material/dialog';
@@ -17,11 +17,11 @@ export class DeleteUserComponent implements OnInit {
     public dialogRef: MatDialogRef<DeleteUserComponent>,
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router
   ) {}
 
-  deleteForm: FormGroup;
+  deleteForm: UntypedFormGroup;
 
   ngOnInit() {
     this.buildDeleteForm();

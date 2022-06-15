@@ -5,7 +5,7 @@ import {
   CollectionReference,
   QueryDocumentSnapshot
 } from '@angular/fire/firestore';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {confirmation} from '@jf/utils/confirmation';
@@ -50,7 +50,7 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
   constructor(
     public state: StateService,
     public afs: AngularFirestore,
-    public fb: FormBuilder,
+    public fb: UntypedFormBuilder,
     public router: Router,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog
@@ -77,8 +77,8 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
   cursor: any = null;
   collection: FirestoreCollections;
   options: R;
-  pageSize: FormControl;
-  filters: FormGroup;
+  pageSize: UntypedFormControl;
+  filters: UntypedFormGroup;
   additionalRouteData = {
     filters: {
       search: ''
@@ -102,7 +102,7 @@ export class ListComponent<T extends {id: any}, R extends RouteData = RouteData>
       pageSize: 10,
       ...this.additionalRouteData
     });
-    this.pageSize = new FormControl(this.options.pageSize);
+    this.pageSize = new UntypedFormControl(this.options.pageSize);
     this.filters = this.fb.group(this.options.filters);
 
     this.items$ = this.collectionRef.pipe(
