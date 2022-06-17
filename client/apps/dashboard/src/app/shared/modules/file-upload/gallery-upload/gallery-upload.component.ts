@@ -17,7 +17,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {Breakpoint, currentBreakpoint$} from '@jf/consts/breakpoint.const';
 import {readFile} from '@jf/utils/read-file';
-import * as nanoid from 'nanoid';
+import {nanoid} from 'nanoid';
 import {forkJoin, from, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ENV_CONFIG} from '../../../../../../../../../functions/src/consts/env-config.const';

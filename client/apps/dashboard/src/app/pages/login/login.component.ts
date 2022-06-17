@@ -5,16 +5,17 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {notify} from '@jf/utils/notify.operator';
-import {auth} from 'firebase/app';
+import firebase from 'firebase/compat';
 import {from, throwError} from 'rxjs';
 import {catchError, filter, switchMap} from 'rxjs/operators';
 import {environment} from '../../../../../shop/src/environments/environment';
 import {StateService} from '../../shared/services/state/state.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import auth = firebase.auth;
 
 @Component({
   selector: 'jfsc-login',
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
           this.state.role = res.claims.role;
           this.router.navigate(['/dashboard']);
         } else {
-          this.afAuth.auth.signOut();
+          this.afAuth.signOut().then();
           this.snackBar.open(
             'Access to platform denied. Please contact an administrator.',
             'Dismiss',
@@ -63,15 +64,15 @@ export class LoginComponent implements OnInit {
   }
 
   loginGoogle() {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider()).then();
   }
 
   loginFacebook() {
-    this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
+    this.afAuth.signInWithPopup(new auth.FacebookAuthProvider()).then();
   }
 
   loginTwitter() {
-    this.afAuth.auth.signInWithPopup(new auth.TwitterAuthProvider());
+    this.afAuth.signInWithPopup(new auth.TwitterAuthProvider()).then();
   }
 
   logInWithInstagram() {
@@ -87,7 +88,7 @@ export class LoginComponent implements OnInit {
       const data = this.loginForm.getRawValue();
 
       return from(
-        this.afAuth.auth.signInWithEmailAndPassword(
+        this.afAuth.signInWithEmailAndPassword(
           data.emailLogin,
           data.passwordLogin
         )

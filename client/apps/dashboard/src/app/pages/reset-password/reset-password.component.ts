@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {UntypedFormBuilder, UntypedFormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {from} from 'rxjs';
@@ -28,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   reset() {
-    from(this.afAuth.auth.sendPasswordResetEmail(this.resetControl.value))
+    from(this.afAuth.sendPasswordResetEmail(this.resetControl.value))
       .pipe(
         notify({
           success: 'Password reset email has been sent to your email',

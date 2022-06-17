@@ -5,8 +5,8 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';

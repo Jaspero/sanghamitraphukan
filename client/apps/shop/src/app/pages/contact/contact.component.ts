@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {notify} from '@jf/utils/notify.operator';
-import * as nanoid from 'nanoid';
+import {nanoid} from 'nanoid';
 import {from} from 'rxjs';
 import {tap} from 'rxjs/operators';
 

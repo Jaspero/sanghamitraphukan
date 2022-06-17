@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {notify} from '@jf/utils/notify.operator';
 import {from, throwError} from 'rxjs';

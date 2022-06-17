@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';

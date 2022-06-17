@@ -1,6 +1,6 @@
 import {Component, HostBinding, Inject, Input} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Review} from '@jf/interfaces/review.interface';
 import {confirmation} from '@jf/utils/confirmation';

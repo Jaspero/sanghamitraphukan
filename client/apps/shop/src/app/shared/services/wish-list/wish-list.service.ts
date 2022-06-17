@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {CustomerWishList} from '@jf/interfaces/customer.interface';
 import {BehaviorSubject, Observable} from 'rxjs';

@@ -7,24 +7,24 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { RxDestroy } from '@jaspero/ng-helpers';
-import { DYNAMIC_CONFIG } from '@jf/consts/dynamic-config.const';
-import { STATIC_CONFIG } from '@jf/consts/static-config.const';
-import { FirebaseOperator } from '@jf/enums/firebase-operator.enum';
-import { FirestoreCollections } from '@jf/enums/firestore-collections.enum';
-import { Category } from '@jf/interfaces/category.interface';
-import { Collection } from '@jf/interfaces/collection.interface';
-import { Product } from '@jf/interfaces/product.interface';
-import * as firebase from 'firebase';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
-import { debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { CartService } from '../../shared/services/cart/cart.service';
-import { StateService } from '../../shared/services/state/state.service';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import {RxDestroy} from '@jaspero/ng-helpers';
+import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
+import {STATIC_CONFIG} from '@jf/consts/static-config.const';
+import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';
+import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
+import {Category} from '@jf/interfaces/category.interface';
+import {Collection} from '@jf/interfaces/collection.interface';
+import {Product} from '@jf/interfaces/product.interface';
+import firebase from 'firebase/compat';
+import {BehaviorSubject, forkJoin, of} from 'rxjs';
+import {debounceTime, map, switchMap, take, takeUntil, tap} from 'rxjs/operators';
+import {CartService} from '../../shared/services/cart/cart.service';
+import {StateService} from '../../shared/services/state/state.service';
 import FieldPath = firebase.firestore.FieldPath;
 
 @Component({

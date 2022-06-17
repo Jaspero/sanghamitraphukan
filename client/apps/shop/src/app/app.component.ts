@@ -6,8 +6,8 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';

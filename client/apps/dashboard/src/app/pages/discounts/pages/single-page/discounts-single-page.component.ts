@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {LangSinglePageComponent} from '../../../../shared/components/lang-single-page/lang-single-page.component';
-import * as nanoid from 'nanoid';
+import {nanoid} from 'nanoid';
 import {fromStripeFormat, toStripeFormat} from '@jf/utils/stripe-format';
 import {switchMap, take, tap} from 'rxjs/operators';
 import {notify} from '@jf/utils/notify.operator';

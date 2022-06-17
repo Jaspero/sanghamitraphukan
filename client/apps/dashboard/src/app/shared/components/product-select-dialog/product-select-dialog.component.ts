@@ -6,7 +6,7 @@ import {
   Inject,
   ChangeDetectorRef
 } from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormControl} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';

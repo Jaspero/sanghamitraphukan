@@ -1,18 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireStorage} from '@angular/fire/storage';
+import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {AngularFireStorage} from '@angular/fire/compat/storage';
 import {Router} from '@angular/router';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {BehaviorSubject, from, Observable} from 'rxjs';
 import {map, switchMap, take} from 'rxjs/operators';
-import {customer} from '../../../../../../../functions/src/consts/schemas.const';
 import {StateService} from '../../shared/services/state/state.service';
 
 @Component({
@@ -67,7 +60,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     // showing change password tab only for user who are sign in with email and password
     if (
-      this.afAuth.auth.currentUser.providerData[0].providerId !== 'password'
+      this.afAuth.currentUser.providerData[0].providerId !== 'password'
     ) {
       this.links.splice(4, 1);
     }

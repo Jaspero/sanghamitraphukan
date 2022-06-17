@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Customer} from '@jf/interfaces/customer.interface';
 import {Errors, Order} from '@jf/interfaces/order.interface';
-import {User} from 'firebase/app';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {
   distinctUntilChanged,
@@ -14,7 +13,7 @@ import {
 } from 'rxjs/operators';
 
 export interface LoggedInUser {
-  authData: User;
+  authData: any;
   customerData: Customer;
 }
 
@@ -46,7 +45,7 @@ export class StateService {
   }
 
   logInValid$ = new BehaviorSubject<boolean>(true);
-  user$: Observable<LoggedInUser>;
+  user$: Observable<any>;
   loading$ = new BehaviorSubject<boolean>(false);
   checkoutResult: Array<Errors> | Partial<Order>;
   shopDialogShown = false;

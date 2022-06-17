@@ -1,5 +1,5 @@
 import {isPlatformBrowser} from '@angular/common';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {JpPreloadService} from '@jaspero/ng-image-preload';
 import {BROWSER_CONFIG} from '@jf/consts/browser-config.const';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';

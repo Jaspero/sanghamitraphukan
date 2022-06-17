@@ -6,7 +6,7 @@ import {
   Inject,
   TemplateRef
 } from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {notify} from '@jf/utils/notify.operator';
 import {from, Observable} from 'rxjs';

@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {AngularFireFunctions} from '@angular/fire/functions';
 import {
   UntypedFormArray,

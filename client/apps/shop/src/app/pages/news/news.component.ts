@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {News} from '@jf/interfaces/news.interface';

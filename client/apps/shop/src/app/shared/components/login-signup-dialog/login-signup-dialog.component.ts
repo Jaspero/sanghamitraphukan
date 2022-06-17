@@ -6,17 +6,14 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument
-} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Customer} from '@jf/interfaces/customer.interface';
 import {notify} from '@jf/utils/notify.operator';
-import {auth, firestore, User} from 'firebase/app';
+import firebase from 'firebase/compat';
 import {from, of, throwError} from 'rxjs';
 import {
   catchError,
@@ -32,6 +29,9 @@ import {RepeatPasswordValidator} from '../../helpers/compare-passwords';
 import {StateService} from '../../services/state/state.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import firestore = firebase.firestore;
+import User = firebase.User;
+import auth = firebase.auth;
 
 export enum LoginSignUpView {
   LogIn,
@@ -79,7 +79,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
           duration: 2500
         });
       } else {
-        this.afAuth.auth.signOut();
+        this.afAuth.signOut().then();
         this.snackBar.open(
           'You do not have an account. Please sign up first!',
           'Dismiss',
@@ -146,17 +146,17 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
   }
 
   logInWithGoogle() {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider()).then();
   }
 
   // Todo: login is not working now because Facebook does not allow to use localhost's domain and must connect with Jaspero's facebook
   logInWithFacebook() {
-    this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider());
+    this.afAuth.signInWithPopup(new auth.FacebookAuthProvider()).then();
   }
 
   // Todo: must connect Firestore with Twitter
   logInWithTwitter() {
-    this.afAuth.auth.signInWithPopup(new auth.TwitterAuthProvider());
+    this.afAuth.signInWithPopup(new auth.TwitterAuthProvider()).then();
   }
 
   logInWithInstagram() {
@@ -172,13 +172,13 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
       const data = this.signUpForm.getRawValue();
 
       return from(
-        this.afAuth.auth.createUserWithEmailAndPassword(
+        this.afAuth.createUserWithEmailAndPassword(
           data.email,
           data.pg.password
         )
       ).pipe(
         switchMap(() => {
-          return this.afAuth.auth.signInWithEmailAndPassword(
+          return this.afAuth.signInWithEmailAndPassword(
             data.email,
             data.pg.password
           );
@@ -196,7 +196,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
       const dataLogin = this.logInForm.getRawValue();
 
       return from(
-        this.afAuth.auth.signInWithEmailAndPassword(
+        this.afAuth.signInWithEmailAndPassword(
           dataLogin.email,
           dataLogin.password
         )
@@ -218,7 +218,7 @@ export class LoginSignupDialogComponent extends RxDestroy implements OnInit {
   resetPassword() {
     return () => {
       return from(
-        this.afAuth.auth.sendPasswordResetEmail(this.resetPasswordControl.value)
+        this.afAuth.sendPasswordResetEmail(this.resetPasswordControl.value)
       ).pipe(
         notify({
           success: 'Password reset email sent.'

@@ -5,8 +5,8 @@ import {
   Inject,
   OnInit
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {DYNAMIC_CONFIG} from '@jf/consts/dynamic-config.const';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';

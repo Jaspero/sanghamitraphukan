@@ -4,13 +4,13 @@ import {
   Inject,
   OnInit
 } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Review} from '@jf/interfaces/review.interface';
 import {notify} from '@jf/utils/notify.operator';
-import * as nanoid from 'nanoid';
+import {nanoid} from 'nanoid';
 import {from} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';

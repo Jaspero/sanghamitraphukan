@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Collection} from '@jf/interfaces/collection.interface';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {STATIC_CONFIG} from '@jf/consts/static-config.const';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 

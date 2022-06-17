@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
@@ -7,7 +7,7 @@ import {Product} from '@jf/interfaces/product.interface';
 import {notify} from '@jf/utils/notify.operator';
 import {from} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import * as nanoid from 'nanoid';
+import {nanoid} from 'nanoid';
 
 @Component({
   selector: 'jfs-out-of-stock-inquiry',

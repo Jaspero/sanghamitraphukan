@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ActivatedRoute} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {FirebaseOperator} from '@jf/enums/firebase-operator.enum';

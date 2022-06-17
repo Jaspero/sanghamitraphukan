@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {CanActivate, Router} from '@angular/router';
 import {from, of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';

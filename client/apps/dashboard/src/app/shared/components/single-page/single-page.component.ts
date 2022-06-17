@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RxDestroy} from '@jaspero/ng-helpers';
@@ -10,7 +10,7 @@ import {map, switchMap, take, takeUntil, tap} from 'rxjs/operators';
 import {Role} from '../../enums/role.enum';
 import {StateService} from '../../services/state/state.service';
 import {queue} from '../../utils/queue.operator';
-import * as nanoid from 'nanoid';
+import {nanoid} from 'nanoid';
 import {MatDialog} from '@angular/material/dialog';
 
 export enum ViewState {
