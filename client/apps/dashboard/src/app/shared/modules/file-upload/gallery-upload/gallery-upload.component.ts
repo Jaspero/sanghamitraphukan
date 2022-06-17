@@ -11,23 +11,19 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import {AngularFireStorage} from '@angular/fire/storage';
-import {
-  ControlValueAccessor,
-  UntypedFormControl,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import {AngularFireStorage} from '@angular/fire/compat/storage';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RxDestroy} from '@jaspero/ng-helpers';
 import {Breakpoint, currentBreakpoint$} from '@jf/consts/breakpoint.const';
-import {ENV_CONFIG} from '@jf/consts/env-config.const';
 import {readFile} from '@jf/utils/read-file';
+import * as nanoid from 'nanoid';
 import {forkJoin, from, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {ENV_CONFIG} from '../../../../../../../../../functions/src/consts/env-config.const';
+import {PRODUCT_GENERATED_IMAGES} from '../../../../pages/products/consts/product-generated-images.const';
 import {GeneratedImage} from '../../../interfaces/generated-image.interface';
 import {formatGeneratedImages} from '../../../utils/format-generated-images';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import * as nanoid from 'nanoid';
-import {PRODUCT_GENERATED_IMAGES} from '../../../../pages/products/consts/product-generated-images.const';
 
 @Component({
   selector: 'jfsc-gallery-upload',
