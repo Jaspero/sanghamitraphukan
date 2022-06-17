@@ -19,4 +19,5 @@ export const ENV_CONFIG = functions.config() as {
   ipdata: {
     apikey: string;
   };
+  firebase: any
 };

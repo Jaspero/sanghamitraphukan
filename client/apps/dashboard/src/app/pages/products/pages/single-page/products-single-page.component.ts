@@ -6,7 +6,7 @@ import {FirestoreCollections} from '@jf/enums/firestore-collections.enum';
 import {Category} from '@jf/interfaces/category.interface';
 import {Collection} from '@jf/interfaces/collection.interface';
 import {ProductMetadata} from '@jf/interfaces/product-metadata.interface';
-import { toStripeFormat } from '@jf/utils/stripe-format';
+import {fromStripeFormat, toStripeFormat } from '@jf/utils/stripe-format';
 import {combineLatest, forkJoin, Observable, of} from 'rxjs';
 import {filter, map, shareReplay, startWith, switchMap, take, takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
@@ -35,8 +35,8 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
   @ViewChild(GalleryUploadComponent, {static: false})
   galleryUploadComponent: GalleryUploadComponent;
 
-  categories$: Observable<Category[]>;
-  collections$: Observable<Collection[]>;
+  categories$: Observable<any>;
+  collections$: Observable<any>;
   collection = FirestoreCollections.Products;
   currencies: Currency[];
   inventoryKeys: string[] = [];
@@ -87,7 +87,7 @@ export class ProductsSinglePageComponent extends LangSinglePageComponent
           if (params.id !== 'new' && !params.id.includes('copy')) {
             return this.metadataDoc(params.id, lang)
               .get()
-              .pipe(map(doc => (doc.exists ? doc.data() : {})));
+              .pipe(map((doc: any) => (doc.exists ? doc.data() : {})));
           } else {
             return of({});
           }

@@ -1,20 +1,15 @@
 import {APP_INITIALIZER, Injector, NgModule, PLATFORM_ID} from '@angular/core';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreModule
-} from '@angular/fire/firestore';
-import {AngularFireFunctionsModule} from '@angular/fire/functions';
-import {AngularFirePerformanceModule} from '@angular/fire/performance';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFireAuthModule} from '@angular/fire/compat/auth';
+import {AngularFirestore, AngularFirestoreModule} from '@angular/fire/compat/firestore';
+import {AngularFireFunctionsModule} from '@angular/fire/compat/functions';
+import {AngularFirePerformanceModule} from '@angular/fire/compat/performance';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {
-  JpImagePreloadModule,
-  JpPreloadService
-} from '@jaspero/ng-image-preload';
-import {ENV_CONFIG} from '@jf/consts/env-config.const';
+import {JpImagePreloadModule, JpPreloadService} from '@jaspero/ng-image-preload';
+import {ENV_CONFIG} from '../../../../../functions/src/consts/env-config.const';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -24,7 +19,6 @@ import {CurrencyRatesService} from './shared/services/currency/currency-rates.se
 import {NetworkService} from './shared/services/network/network.service';
 import {StateService} from './shared/services/state/state.service';
 import {SharedModule} from './shared/shared.module';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 export function init(injector: Injector) {
   return () => {

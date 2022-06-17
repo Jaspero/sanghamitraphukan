@@ -1,13 +1,10 @@
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {AngularFireModule} from '@angular/fire';
-import {
-  AngularFirestore,
-  AngularFirestoreModule
-} from '@angular/fire/firestore';
-import {AngularFirePerformanceModule} from '@angular/fire/performance';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFirestore, AngularFirestoreModule} from '@angular/fire/compat/firestore';
+import {AngularFirePerformanceModule} from '@angular/fire/compat/performance';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ENV_CONFIG} from '@jf/consts/env-config.const';
+import {ENV_CONFIG} from '../../../../../functions/src/consts/env-config.const';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LayoutComponent} from './shared/components/layout/layout.component';
