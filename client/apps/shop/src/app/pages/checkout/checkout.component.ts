@@ -1,8 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireFunctions} from '@angular/fire/functions';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {AngularFireFunctions} from '@angular/fire/compat/functions';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
@@ -107,7 +107,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     });
 
     this.countries$ = from(
-      this.aff.functions.httpsCallable('countries')()
+      this.aff.httpsCallable('countries')({})
     ).pipe(
       map((res: any) => res.data),
       shareReplay(1)
@@ -119,7 +119,7 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
       )
       .get()
       .pipe(
-        map(res => (res.exists ? res.data().value : [])),
+        map((res: any) => (res.exists ? res.data().value : [])),
         shareReplay(1)
       );
 
@@ -332,10 +332,10 @@ export class CheckoutComponent extends RxDestroy implements OnInit {
     ]).pipe(
       take(1),
       switchMap(([data, user, price, items, currency, {id}]) => {
-        if (this.afAuth.auth.currentUser && data.saveInfo) {
+        if (this.afAuth.currentUser && data.saveInfo) {
           this.afs
             .doc(
-              `${FirestoreCollections.Customers}/${this.afAuth.auth.currentUser.uid}`
+              `${FirestoreCollections.Customers}/${user.authData.uid}`
             )
             .update(data)
             .catch(console.error);

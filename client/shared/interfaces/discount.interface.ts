@@ -4,8 +4,8 @@ export interface Discount {
   createdOn: number;
   description: string;
   valueType: string;
-  startingDate: number;
-  endingDate: number;
+  startingDate: any;
+  endingDate: any;
   type: string;
   active: boolean;
   limitedNumber: number;
